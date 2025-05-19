@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:a/widgets/button.dart' as button;
 import 'package:a/screens/welcomescreen.dart';
+import 'package:a/screens/menuscreen.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -12,6 +13,22 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   final TextEditingController _usuarioController = TextEditingController();
   final TextEditingController _contrasenaController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _usuarioController.addListener(_verificarCampos);
+    _contrasenaController.addListener(_verificarCampos);
+  }
+
+  bool _camposCompletos = false;
+  void _verificarCampos() {
+    final usuario = _usuarioController.text.trim();
+    final password = _contrasenaController.text.trim();
+
+    setState(() {
+      _camposCompletos = usuario.isNotEmpty && password.isNotEmpty;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -452,21 +469,14 @@ class _LogInState extends State<LogIn> {
                     height: double.infinity,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: relHeight(12),
                       children: [
+                        SizedBox(height: relHeight(800)), // manual
                         Container(
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(
                             horizontal: relWidth(16),
-                            vertical: relHeight(8),
-                          ),
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFF355E3B),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
                           ),
                           child: Container(
                             width: double.infinity,
@@ -475,12 +485,14 @@ class _LogInState extends State<LogIn> {
                               vertical: relHeight(8),
                             ),
                             child: button.FilledButton(
-                              isActivated: true,
+                              isActivated: _camposCompletos,
                               text: 'Iniciar sesión',
                               onPressed: () {
-                                Navigator.pushNamed(context, '/login');
+                                if (_camposCompletos) {
+                                  Navigator.pushNamed(context, '/home');
+                                }
                               },
-                            ),
+                            ), // El botón se desactiva visualmente con isActivated
                           ),
                         ),
                         Container(
@@ -495,7 +507,9 @@ class _LogInState extends State<LogIn> {
                                 '¿Aún no tienes una cuenta?',
                                 style: GoogleFonts.poppins(
                                   color: const Color(0xFF1F1F1F),
-                                  fontSize: relWidth(14),
+                                  fontSize: relWidth(
+                                    14,
+                                  ), // Removed invalid parameter
 
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -503,28 +517,18 @@ class _LogInState extends State<LogIn> {
                               Container(
                                 padding: EdgeInsets.symmetric(
                                   horizontal: relWidth(16),
-                                  vertical: relHeight(8),
                                 ),
                                 decoration: ShapeDecoration(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(24),
                                   ),
                                 ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Regístrate ahora',
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFF355E3B),
-                                        fontSize: 14,
-
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
+                                child: button.CustomTextButton(
+                                  isActivated: true,
+                                  text: 'Registrate ahora',
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/createacc');
+                                  },
                                 ),
                               ),
                             ],

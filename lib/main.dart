@@ -1,3 +1,5 @@
+import 'package:a/screens/createaccaountscreen.dart';
+import 'package:a/screens/menuscreen.dart';
 import 'package:a/screens/welcomescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -24,6 +26,8 @@ class EcologicPoint extends StatelessWidget {
       routes: {
         '/welcome': (context) => WelcomePage(),
         '/login': (context) => LogIn(),
+        '/home': (context) => Home(),
+        '/createacc': (context) => CreateAcc(),
       },
       // home: Scaffold(body: ListView(children: [Welcome()])),
     );

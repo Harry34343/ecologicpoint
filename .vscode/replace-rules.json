@@ -1,0 +1,22 @@
+[
+  {
+    "find": "width:\\s*(\\d+)",
+    "replace": "width: relWidth($1)"
+  },
+  {
+    "find": "height:\\s*(\\d+)",
+    "replace": "height: relHeight($1)"
+  },
+  {
+    "find": "fontSize:\\s*(\\d+)",
+    "replace": "fontSize: relWidth($1)"
+  },
+  {
+    "find": "SizedBox\\(\\s*width:\\s*(\\d+)\\s*\\)",
+    "replace": "SizedBox(width: relWidth($1))"
+  },
+  {
+    "find": "SizedBox\\(\\s*height:\\s*(\\d+)\\s*\\)",
+    "replace": "SizedBox(height: relHeight($1))"
+  }
+]

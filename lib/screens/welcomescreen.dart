@@ -144,7 +144,7 @@ class WelcomePage extends StatelessWidget {
                                   width: double.infinity,
                                   padding: EdgeInsets.symmetric(
                                     horizontal: relWidth(16),
-                                    vertical: relHeight(8),
+                                    //    vertical: relHeight(2),
                                   ),
 
                                   child: button.FilledButton(
@@ -159,13 +159,16 @@ class WelcomePage extends StatelessWidget {
                                   width: double.infinity,
                                   padding: EdgeInsets.symmetric(
                                     horizontal: relWidth(16),
-                                    vertical: relHeight(8),
+                                    //  vertical: relHeight(8),
                                   ),
                                   child: button.CustomOutlinedButton(
                                     text: 'Crear cuenta',
                                     isActivated: true,
                                     onPressed: () {
-                                      // Navigator.pushNamed(context, '/register');
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/createacc',
+                                      );
                                     },
                                   ),
                                 ),
