@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:a/widgets/button.dart' as button;
-import 'package:a/screens/welcomescreen.dart';
-import 'package:a/screens/menuscreen.dart';
 
 class LogIn extends StatefulWidget {
   @override

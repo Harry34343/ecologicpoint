@@ -66,6 +66,8 @@ flutter:
     - assets/fondoX.svg
     - assets/logo2.svg
     - assets/buttonflecha.svg
+    - assets/backgroundplant.svg
+    - assets/ph_plant-duotone.svg
   # assets:
   #
   #   - images/a_dot_burr.jpeg

@@ -657,7 +657,7 @@ class _CreateAccState extends State<CreateAcc> {
                                           if (_camposCompletos) {
                                             Navigator.pushNamed(
                                               context,
-                                              '/home',
+                                              '/planta',
                                             );
                                           }
                                         },
