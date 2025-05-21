@@ -21,7 +21,7 @@ class EcologicPoint extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
+        scaffoldBackgroundColor: Color.fromARGB(255, 18, 32, 47),
       ),
       home: Scaffold(body: LogIn()),
       initialRoute: '/welcome',

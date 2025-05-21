@@ -1376,6 +1376,7 @@ class Home extends StatelessWidget {
                             style: TextStyle(
                               color: const Color(0xFF355E3B),
                               fontSize: 20,
+                              decoration: TextDecoration.none,
                               fontFamily: 'Agbalumo',
                               fontWeight: FontWeight.w400,
                             ),
