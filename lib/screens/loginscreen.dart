@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:a/widgets/button.dart' as button;
 
 class LogIn extends StatefulWidget {
+  const LogIn({super.key});
+
   @override
   _LogInState createState() => _LogInState();
 }
@@ -58,7 +60,7 @@ class _LogInState extends State<LogIn> {
                   Positioned(
                     left: relWidth(60),
                     top: relHeight(165),
-                    child: Container(
+                    child: SizedBox(
                       width: relWidth(321),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -105,7 +107,7 @@ class _LogInState extends State<LogIn> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         spacing: relHeight(32),
                         children: [
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             child: Stack(
                               children: [
@@ -155,7 +157,7 @@ class _LogInState extends State<LogIn> {
                               ],
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -163,7 +165,7 @@ class _LogInState extends State<LogIn> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               spacing: relHeight(24),
                               children: [
-                                Container(
+                                SizedBox(
                                   width: double.infinity,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -272,7 +274,7 @@ class _LogInState extends State<LogIn> {
                                   ),
                                 ),
 
-                                Container(
+                                SizedBox(
                                   width: double.infinity,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -280,7 +282,7 @@ class _LogInState extends State<LogIn> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     spacing: relHeight(8),
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         width: double.infinity,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -462,7 +464,7 @@ class _LogInState extends State<LogIn> {
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: double.infinity,
                     child: Column(

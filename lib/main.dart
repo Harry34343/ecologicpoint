@@ -6,6 +6,7 @@ import 'package:a/screens/welcomescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:a/screens/loginscreen.dart';
+import 'package:a/screens/armarioscreen.dart';
 
 void main() {
   debugPaintSizeEnabled = false;
@@ -31,6 +32,7 @@ class EcologicPoint extends StatelessWidget {
         '/home': (context) => Home(),
         '/createacc': (context) => CreateAcc(),
         '/planta': (context) => Plant1(),
+        '/armario': (context) => ArmarioScreen(),
       },
       // home: Scaffold(body: ListView(children: [Welcome()])),
     );

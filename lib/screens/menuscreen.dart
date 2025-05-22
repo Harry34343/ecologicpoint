@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
+  const Home({super.key});
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -368,7 +370,7 @@ class Home extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -578,7 +580,7 @@ class Home extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 12,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 380,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -1024,7 +1026,7 @@ class Home extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 12,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 380,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -1499,7 +1501,7 @@ class Home extends StatelessWidget {
               Positioned(
                 left: 0,
                 top: 1219,
-                child: Container(
+                child: SizedBox(
                   width: screenWidth,
                   height: 72,
                   child: Stack(

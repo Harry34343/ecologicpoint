@@ -3,8 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:a/widgets/button.dart' as button;
 import 'package:a/widgets/navegationbarhome.dart' as navBar;
+import 'package:a/widgets/tiendayarmario.dart';
 
 class Plant1 extends StatefulWidget {
+  const Plant1({super.key});
+
   @override
   _Plant1State createState() => _Plant1State();
 }
@@ -127,16 +130,16 @@ class _Plant1State extends State<Plant1> {
                     Text(
                       'Chuzitos',
                       style: GoogleFonts.poppins(
-                        fontSize: 16,
+                        fontSize: relWidth(16),
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF1F1F1F),
                       ),
                     ),
                     // Monedas
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 4,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: relWidth(12),
+                        vertical: relHeight(4),
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -144,16 +147,16 @@ class _Plant1State extends State<Plant1> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.monetization_on,
                             color: Color(0xFF355E3B),
-                            size: 20,
+                            size: relWidth(20),
                           ),
                           SizedBox(width: 4),
                           Text(
                             '1500',
                             style: GoogleFonts.poppins(
-                              fontSize: 16,
+                              fontSize: relWidth(16),
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF355E3B),
                             ),
@@ -162,6 +165,25 @@ class _Plant1State extends State<Plant1> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              Positioned(
+                bottom: relHeight(
+                  150,
+                ), // Adjust top position as needed (e.g., below the top bar)
+                right: relWidth(16), // Adjust right padding as needed
+                child: SideButtons(
+                  onArmarioTap: () {
+                    Navigator.pushNamed(context, '/armario');
+                  },
+                  onTiendaTap: () {
+                    debugPrint("Tienda tapped!");
+                    // TODO: Implement Tienda navigation or action
+                    // Example: Navigator.pushNamed(context, '/tienda');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Tienda presionada")),
+                    );
+                  },
                 ),
               ),
             ],
@@ -180,9 +202,9 @@ class _Plant1State extends State<Plant1> {
               _selectedIndex = index;
             });
             // Navigation logic for bottom nav items
-            if (index == 0)
+            if (index == 0) {
               Navigator.pushReplacementNamed(context, '/home');
-            else if (index == 1)
+            } else if (index == 1)
               Navigator.pushReplacementNamed(
                 context,
                 '/mapa',

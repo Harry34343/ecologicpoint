@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:a/widgets/button.dart' as button;
 
 class CreateAcc extends StatefulWidget {
+  const CreateAcc({super.key});
+
   @override
   _CreateAccState createState() => _CreateAccState();
 }
@@ -13,6 +15,7 @@ class _CreateAccState extends State<CreateAcc> {
   final TextEditingController _contrasenaController = TextEditingController();
   final TextEditingController _mailController = TextEditingController();
   final TextEditingController _ccontrasenaController = TextEditingController();
+  @override
   void initState() {
     super.initState();
     _usuarioController.addListener(_verificarCampos);
@@ -67,7 +70,7 @@ class _CreateAccState extends State<CreateAcc> {
                   Positioned(
                     left: relWidth(60),
                     top: relHeight(123),
-                    child: Container(
+                    child: SizedBox(
                       width: relWidth(321),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -105,7 +108,7 @@ class _CreateAccState extends State<CreateAcc> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         spacing: relHeight(32),
                         children: [
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             child: Stack(
                               children: [
@@ -155,7 +158,7 @@ class _CreateAccState extends State<CreateAcc> {
                               ],
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -163,7 +166,7 @@ class _CreateAccState extends State<CreateAcc> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               spacing: relHeight(24),
                               children: [
-                                Container(
+                                SizedBox(
                                   width: double.infinity,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -179,7 +182,7 @@ class _CreateAccState extends State<CreateAcc> {
                                           style: GoogleFonts.poppins(
                                             color: const Color(0xFF1F1F1F),
                                             fontSize: relWidth(16),
-
+                                            decoration: TextDecoration.none,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -252,6 +255,8 @@ class _CreateAccState extends State<CreateAcc> {
                                                             169,
                                                             1,
                                                           ),
+                                                      decoration:
+                                                          TextDecoration.none,
                                                     ),
                                                     border: InputBorder.none,
                                                   ),
@@ -271,7 +276,7 @@ class _CreateAccState extends State<CreateAcc> {
                                     ],
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: double.infinity,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -287,7 +292,7 @@ class _CreateAccState extends State<CreateAcc> {
                                           style: GoogleFonts.poppins(
                                             color: const Color(0xFF1F1F1F),
                                             fontSize: relWidth(16),
-
+                                            decoration: TextDecoration.none,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -357,6 +362,8 @@ class _CreateAccState extends State<CreateAcc> {
                                                             169,
                                                             1,
                                                           ),
+                                                      decoration:
+                                                          TextDecoration.none,
                                                     ),
                                                     border: InputBorder.none,
                                                   ),
@@ -376,7 +383,7 @@ class _CreateAccState extends State<CreateAcc> {
                                     ],
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: double.infinity,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -392,7 +399,7 @@ class _CreateAccState extends State<CreateAcc> {
                                           style: GoogleFonts.poppins(
                                             color: const Color(0xFF1F1F1F),
                                             fontSize: 16,
-
+                                            decoration: TextDecoration.none,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -465,6 +472,8 @@ class _CreateAccState extends State<CreateAcc> {
                                                             169,
                                                             1,
                                                           ),
+                                                      decoration:
+                                                          TextDecoration.none,
                                                     ),
                                                     border: InputBorder.none,
                                                   ),
@@ -504,7 +513,7 @@ class _CreateAccState extends State<CreateAcc> {
                                     ],
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: double.infinity,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -521,6 +530,7 @@ class _CreateAccState extends State<CreateAcc> {
                                             color: const Color(0xFF1F1F1F),
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
+                                            decoration: TextDecoration.none,
                                           ),
                                         ),
                                       ),
@@ -592,6 +602,8 @@ class _CreateAccState extends State<CreateAcc> {
                                                             169,
                                                             1,
                                                           ),
+                                                      decoration:
+                                                          TextDecoration.none,
                                                     ),
                                                     border: InputBorder.none,
                                                   ),
@@ -635,7 +647,7 @@ class _CreateAccState extends State<CreateAcc> {
                             ),
                           ),
                           Expanded(
-                            child: Container(
+                            child: SizedBox(
                               width: double.infinity,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,

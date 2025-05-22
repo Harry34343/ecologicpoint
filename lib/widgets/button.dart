@@ -7,11 +7,11 @@ class FilledButton extends StatelessWidget {
   final bool isActivated;
 
   const FilledButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     required this.isActivated,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +46,11 @@ class CustomOutlinedButton extends StatelessWidget {
   final bool isActivated;
 
   const CustomOutlinedButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     required this.isActivated,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -85,11 +85,11 @@ class CustomTextButton extends StatelessWidget {
   final bool isActivated;
 
   const CustomTextButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     required this.isActivated,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -119,11 +119,11 @@ class CustomIconButton extends StatelessWidget {
   final bool isActivated;
 
   const CustomIconButton({
-    Key? key,
+    super.key,
     required this.icon,
     required this.onPressed,
     required this.isActivated,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
