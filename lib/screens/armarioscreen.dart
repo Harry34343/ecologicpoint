@@ -27,6 +27,7 @@ class ArmarioScreen extends StatefulWidget {
 
 class _ArmarioScreenState extends State<ArmarioScreen> {
   int categoriaSeleccionada = 0;
+  String plantaEquipada = 'assets/plantas/cactus.svg'; // por ejemplo
 
   void actualizarRecientes() {
     final recientes = <Map<String, dynamic>>[];
@@ -57,22 +58,43 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
   ];
 
   final Map<String, List<Map<String, dynamic>>> itemsPorCategoria = {
-    'Reciente': [
-      {'img': 'assets/plantas/cactus.png', 'selected': true},
-      {'img': 'assets/plantas/plantita.png', 'selected': false},
-      {'img': 'assets/plantas/plantita2.png', 'selected': false},
-      {'img': 'assets/plantas/plantita3.png', 'selected': false},
-      {'img': 'assets/plantas/plantita4.png', 'selected': false},
-      {'img': 'assets/plantas/plantita5.png', 'selected': false},
-    ],
+    'Reciente': [],
     'Planta': [
-      {'img': 'assets/plantas/plantauno.svg', 'selected': false},
-      {'img': 'assets/plantas/plantados.svg', 'selected': false},
-      {'img': 'assets/plantas/plantatres.svg', 'selected': false},
-      {'img': 'assets/plantas/planta4.svg', 'selected': false},
-      {'img': 'assets/plantas/planta5.svg', 'selected': false},
-      {'img': 'assets/plantas/planta6.svg', 'selected': false},
-      {'img': 'assets/plantas/planta7.svg', 'selected': false},
+      {
+        'img': 'assets/plantas/plantauno.svg',
+        'selected': false,
+        'display': 'assets/plantas/cactus.svg',
+      },
+      {
+        'img': 'assets/plantas/plantados.svg',
+        'selected': false,
+        'display': 'assets/plantas/Girasol.svg',
+      },
+      {
+        'img': 'assets/plantas/plantatres.svg',
+        'selected': false,
+        'display': 'assets/plantas/sprout.svg',
+      },
+      {
+        'img': 'assets/plantas/plantacuatro.svg',
+        'selected': false,
+        'display': 'assets/plantas/carnivora.svg',
+      },
+      {
+        'img': 'assets/plantas/plantacinco.svg',
+        'selected': false,
+        'display': 'assets/plantas/bambu.svg',
+      },
+      {
+        'img': 'assets/plantas/plantaseis.svg',
+        'selected': false,
+        'display': 'assets/plantas/lotus.svg',
+      },
+      {
+        'img': 'assets/plantas/plantasiete.svg',
+        'selected': false,
+        'display': 'assets/plantas/Planeta.svg',
+      },
       // Add more items if needed for testing layout
     ],
     'Sombrero': [
@@ -209,11 +231,21 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                         flex:
                             3, // Adjust flex to control how much space this takes relative to items
                         child: Center(
-                          child: SvgPicture.asset(
-                            'assets/plantas/cactus.svg',
-                            height: relHeight(
-                              400,
-                            ), // Adjusted from 350 to better fit typical proportions
+                          child: AnimatedSwitcher(
+                            duration: Duration(milliseconds: 300),
+                            transitionBuilder: (child, animation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                            child: SvgPicture.asset(
+                              plantaEquipada,
+                              key: ValueKey(
+                                plantaEquipada,
+                              ), // ¡clave necesaria para detectar cambios!
+                              height: relHeight(400),
+                            ),
                           ),
                         ),
                       ),
@@ -319,9 +351,24 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                 Categoria: categoriaActual,
                                                 onTap: () {
                                                   setState(() {
-                                                    item['selected'] =
-                                                        !item['selected'];
-                                                    actualizarRecientes(); // <- aquí actualizamos Reciente
+                                                    if (categoriaActual ==
+                                                        'Planta') {
+                                                      // Deseleccionar todas las demás
+                                                      for (var planta
+                                                          in itemsPorCategoria['Planta']!) {
+                                                        planta['selected'] =
+                                                            false;
+                                                      }
+                                                      // Activar la planta actual
+                                                      item['selected'] = true;
+                                                      plantaEquipada =
+                                                          item['display']; // <- Aquí actualizas la planta
+                                                    } else {
+                                                      item['selected'] =
+                                                          !item['selected'];
+                                                    }
+
+                                                    actualizarRecientes();
                                                   });
                                                 },
                                               );

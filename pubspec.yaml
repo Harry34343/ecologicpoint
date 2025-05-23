@@ -80,6 +80,16 @@ flutter:
     - assets/plantas/plantauno.svg
     - assets/plantas/plantados.svg
     - assets/plantas/plantatres.svg
+    - assets/plantas/plantacuatro.svg
+    - assets/plantas/plantacinco.svg
+    - assets/plantas/plantaseis.svg
+    - assets/plantas/plantasiete.svg
+    - assets/plantas/Girasol.svg
+    - assets/plantas/sprout.svg
+    - assets/plantas/carnivora.svg
+    - assets/plantas/bambu.svg
+    - assets/plantas/lotus.svg
+    - assets/plantas/Planeta.svg
     - assets/sombreros/cono.svg
     - assets/sombreros/beanie.svg
     - assets/sombreros/cowboy.svg
