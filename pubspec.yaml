@@ -76,6 +76,15 @@ flutter:
     - assets/torso.svg
     - assets/cara.svg
     - assets/sombrero.svg
+    - assets/plantarr.svg
+    - assets/plantas/plantauno.svg
+    - assets/plantas/plantados.svg
+    - assets/plantas/plantatres.svg
+    - assets/sombreros/cono.svg
+    - assets/sombreros/beanie.svg
+    - assets/sombreros/cowboy.svg
+    - assets/sombreros/monho.svg
+    - assets/sombreros/halo.svg
   # assets:
   #
   #   - images/a_dot_burr.jpeg
