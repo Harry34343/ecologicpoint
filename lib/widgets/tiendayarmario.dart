@@ -8,8 +8,14 @@ class SideButtons extends StatelessWidget {
   final Function()? onArmarioTap; // Callback for Armario tap
   final Function()? onTiendaTap; // Callback for Tienda tap
   // Access screenWidth and screenHeight inside the build method using MediaQuery.of(context)
+  final bool showArmario;
 
-  const SideButtons({super.key, this.onArmarioTap, this.onTiendaTap});
+  const SideButtons({
+    super.key,
+    this.onArmarioTap,
+    this.onTiendaTap,
+    this.showArmario = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,76 +31,68 @@ class SideButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end, // Align to the end (right)
       children: [
         // Armario Button
-        GestureDetector(
-          onTap: onArmarioTap,
-          child: Container(
-            // width: double.infinity, // This would make it take full width, we want it on the side
-            width: relWidth(
-              100,
-            ), // EXAMPLE: Set a specific width or use responsive width
-            margin: const EdgeInsets.only(bottom: 0), // Space between buttons
-            padding: const EdgeInsets.all(12),
-            decoration: ShapeDecoration(
-              color:
-                  Colors.transparent, // Added a background color for visibility
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  bottomLeft: Radius.circular(12),
+        if (showArmario)
+          GestureDetector(
+            onTap: onArmarioTap,
+            child: Container(
+              width: relWidth(100),
+              margin: const EdgeInsets.only(bottom: 0),
+              padding: const EdgeInsets.all(12),
+              decoration: ShapeDecoration(
+                color: Colors.transparent,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    bottomLeft: Radius.circular(12),
+                  ),
                 ),
               ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: relWidth(65),
-                  height: relHeight(64.50),
-                  clipBehavior: Clip.antiAlias,
-                  decoration:
-                      BoxDecoration(), // This container is empty, just for clipping?
-                  child: Stack(
-                    alignment: Alignment.center, // Center the icon elements
-                    children: [
-                      // Example: Add your Armario icon SVG as a background or base
-                      SvgPicture.asset(
-                        'assets/armarioicon.svg',
-                        width: relWidth(65),
-                        height: relHeight(65),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: relWidth(65),
+                    height: relHeight(64.50),
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const BoxDecoration(),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/armarioicon.svg',
+                          width: relWidth(65),
+                          height: relHeight(65),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: relHeight(2)),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: relWidth(6),
+                      vertical: relHeight(4),
+                    ),
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFF7F6EA),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: relHeight(2)), // Space between icon and text
-                Container(
-                  // height: relHeight(18), // Let text determine height
-                  padding: EdgeInsets.symmetric(
-                    horizontal: relWidth(6),
-                    vertical: relHeight(4),
-                  ), // Added vertical padding
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFF7F6EA),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Text(
+                      'Armario',
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFF1F1F1F),
+                        fontSize: relWidth(14),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  child: Text(
-                    // Removed unnecessary Row
-                    'Armario',
-                    style: GoogleFonts.poppins(
-                      color: const Color(0xFF1F1F1F),
-                      fontSize: relWidth(14),
-
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
 
         // Tienda Button
         GestureDetector(

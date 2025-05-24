@@ -95,6 +95,16 @@ flutter:
     - assets/sombreros/cowboy.svg
     - assets/sombreros/monho.svg
     - assets/sombreros/halo.svg
+    - assets/cara/curita.svg
+    - assets/cara/gadas.svg
+    - assets/cara/payaso.svg
+    - assets/cara/pestenegra.svg
+    - assets/cara/tapabocasvr1.svg
+    - assets/cuerpo/alas.svg
+    - assets/cuerpo/bufanda.svg
+    - assets/cuerpo/canguro.svg
+    - assets/cuerpo/capa.svg
+    - assets/cuerpo/corbata.svg
   # assets:
   #
   #   - images/a_dot_burr.jpeg

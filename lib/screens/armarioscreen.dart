@@ -1,3 +1,4 @@
+import 'package:a/widgets/tiendayarmario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:a/widgets/button.dart'
@@ -28,6 +29,9 @@ class ArmarioScreen extends StatefulWidget {
 class _ArmarioScreenState extends State<ArmarioScreen> {
   int categoriaSeleccionada = 0;
   String plantaEquipada = 'assets/plantas/cactus.svg'; // por ejemplo
+  String? sombreroEquipado;
+  String? caraEquipada;
+  String? cuerpoEquipado;
 
   void actualizarRecientes() {
     final recientes = <Map<String, dynamic>>[];
@@ -105,12 +109,72 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
       {'img': 'assets/sombreros/monho.svg', 'selected': false},
     ],
     'Cara': [
-      {'img': 'assets/gafas.png', 'selected': false},
+      {'img': 'assets/cara/gadas.svg', 'selected': false},
+      {'img': 'assets/cara/curita.svg', 'selected': false},
+      {'img': 'assets/cara/payaso.svg', 'selected': false},
+      {'img': 'assets/cara/pestenegra.svg', 'selected': false},
+      {'img': 'assets/cara/tapabocasvr1.svg', 'selected': false},
     ],
     'Cuerpo': [
-      {'img': 'assets/corbatita.png', 'selected': false},
+      {'img': 'assets/cuerpo/alas.svg', 'selected': false},
+      {'img': 'assets/cuerpo/bufanda.svg', 'selected': false},
+      {'img': 'assets/cuerpo/canguro.svg', 'selected': false},
+      {'img': 'assets/cuerpo/capa.svg', 'selected': false},
+      {'img': 'assets/cuerpo/corbata.svg', 'selected': false},
     ],
   };
+
+  final Map<String, List<Map<String, dynamic>>> sombreroConfigs = {
+    'assets/plantas/cactus.svg': [
+      {'top': -12, 'left': 94.0, 'scale': 3.5, 'rotation': 0.0},
+    ],
+    'assets/plantas/Girasol.svg': [
+      {'top': 0, 'left': 124.0, 'scale': 4.0, 'rotation': 0.3},
+    ],
+    'assets/plantas/sprout.svg': [
+      {'top': -24.0, 'left': 48.0, 'scale': 2.5, 'rotation': -0.1},
+    ],
+
+    'assets/plantas/carnivora.svg': [
+      {'top': -4, 'left': 124.0, 'scale': 2.0, 'rotation': 0.6},
+    ],
+    'assets/plantas/bambu.svg': [
+      {'top': -20, 'left': 64.0, 'scale': 2.0, 'rotation': 0.6},
+      {'top': 48.0, 'left': 104.0, 'scale': 2.0, 'rotation': 0.0},
+    ],
+    'assets/plantas/lotus.svg': [
+      {'top': 0.0, 'left': 172.0, 'scale': 4.0, 'rotation': 0.3},
+    ],
+    'assets/plantas/Planeta.svg': [
+      {'top': -30.0, 'left': 294.0, 'scale': 6.0, 'rotation': 0.6},
+    ],
+  };
+
+  final Map<String, List<Map<String, dynamic>>> caraConfigs = {
+    'assets/cara/cactus.svg': [
+      {'top': -0, 'left': 94.0, 'scale': 1.0, 'rotation': 0.0},
+    ],
+    'assets/cara/Girasol.svg': [
+      {'top': 0, 'left': 124.0, 'scale': 4.0, 'rotation': 0.3},
+    ],
+    'assets/cara/sprout.svg': [
+      {'top': -24.0, 'left': 48.0, 'scale': 2.5, 'rotation': -0.1},
+    ],
+    'assets/cara/carnivora.svg': [
+      {'top': -4, 'left': 124.0, 'scale': 2.0, 'rotation': 0.6},
+    ],
+    'assets/cara/bambu.svg': [
+      {'top': -20, 'left': 64.0, 'scale': 2.0, 'rotation': 0.6},
+      {'top': 48.0, 'left': 104.0, 'scale': 2.0, 'rotation': 0.0},
+    ],
+    'assets/cara/lotus.svg': [
+      {'top': 0.0, 'left': 172.0, 'scale': 4.0, 'rotation': 0.3},
+    ],
+    'assets/cara/Planeta.svg': [
+      {'top': -30.0, 'left': 294.0, 'scale': 6.0, 'rotation': 0.6},
+    ],
+  };
+  final Map<String, List<Map<String, dynamic>>> cuerpoConfigs = {};
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +193,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
             0xFFFCFBF3,
           ), // This will be visible if background doesn't cover all or for bottom part
           body: Container(
+            clipBehavior: Clip.none,
             color: Colors.transparent, // Color del fondo deseado
             child: Stack(
               children: [
@@ -218,6 +283,21 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                     ),
                   ),
                 ),
+                Positioned(
+                  bottom: relHeight(
+                    350,
+                  ), // Justo encima de categorías (ajusta según necesidad)
+                  right: relWidth(4), // Pegado al borde derecho
+                  child: SideButtons(
+                    showArmario: false,
+                    onTiendaTap: () {
+                      debugPrint("Tienda tapped!");
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Tienda presionada")),
+                      );
+                    },
+                  ),
+                ),
                 Positioned.fill(
                   child: Column(
                     children: [
@@ -239,12 +319,77 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                 child: child,
                               );
                             },
-                            child: SvgPicture.asset(
-                              plantaEquipada,
-                              key: ValueKey(
-                                plantaEquipada,
-                              ), // ¡clave necesaria para detectar cambios!
+                            child: SizedBox(
                               height: relHeight(400),
+
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                alignment: Alignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    plantaEquipada,
+                                    key: ValueKey(plantaEquipada),
+                                    height: relHeight(400),
+                                  ),
+                                  if (sombreroEquipado != null &&
+                                      sombreroConfigs[plantaEquipada] !=
+                                          null) ...[
+                                    for (var config
+                                        in sombreroConfigs[plantaEquipada]!)
+                                      Positioned(
+                                        top: config['top'],
+                                        left: config['left'],
+                                        child: Transform.rotate(
+                                          angle: config['rotation'],
+                                          child: Transform.scale(
+                                            scale: config['scale'],
+                                            child: SvgPicture.asset(
+                                              sombreroEquipado!,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                  if (caraEquipada != null &&
+                                      caraConfigs[plantaEquipada] != null)
+                                    ...caraConfigs[plantaEquipada]!.map((
+                                      config,
+                                    ) {
+                                      return Positioned(
+                                        top: config['top'],
+                                        left: config['left'],
+                                        child: Transform.rotate(
+                                          angle: config['rotation'],
+                                          child: Transform.scale(
+                                            scale: config['scale'],
+                                            child: SvgPicture.asset(
+                                              caraEquipada!,
+                                            ), // PNG
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  if (cuerpoEquipado != null &&
+                                      cuerpoConfigs[plantaEquipada] != null)
+                                    ...cuerpoConfigs[plantaEquipada]!.map((
+                                      config,
+                                    ) {
+                                      return Positioned(
+                                        top: config['top'],
+                                        left: config['left'],
+                                        child: Transform.rotate(
+                                          angle: config['rotation'],
+                                          child: Transform.scale(
+                                            scale: config['scale'],
+                                            child: Image.asset(
+                                              cuerpoEquipado!,
+                                            ), // PNG
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -353,19 +498,38 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                   setState(() {
                                                     if (categoriaActual ==
                                                         'Planta') {
-                                                      // Deseleccionar todas las demás
                                                       for (var planta
                                                           in itemsPorCategoria['Planta']!) {
                                                         planta['selected'] =
                                                             false;
                                                       }
-                                                      // Activar la planta actual
                                                       item['selected'] = true;
                                                       plantaEquipada =
-                                                          item['display']; // <- Aquí actualizas la planta
+                                                          item['display'];
                                                     } else {
-                                                      item['selected'] =
-                                                          !item['selected'];
+                                                      // Deseleccionar todos los de esa categoría
+                                                      for (var accesorio
+                                                          in itemsPorCategoria[categoriaActual]!) {
+                                                        accesorio['selected'] =
+                                                            false;
+                                                      }
+                                                      item['selected'] = true;
+
+                                                      // Guardar el accesorio equipado
+                                                      switch (categoriaActual) {
+                                                        case 'Sombrero':
+                                                          sombreroEquipado =
+                                                              item['img'];
+                                                          break;
+                                                        case 'Cara':
+                                                          caraEquipada =
+                                                              item['img'];
+                                                          break;
+                                                        case 'Cuerpo':
+                                                          cuerpoEquipado =
+                                                              item['img'];
+                                                          break;
+                                                      }
                                                     }
 
                                                     actualizarRecientes();
@@ -457,7 +621,7 @@ class ItemEquipado extends StatelessWidget {
         (Categoria == 'Sombrero' ||
                 Categoria == 'Cara' ||
                 Categoria == 'Cuerpo')
-            ? 0.6
+            ? 0.2
             : 0.8;
 
     final Widget imageWidget =
