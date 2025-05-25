@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                         _buildSectionTitle("Mis retos", () { /* Acción Ver más */ }),
                         const SizedBox(height: 12),
                         _buildChallengeItem(
-                          iconAsset: 'assets/icons/leaf_challenge.svg', // Reemplaza con tu asset
+                          iconAsset: 'assets/logo2.svg', // Reemplaza con tu asset
                           title: 'Reciclador en Acción',
                           description: 'Lleva 3 tipos de residuos a un punto de reciclaje.',
                           progress: '0/3',
@@ -53,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         _buildChallengeItem(
-                          iconAsset: 'assets/icons/leaf_challenge.svg', // Reemplaza con tu asset
+                          iconAsset: 'assets/logo2.svg', // Reemplaza con tu asset
                           title: 'Guardián del Parque',
                           description: 'Recolecta 5 basuras en un espacio verde cercano.',
                           progress: '0/5',
@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         _buildChallengeItem(
-                          iconAsset: 'assets/icons/leaf_challenge.svg', // Reemplaza con tu asset
+                          iconAsset: 'assets/logo2.svg', // Reemplaza con tu asset
                           title: 'Tech Salvado',
                           description: 'Recicla un electrónico viejo en un centro autorizado.',
                           progress: '0/1',
@@ -71,19 +71,19 @@ class HomeScreen extends StatelessWidget {
                         _buildSectionTitle("Mis tips", () { /* Acción Ver más */ }),
                         const SizedBox(height: 12),
                         _buildTipItem(
-                          icon: Icons.eco_outlined, // Reemplaza con tu icono/asset (mundo)
+                          assetPath: 'assets/icons/planeta.svg', // Reemplaza con tu icono/asset (mundo)
                           title: '¿Sabías que…?',
                           description: 'Un solo árbol puede absorber hasta 22 kg de CO₂ al año.',
                         ),
                         const SizedBox(height: 12),
                         _buildTipItem(
-                          icon: Icons.water_drop_outlined, // Reemplaza (gota)
+                          assetPath: 'assets/icons/gota.svg', // Reemplaza (gota)
                           title: 'Cada gota cuenta',
                           description: 'Dejar el grifo abierto mientras te cepillas puede desperdiciar hasta 20 litros de agua.',
                         ),
                         const SizedBox(height: 12),
                         _buildTipItem(
-                          icon: Icons.recycling_outlined, // Reemplaza (botella)
+                          assetPath: 'assets/icons/botella.svg', // Reemplaza (botella)
                           title: 'El plástico no desaparece',
                           description: 'Una botella de plástico puede tardar más de 400 años en degradarse.',
                         ),
@@ -113,7 +113,7 @@ class HomeScreen extends StatelessWidget {
           Row(
             children: [
               // Asumiendo que tienes un logo en SVG o PNG
-              SvgPicture.asset('assets/icons/app_logo_leaf.svg', width: 25, height: 32, colorFilter: ColorFilter.mode(Color(0xFF355E3B), BlendMode.srcIn)), // Reemplaza
+              SvgPicture.asset('assets/logo2.svg', width: 25, height: 32, colorFilter: ColorFilter.mode(Color(0xFF355E3B), BlendMode.srcIn)), // Reemplaza
               const SizedBox(width: 8),
               Text(
                 'EcologicPoint+',
@@ -135,7 +135,7 @@ class HomeScreen extends StatelessWidget {
                 style: _poppins(FontWeight.w700, 16, const Color(0xFFEE8E00)),
               ),
               const SizedBox(width: 24),
-              SvgPicture.asset('assets/icons/leaf_points.svg', width: 14, height: 20, colorFilter: ColorFilter.mode(Color(0xFF355E3B), BlendMode.srcIn)), // Reemplaza
+              SvgPicture.asset('assets/logo2.svg', width: 14, height: 20, colorFilter: ColorFilter.mode(Color(0xFF355E3B), BlendMode.srcIn)), // Reemplaza
               const SizedBox(width: 8),
               Text(
                 '1500',
@@ -170,7 +170,7 @@ class HomeScreen extends StatelessWidget {
             left: 20,
             bottom: -10, // Ajusta para que la base de la maceta esté alineada o un poco por debajo
             child: SvgPicture.asset(
-              'assets/images/cactus.svg', // REEMPLAZA con tu imagen de cactus
+              'assets/plantas/cactus.svg', // REEMPLAZA con tu imagen de cactus
               width: 100, // Ajusta el tamaño
               height: 150, // Ajusta el tamaño
             ),
@@ -360,11 +360,27 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-   Widget _buildTipItem({
-    required IconData icon, // O String assetPath si usas SvgPicture o Image.asset
+   Widget _buildTipItem({ // ESTA ES LA NUEVA DEFINICIÓN
+    IconData? icon,
+    String? assetPath,
     required String title,
     required String description,
   }) {
+    assert(icon != null || assetPath != null, 'Debes proporcionar un IconData o un assetPath');
+    assert(!(icon != null && assetPath != null), 'No puedes proporcionar IconData y assetPath al mismo tiempo');
+
+    Widget iconWidget;
+    if (assetPath != null) {
+      iconWidget = SvgPicture.asset(
+        assetPath,
+        width: 32,
+        height: 32,
+        colorFilter: ColorFilter.mode(const Color(0xFF355E3B), BlendMode.srcIn),
+      );
+    } else {
+      iconWidget = Icon(icon!, size: 32, color: const Color(0xFF355E3B));
+    }
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
@@ -374,7 +390,7 @@ class HomeScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, size: 32, color: const Color(0xFF355E3B)), // Color de icono
+          iconWidget, // Usa el widget de icono que hemos determinado
           const SizedBox(width: 12),
           Expanded(
             child: Column(
