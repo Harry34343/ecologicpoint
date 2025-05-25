@@ -1,4 +1,5 @@
 import 'package:a/screens/createaccaountscreen.dart';
+import 'package:a/screens/mapa(testNOoficial).dart';
 import 'package:a/screens/menuplanta.dart';
 // Ensure that Plant1 is defined and exported from menuplanta.dart
 import 'package:a/screens/menuscreen.dart';
@@ -33,6 +34,7 @@ class EcologicPoint extends StatelessWidget {
         '/createacc': (context) => CreateAcc(),
         '/planta': (context) => Plant1(),
         '/armario': (context) => ArmarioScreen(),
+        '/mapa': (context) => AdvancedMarkersDemoScreen(),
       },
       // home: Scaffold(body: ListView(children: [Welcome()])),
     );

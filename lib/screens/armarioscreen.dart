@@ -38,11 +38,13 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
 
     itemsPorCategoria.forEach((categoria, items) {
       if (categoria != 'Reciente') {
+        // Iterate through original categories
         for (var item in items) {
           if (item['selected'] == true) {
             recientes.add({
-              ...item,
-            }); // Copiamos el mapa para evitar modificar original
+              ...item, // Copiamos el mapa para evitar modificar original
+              'originalCategory': categoria,
+            });
           }
         }
       }
@@ -151,30 +153,53 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
   };
 
   final Map<String, List<Map<String, dynamic>>> caraConfigs = {
-    'assets/cara/cactus.svg': [
-      {'top': -0, 'left': 94.0, 'scale': 1.0, 'rotation': 0.0},
+    'assets/plantas/cactus.svg': [
+      {'top': 50, 'left': -60.0, 'scale': .3, 'rotation': 0.0},
     ],
-    'assets/cara/Girasol.svg': [
-      {'top': 0, 'left': 124.0, 'scale': 4.0, 'rotation': 0.3},
+    'assets/plantas/Girasol.svg': [
+      {'top': 45, 'left': -60, 'scale': .2, 'rotation': 0},
     ],
-    'assets/cara/sprout.svg': [
-      {'top': -24.0, 'left': 48.0, 'scale': 2.5, 'rotation': -0.1},
+    'assets/plantas/sprout.svg': [
+      {'top': 188, 'left': -24.0, 'scale': .1, 'rotation': 0},
     ],
-    'assets/cara/carnivora.svg': [
+    'assets/plantas/carnivora.svg': [
+      {'top': -36, 'left': -80, 'scale': .3, 'rotation': 0.4},
+    ],
+    'assets/plantas/bambu.svg': [
+      {'top': 80, 'left': -104.0, 'scale': .1, 'rotation': 0},
+      {'top': 168.0, 'left': -54.0, 'scale': .1, 'rotation': 0.0},
+    ],
+    'assets/plantas/lotus.svg': [
+      {'top': 45, 'left': -32, 'scale': .3, 'rotation': 0.0},
+    ],
+    'assets/plantas/Planeta.svg': [
+      {'top': 94, 'left': 16, 'scale': .5, 'rotation': 0},
+    ],
+  };
+  final Map<String, List<Map<String, dynamic>>> cuerpoConfigs = {
+    'assets/plantas/cactus.svg': [
+      {'top': 84, 'left': 76, 'scale': .4, 'rotation': 0.0},
+    ],
+    'assets/plantas/Girasol.svg': [
+      {'top': 0, 'left': 124.0, 'scale': .2, 'rotation': 0.3},
+    ],
+    'assets/plantas/sprout.svg': [
+      {'top': -24.0, 'left': 48.0, 'scale': .1, 'rotation': -0.1},
+    ],
+    'assets/plantas/carnivora.svg': [
       {'top': -4, 'left': 124.0, 'scale': 2.0, 'rotation': 0.6},
     ],
-    'assets/cara/bambu.svg': [
+    'assets/plantas/bambu.svg': [
       {'top': -20, 'left': 64.0, 'scale': 2.0, 'rotation': 0.6},
       {'top': 48.0, 'left': 104.0, 'scale': 2.0, 'rotation': 0.0},
     ],
-    'assets/cara/lotus.svg': [
+    'assets/plantas/lotus.svg': [
       {'top': 0.0, 'left': 172.0, 'scale': 4.0, 'rotation': 0.3},
     ],
-    'assets/cara/Planeta.svg': [
+    'assets/plantas/Planeta.svg': [
       {'top': -30.0, 'left': 294.0, 'scale': 6.0, 'rotation': 0.6},
     ],
   };
-  final Map<String, List<Map<String, dynamic>>> cuerpoConfigs = {};
 
   @override
   Widget build(BuildContext context) {
@@ -189,8 +214,11 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
         double relHeight(double h) => screenHeight * (h / 956);
 
         return Scaffold(
-          backgroundColor: const Color(
-            0xFFFCFBF3,
+          backgroundColor: const Color.fromRGBO(
+            247,
+            246,
+            235,
+            1,
           ), // This will be visible if background doesn't cover all or for bottom part
           body: Container(
             clipBehavior: Clip.none,
@@ -214,90 +242,6 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                 ),
 
                 // Header Section (Your existing code)
-                Positioned(
-                  top: relHeight(24),
-                  left: 0,
-                  right: 0,
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: relHeight(64),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Positioned(
-                          left: relWidth(24),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: button.CustomIconButton(
-                              isActivated: true,
-                              icon: Icons.arrow_back,
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ),
-                        ),
-                        Text(
-                          'Armario',
-                          style: GoogleFonts.poppins(
-                            fontSize: relWidth(20),
-                            fontWeight: FontWeight.w700,
-                            color: const Color.fromRGBO(247, 246, 235, 1),
-                          ),
-                        ),
-                        Positioned(
-                          right: relWidth(24),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: relWidth(12),
-                              vertical: relHeight(4),
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.monetization_on,
-                                  color: const Color(0xFF355E3B),
-                                  size: relWidth(20),
-                                ),
-                                SizedBox(width: relWidth(4)),
-                                Text(
-                                  '1500',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: relWidth(16),
-                                    fontWeight: FontWeight.w700,
-                                    color: const Color(0xFF355E3B),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: relHeight(
-                    350,
-                  ), // Justo encima de categorías (ajusta según necesidad)
-                  right: relWidth(4), // Pegado al borde derecho
-                  child: SideButtons(
-                    showArmario: false,
-                    onTiendaTap: () {
-                      debugPrint("Tienda tapped!");
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Tienda presionada")),
-                      );
-                    },
-                  ),
-                ),
                 Positioned.fill(
                   child: Column(
                     children: [
@@ -320,8 +264,8 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                               );
                             },
                             child: SizedBox(
+                              key: ValueKey(plantaEquipada),
                               height: relHeight(400),
-
                               child: Stack(
                                 clipBehavior: Clip.none,
                                 alignment: Alignment.center,
@@ -332,11 +276,11 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                     height: relHeight(400),
                                   ),
                                   if (sombreroEquipado != null &&
-                                      sombreroConfigs[plantaEquipada] !=
-                                          null) ...[
-                                    for (var config
-                                        in sombreroConfigs[plantaEquipada]!)
-                                      Positioned(
+                                      sombreroConfigs[plantaEquipada] != null)
+                                    ...sombreroConfigs[plantaEquipada]!.map((
+                                      config,
+                                    ) {
+                                      return Positioned(
                                         top: config['top'],
                                         left: config['left'],
                                         child: Transform.rotate(
@@ -345,11 +289,14 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                             scale: config['scale'],
                                             child: SvgPicture.asset(
                                               sombreroEquipado!,
+                                              key: ValueKey(
+                                                "sombrero-$sombreroEquipado",
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                  ],
+                                      );
+                                    }),
                                   if (caraEquipada != null &&
                                       caraConfigs[plantaEquipada] != null)
                                     ...caraConfigs[plantaEquipada]!.map((
@@ -364,6 +311,9 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                             scale: config['scale'],
                                             child: SvgPicture.asset(
                                               caraEquipada!,
+                                              key: ValueKey(
+                                                "cara-$caraEquipada",
+                                              ),
                                             ), // PNG
                                           ),
                                         ),
@@ -381,8 +331,11 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                           angle: config['rotation'],
                                           child: Transform.scale(
                                             scale: config['scale'],
-                                            child: Image.asset(
+                                            child: SvgPicture.asset(
                                               cuerpoEquipado!,
+                                              key: ValueKey(
+                                                "cuerpo-$cuerpoEquipado",
+                                              ),
                                             ), // PNG
                                           ),
                                         ),
@@ -489,50 +442,177 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                         children:
                                             items.asMap().entries.map((entry) {
                                               final i = entry.key;
-                                              final item = entry.value;
+                                              final item =
+                                                  entry
+                                                      .value; // This 'item' is from itemsPorCategoria[categoriaActual]
                                               return ItemEquipado(
                                                 imagen: item['img'],
                                                 seleccionado: item['selected'],
                                                 Categoria: categoriaActual,
                                                 onTap: () {
                                                   setState(() {
+                                                    final String tappedItemImg =
+                                                        item['img'];
+                                                    // For plants, the 'display' field is the unique identifier for what's equipped.
+                                                    // For accessories, 'img' is the identifier.
+                                                    final String?
+                                                    tappedItemDisplayPath =
+                                                        item['display']; // Might be null for accessories
+
                                                     if (categoriaActual ==
                                                         'Planta') {
-                                                      for (var planta
-                                                          in itemsPorCategoria['Planta']!) {
-                                                        planta['selected'] =
-                                                            false;
+                                                      // Always select a plant. No "deselection" to an empty state.
+                                                      // Only update if it's a new plant.
+                                                      if (plantaEquipada !=
+                                                              tappedItemDisplayPath &&
+                                                          tappedItemDisplayPath !=
+                                                              null) {
+                                                        for (var p
+                                                            in itemsPorCategoria['Planta']!) {
+                                                          // Update 'selected' status for all plants
+                                                          p['selected'] =
+                                                              (p['display'] ==
+                                                                  tappedItemDisplayPath);
+                                                        }
+                                                        plantaEquipada =
+                                                            tappedItemDisplayPath;
+                                                        actualizarRecientes();
                                                       }
-                                                      item['selected'] = true;
-                                                      plantaEquipada =
-                                                          item['display'];
-                                                    } else {
-                                                      // Deseleccionar todos los de esa categoría
-                                                      for (var accesorio
-                                                          in itemsPorCategoria[categoriaActual]!) {
-                                                        accesorio['selected'] =
-                                                            false;
-                                                      }
-                                                      item['selected'] = true;
-
-                                                      // Guardar el accesorio equipado
+                                                    } else if (categoriaActual ==
+                                                            'Sombrero' ||
+                                                        categoriaActual ==
+                                                            'Cara' ||
+                                                        categoriaActual ==
+                                                            'Cuerpo') {
+                                                      // Handles Sombrero, Cara, Cuerpo tabs directly
+                                                      String?
+                                                      currentEquippedAccessory;
                                                       switch (categoriaActual) {
                                                         case 'Sombrero':
-                                                          sombreroEquipado =
-                                                              item['img'];
+                                                          currentEquippedAccessory =
+                                                              sombreroEquipado;
                                                           break;
                                                         case 'Cara':
-                                                          caraEquipada =
-                                                              item['img'];
+                                                          currentEquippedAccessory =
+                                                              caraEquipada;
                                                           break;
                                                         case 'Cuerpo':
-                                                          cuerpoEquipado =
-                                                              item['img'];
+                                                          currentEquippedAccessory =
+                                                              cuerpoEquipado;
                                                           break;
                                                       }
-                                                    }
 
-                                                    actualizarRecientes();
+                                                      if (currentEquippedAccessory ==
+                                                          tappedItemImg) {
+                                                        // Tapped the SAME already equipped accessory: Unequip it
+                                                        switch (categoriaActual) {
+                                                          case 'Sombrero':
+                                                            sombreroEquipado =
+                                                                null;
+                                                            break;
+                                                          case 'Cara':
+                                                            caraEquipada = null;
+                                                            break;
+                                                          case 'Cuerpo':
+                                                            cuerpoEquipado =
+                                                                null;
+                                                            break;
+                                                        }
+                                                        // Update 'selected' status in the source list for this category
+                                                        item['selected'] =
+                                                            false;
+                                                      } else {
+                                                        // Tapped a NEW or DIFFERENT accessory: Equip it
+                                                        // Deselect previously selected item in this category's source list
+                                                        for (var otherItem
+                                                            in itemsPorCategoria[categoriaActual]!) {
+                                                          otherItem['selected'] =
+                                                              false;
+                                                        }
+                                                        // Select and equip the new one
+                                                        item['selected'] =
+                                                            true; // Update 'selected' in source list
+                                                        switch (categoriaActual) {
+                                                          case 'Sombrero':
+                                                            sombreroEquipado =
+                                                                tappedItemImg;
+                                                            break;
+                                                          case 'Cara':
+                                                            caraEquipada =
+                                                                tappedItemImg;
+                                                            break;
+                                                          case 'Cuerpo':
+                                                            cuerpoEquipado =
+                                                                tappedItemImg;
+                                                            break;
+                                                        }
+                                                      }
+                                                      actualizarRecientes();
+                                                    } else if (categoriaActual ==
+                                                        'Reciente') {
+                                                      // Handles "Reciente" tab
+                                                      // The 'item' here is from the 'Reciente' list and has 'originalCategory'
+                                                      final String
+                                                      originalCategory =
+                                                          item['originalCategory'];
+                                                      // Determine the correct identifier (display for plants, img for accessories)
+                                                      final String
+                                                      itemIdentifierInReciente =
+                                                          (originalCategory ==
+                                                                  'Planta')
+                                                              ? item['display'] // Use 'display' if it's a plant
+                                                              : item['img']; // Use 'img' if it's an accessory
+
+                                                      if (originalCategory ==
+                                                          'Planta') {
+                                                        // Tapping a plant in "Reciente" should do nothing.
+                                                        // It's already the selected plant. Plant changes are handled in the 'Planta' tab.
+                                                        return; // Exit early, no state change
+                                                      } else {
+                                                        // It's an accessory from Reciente. Tapping it means UNEQUIP.
+                                                        bool unequipped = false;
+                                                        if (originalCategory ==
+                                                                'Sombrero' &&
+                                                            sombreroEquipado ==
+                                                                itemIdentifierInReciente) {
+                                                          sombreroEquipado =
+                                                              null;
+                                                          unequipped = true;
+                                                        } else if (originalCategory ==
+                                                                'Cara' &&
+                                                            caraEquipada ==
+                                                                itemIdentifierInReciente) {
+                                                          caraEquipada = null;
+                                                          unequipped = true;
+                                                        } else if (originalCategory ==
+                                                                'Cuerpo' &&
+                                                            cuerpoEquipado ==
+                                                                itemIdentifierInReciente) {
+                                                          cuerpoEquipado = null;
+                                                          unequipped = true;
+                                                        }
+
+                                                        if (unequipped) {
+                                                          // Find the original item in its source category list and set 'selected' to false
+                                                          if (itemsPorCategoria
+                                                              .containsKey(
+                                                                originalCategory,
+                                                              )) {
+                                                            for (var originalItem
+                                                                in itemsPorCategoria[originalCategory]!) {
+                                                              // Match based on 'img' for accessories, as itemIdentifierInReciente will be item['img']
+                                                              if (originalItem['img'] ==
+                                                                  itemIdentifierInReciente) {
+                                                                originalItem['selected'] =
+                                                                    false;
+                                                                break;
+                                                              }
+                                                            }
+                                                          }
+                                                          actualizarRecientes();
+                                                        }
+                                                      }
+                                                    }
                                                   });
                                                 },
                                               );
@@ -547,6 +627,90 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                Positioned(
+                  top: relHeight(24),
+                  left: 0,
+                  right: 0,
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: relHeight(64),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Positioned(
+                          left: relWidth(24),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: button.CustomIconButton(
+                              isActivated: true,
+                              icon: Icons.arrow_back,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'Armario',
+                          style: GoogleFonts.poppins(
+                            fontSize: relWidth(20),
+                            fontWeight: FontWeight.w700,
+                            color: const Color.fromRGBO(247, 246, 235, 1),
+                          ),
+                        ),
+                        Positioned(
+                          right: relWidth(24),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: relWidth(12),
+                              vertical: relHeight(4),
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.monetization_on,
+                                  color: const Color(0xFF355E3B),
+                                  size: relWidth(20),
+                                ),
+                                SizedBox(width: relWidth(4)),
+                                Text(
+                                  '1500',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: relWidth(16),
+                                    fontWeight: FontWeight.w700,
+                                    color: const Color(0xFF355E3B),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: relHeight(
+                    350,
+                  ), // Justo encima de categorías (ajusta según necesidad)
+                  right: relWidth(4), // Pegado al borde derecho
+                  child: SideButtons(
+                    showArmario: false,
+                    onTiendaTap: () {
+                      debugPrint("Tienda tapped!");
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Tienda presionada")),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -648,7 +812,7 @@ class ItemEquipado extends StatelessWidget {
           border: Border.all(
             color:
                 seleccionado ? const Color(0xFFBDD8A6) : Colors.grey.shade300,
-            width: 2,
+            width: 4,
           ),
           borderRadius: BorderRadius.circular(12),
         ),
