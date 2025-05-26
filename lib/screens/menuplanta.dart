@@ -19,7 +19,7 @@ class _Plant1State extends State<Plant1> {
   Widget _buildFloatingActionButton() {
     double relWidth(double w) => MediaQuery.of(context).size.width * (w / 440);
     double relHeight(double h) =>
-        MediaQuery.of(context).size.height * (h / 900);
+        MediaQuery.of(context).size.height * (h / 956);
 
     // The FAB represents index 2 (Plant screen)
     bool isPlantSelected = _selectedIndex == 2;
@@ -66,9 +66,10 @@ class _Plant1State extends State<Plant1> {
             ],
           ),
           child: Center(
-            child: Icon(
-              Icons.local_florist,
-              size: relWidth(32),
+            child: SvgPicture.asset(
+              'phplantduotone.svg',
+              width: relWidth(24),
+              height: relHeight(24),
               color:
                   isPlantSelected
                       ? const Color.fromRGBO(247, 246, 235, 1)
@@ -177,12 +178,7 @@ class _Plant1State extends State<Plant1> {
                     Navigator.pushNamed(context, '/armario');
                   },
                   onTiendaTap: () {
-                    debugPrint("Tienda tapped!");
-                    // TODO: Implement Tienda navigation or action
-                    // Example: Navigator.pushNamed(context, '/tienda');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Tienda presionada")),
-                    );
+                    Navigator.pushNamed(context, '/tienda');
                   },
                 ),
               ),

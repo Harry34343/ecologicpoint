@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:a/screens/loginscreen.dart';
 import 'package:a/screens/armarioscreen.dart';
+import 'package:a/screens/mapa(testNOoficial).dart';
+import 'package:a/screens/tiendascreen.dart';
 
 void main() {
   debugPaintSizeEnabled = false;
@@ -34,7 +36,8 @@ class EcologicPoint extends StatelessWidget {
         '/createacc': (context) => CreateAcc(),
         '/planta': (context) => Plant1(),
         '/armario': (context) => ArmarioScreen(),
-        '/mapa': (context) => AdvancedMarkersDemoScreen(),
+        '/mapa': (context) => MapScreen(),
+        '/tienda': (context) => BoutiqueScreen(),
       },
       // home: Scaffold(body: ListView(children: [Welcome()])),
     );

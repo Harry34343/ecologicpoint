@@ -106,6 +106,8 @@ flutter:
     - assets/cuerpo/canguro.svg
     - assets/cuerpo/capa.svg
     - assets/cuerpo/corbata.svg
+    - assets/tiendabk.svg
+    - assets/partedearribatienda.svg
   # assets:
   #
   #   - images/a_dot_burr.jpeg

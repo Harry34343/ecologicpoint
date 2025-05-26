@@ -32,6 +32,10 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
   String? sombreroEquipado;
   String? caraEquipada;
   String? cuerpoEquipado;
+  // DESIGN CONSTANTS (can be defined at the top of your state class or build method)
+  final double designPlantDisplayHeight = 400.0;
+  // Adjust this if your plant assets are not typically square when at 400px height
+  final double designPlantDisplayWidth = 400.0;
 
   void actualizarRecientes() {
     final recientes = <Map<String, dynamic>>[];
@@ -126,80 +130,623 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     ],
   };
 
-  final Map<String, List<Map<String, dynamic>>> sombreroConfigs = {
-    'assets/plantas/cactus.svg': [
-      {'top': -12, 'left': 94.0, 'scale': 3.5, 'rotation': 0.0},
-    ],
-    'assets/plantas/Girasol.svg': [
-      {'top': 0, 'left': 124.0, 'scale': 4.0, 'rotation': 0.3},
-    ],
-    'assets/plantas/sprout.svg': [
-      {'top': -24.0, 'left': 48.0, 'scale': 2.5, 'rotation': -0.1},
-    ],
-
-    'assets/plantas/carnivora.svg': [
-      {'top': -4, 'left': 124.0, 'scale': 2.0, 'rotation': 0.6},
-    ],
+  final Map<String, List<Map<String, dynamic>>> multiSlotSombreroConfigs = {
     'assets/plantas/bambu.svg': [
-      {'top': -20, 'left': 64.0, 'scale': 2.0, 'rotation': 0.6},
-      {'top': 48.0, 'left': 104.0, 'scale': 2.0, 'rotation': 0.0},
+      // Bambu has two slots for the selected sombrero
+      {'top': -20, 'left': 64.0, 'scale': 2.0, 'rotation': 0.6}, // Slot 1
+      {'top': 48.0, 'left': 104.0, 'scale': 2.0, 'rotation': 0.0}, // Slot 2
     ],
-    'assets/plantas/lotus.svg': [
-      {'top': 0.0, 'left': 172.0, 'scale': 4.0, 'rotation': 0.3},
-    ],
-    'assets/plantas/Planeta.svg': [
-      {'top': -30.0, 'left': 294.0, 'scale': 6.0, 'rotation': 0.6},
-    ],
+    // Add other plants here if they also have multiple slots for a single type of hat
   };
-
-  final Map<String, List<Map<String, dynamic>>> caraConfigs = {
-    'assets/plantas/cactus.svg': [
-      {'top': 50, 'left': -60.0, 'scale': .3, 'rotation': 0.0},
-    ],
-    'assets/plantas/Girasol.svg': [
-      {'top': 45, 'left': -60, 'scale': .2, 'rotation': 0},
-    ],
-    'assets/plantas/sprout.svg': [
-      {'top': 188, 'left': -24.0, 'scale': .1, 'rotation': 0},
-    ],
-    'assets/plantas/carnivora.svg': [
-      {'top': -36, 'left': -80, 'scale': .3, 'rotation': 0.4},
-    ],
+  final Map<String, List<Map<String, dynamic>>> multiSlotCaraConfigs = {
     'assets/plantas/bambu.svg': [
+      // Bambu has two slots for the selected cara
       {'top': 80, 'left': -104.0, 'scale': .1, 'rotation': 0},
-      {'top': 168.0, 'left': -54.0, 'scale': .1, 'rotation': 0.0},
+      {'top': 168.0, 'left': -54.0, 'scale': .1, 'rotation': 0.0}, // Slot 2
     ],
-    'assets/plantas/lotus.svg': [
-      {'top': 45, 'left': -32, 'scale': .3, 'rotation': 0.0},
-    ],
-    'assets/plantas/Planeta.svg': [
-      {'top': 94, 'left': 16, 'scale': .5, 'rotation': 0},
-    ],
+    // Add other plants here if they also have multiple slots for a single type of cara
   };
-  final Map<String, List<Map<String, dynamic>>> cuerpoConfigs = {
-    'assets/plantas/cactus.svg': [
-      {'top': 84, 'left': 76, 'scale': .4, 'rotation': 0.0},
-    ],
-    'assets/plantas/Girasol.svg': [
-      {'top': 0, 'left': 124.0, 'scale': .2, 'rotation': 0.3},
-    ],
-    'assets/plantas/sprout.svg': [
-      {'top': -24.0, 'left': 48.0, 'scale': .1, 'rotation': -0.1},
-    ],
-    'assets/plantas/carnivora.svg': [
-      {'top': -4, 'left': 124.0, 'scale': 2.0, 'rotation': 0.6},
-    ],
+  final Map<String, List<Map<String, dynamic>>> multiSlotCuerpoConfigs = {
     'assets/plantas/bambu.svg': [
-      {'top': -20, 'left': 64.0, 'scale': 2.0, 'rotation': 0.6},
-      {'top': 48.0, 'left': 104.0, 'scale': 2.0, 'rotation': 0.0},
+      // Bambu has two slots for the selected cuerpo
+      {'top': 188, 'left': 64.0, 'scale': 2.0, 'rotation': 0.0},
+      {'top': 288, 'left': 118.0, 'scale': 2.0, 'rotation': 0.0},
     ],
-    'assets/plantas/lotus.svg': [
-      {'top': 0.0, 'left': 172.0, 'scale': 4.0, 'rotation': 0.3},
-    ],
-    'assets/plantas/Planeta.svg': [
-      {'top': -30.0, 'left': 294.0, 'scale': 6.0, 'rotation': 0.6},
-    ],
+    // Add other plants here if they also have multiple slots for a single type of cuerpo
   };
+
+  final Map<String, Map<String, Map<String, dynamic>>> sombreroConfigs = {
+    'assets/plantas/cactus.svg': {
+      // Plant: Cactus
+      'assets/sombreros/cono.svg': {
+        // Accessory: Cono
+        'top': -.0, 'left': 94.0, 'scale': 3.5, 'rotation': 0.0,
+      },
+      'assets/sombreros/beanie.svg': {
+        // Accessory: Beanie
+        'top': -10.0,
+        'left': 90.0,
+        'scale': 3.2,
+        'rotation': -0.32, // Example different values
+      },
+      'assets/sombreros/cowboy.svg': {
+        'top': 8.0,
+        'left': 76.0,
+        'scale': 2.8,
+        'rotation': 0.1,
+      },
+      'assets/sombreros/halo.svg': {
+        'top': -25.0,
+        'left': 80.0,
+        'scale': 2,
+        'rotation': 0.0,
+      },
+      'assets/sombreros/monho.svg': {
+        'top': 8.0,
+        'left': 120.0,
+        'scale': 2,
+        'rotation': 0.3,
+      },
+    },
+    'assets/plantas/Girasol.svg': {
+      'assets/sombreros/cono.svg': {
+        'top': -4.0,
+        'left': 128.0,
+        'scale': 4.0,
+        'rotation': 0.3,
+      },
+      'assets/sombreros/cowboy.svg': {
+        'top': -15.0,
+        'left': 90.0,
+        'scale': 3.8,
+        'rotation': 0.1,
+      },
+      'assets/sombreros/halo.svg': {
+        'top': -25.0,
+        'left': 95.0,
+        'scale': 2.5,
+        'rotation': 0.0,
+      },
+      'assets/sombreros/monho.svg': {
+        'top': -8.0,
+        'left': 100.0,
+        'scale': 3.0,
+        'rotation': 0.15,
+      },
+    },
+    'assets/plantas/sprout.svg': {
+      'assets/sombreros/cono.svg': {
+        'top': -24.0,
+        'left': 48.0,
+        'scale': 2.5,
+        'rotation': -0.1,
+      },
+      'assets/sombreros/cowboy.svg': {
+        'top': -15.0,
+        'left': 90.0,
+        'scale': 3.8,
+        'rotation': 0.1,
+      },
+      'assets/sombreros/halo.svg': {
+        'top': -25.0,
+        'left': 95.0,
+        'scale': 2.5,
+        'rotation': 0.0,
+      },
+      'assets/sombreros/monho.svg': {
+        'top': -8.0,
+        'left': 100.0,
+        'scale': 3.0,
+        'rotation': 0.15,
+      },
+    },
+
+    'assets/plantas/carnivora.svg': {
+      'assets/sombreros/cono.svg': {
+        'top': -4.0,
+        'left': 124.0,
+        'scale': 2.0,
+        'rotation': 0.6,
+      },
+      'assets/sombreros/cowboy.svg': {
+        'top': -15.0,
+        'left': 90.0,
+        'scale': 3.8,
+        'rotation': 0.1,
+      },
+      'assets/sombreros/halo.svg': {
+        'top': -25.0,
+        'left': 95.0,
+        'scale': 2.5,
+        'rotation': 0.0,
+      },
+      'assets/sombreros/monho.svg': {
+        'top': -8.0,
+        'left': 100.0,
+        'scale': 3.0,
+        'rotation': 0.15,
+      },
+    },
+    'assets/plantas/lotus.svg': {
+      'assets/sombreros/cono.svg': {
+        'top': -4.0,
+        'left': 176.0,
+        'scale': 4.0,
+        'rotation': 0.3,
+      },
+      'assets/sombreros/cowboy.svg': {
+        'top': -15.0,
+        'left': 90.0,
+        'scale': 3.8,
+        'rotation': 0.1,
+      },
+      'assets/sombreros/halo.svg': {
+        'top': -25.0,
+        'left': 95.0,
+        'scale': 2.5,
+        'rotation': 0.0,
+      },
+      'assets/sombreros/monho.svg': {
+        'top': -8.0,
+        'left': 100.0,
+        'scale': 3.0,
+        'rotation': 0.15,
+      },
+    },
+    'assets/plantas/Planeta.svg': {
+      'assets/sombreros/cono.svg': {
+        'top': -30.0,
+        'left': 294.0,
+        'scale': 6.0,
+        'rotation': 0.6,
+      },
+      'assets/sombreros/cowboy.svg': {
+        'top': -15.0,
+        'left': 90.0,
+        'scale': 3.8,
+        'rotation': 0.1,
+      },
+      'assets/sombreros/halo.svg': {
+        'top': -25.0,
+        'left': 95.0,
+        'scale': 2.5,
+        'rotation': 0.0,
+      },
+      'assets/sombreros/monho.svg': {
+        'top': -8.0,
+        'left': 100.0,
+        'scale': 3.0,
+        'rotation': 0.15,
+      },
+    },
+  };
+
+  final Map<String, Map<String, Map<String, dynamic>>> caraConfigs = {
+    'assets/plantas/cactus.svg': {
+      'assets/cara/gadas.svg': {
+        'top': 50,
+        'left': -60.0,
+        'scale': .3,
+        'rotation': 0.0,
+      },
+      'assets/cara/curita.svg': {
+        'top': 50,
+        'left': -60.0,
+        'scale': .3,
+        'rotation': 0.0,
+      },
+      'assets/cara/payaso.svg': {
+        'top': 50,
+        'left': -60.0,
+        'scale': .3,
+        'rotation': 0.0,
+      },
+      'assets/cara/pestenegra.svg': {
+        'top': 50,
+        'left': -60.0,
+        'scale': .3,
+        'rotation': 0.0,
+      },
+      'assets/cara/tapabocasvr1.svg': {
+        'top': 50,
+        'left': -60.0,
+        'scale': .3,
+        'rotation': 0.0,
+      },
+    },
+    'assets/plantas/Girasol.svg': {
+      'assets/cara/gadas.svg': {
+        'top': 45,
+        'left': -60,
+        'scale': .2,
+        'rotation': 0,
+      },
+      'assets/cara/curita.svg': {
+        'top': 45,
+        'left': -60,
+        'scale': .2,
+        'rotation': 0,
+      },
+      'assets/cara/payaso.svg': {
+        'top': 45,
+        'left': -60,
+        'scale': .2,
+        'rotation': 0,
+      },
+      'assets/cara/pestenegra.svg': {
+        'top': 45,
+        'left': -60,
+        'scale': .2,
+        'rotation': 0,
+      },
+      'assets/cara/tapabocasvr1.svg': {
+        'top': 45,
+        'left': -60,
+        'scale': .2,
+        'rotation': 0,
+      },
+    },
+    'assets/plantas/sprout.svg': {
+      'assets/cara/gadas.svg': {
+        'top': 188,
+        'left': -24.0,
+        'scale': .1,
+        'rotation': 0,
+      },
+      'assets/cara/curita.svg': {
+        'top': 188,
+        'left': -24.0,
+        'scale': .1,
+        'rotation': 0,
+      },
+      'assets/cara/payaso.svg': {
+        'top': 188,
+        'left': -24.0,
+        'scale': .1,
+        'rotation': 0,
+      },
+      'assets/cara/pestenegra.svg': {
+        'top': 188,
+        'left': -24.0,
+        'scale': .1,
+        'rotation': 0,
+      },
+      'assets/cara/tapabocasvr1.svg': {
+        'top': 188,
+        'left': -24.0,
+        'scale': .1,
+        'rotation': 0,
+      },
+    },
+    'assets/plantas/carnivora.svg': {
+      'assets/cara/gadas.svg': {
+        'top': -36,
+        'left': -80,
+        'scale': .3,
+        'rotation': 0.4,
+      },
+      'assets/cara/curita.svg': {
+        'top': -36,
+        'left': -80,
+        'scale': .3,
+        'rotation': 0.4,
+      },
+      'assets/cara/payaso.svg': {
+        'top': -36,
+        'left': -80,
+        'scale': .3,
+        'rotation': 0.4,
+      },
+      'assets/cara/pestenegra.svg': {
+        'top': -36,
+        'left': -80,
+        'scale': .3,
+        'rotation': 0.4,
+      },
+      'assets/cara/tapabocasvr1.svg': {
+        'top': -36,
+        'left': -80,
+        'scale': .3,
+        'rotation': 0.4,
+      },
+    },
+    'assets/plantas/lotus.svg': {
+      'assets/cara/gadas.svg': {
+        'top': 45,
+        'left': -32,
+        'scale': .3,
+        'rotation': 0.0,
+      },
+      'assets/cara/curita.svg': {
+        'top': 45,
+        'left': -32,
+        'scale': .3,
+        'rotation': 0.0,
+      },
+      'assets/cara/payaso.svg': {
+        'top': 45,
+        'left': -32,
+        'scale': .3,
+        'rotation': 0.0,
+      },
+      'assets/cara/pestenegra.svg': {
+        'top': 45,
+        'left': -32,
+        'scale': .3,
+        'rotation': 0.0,
+      },
+      'assets/cara/tapabocasvr1.svg': {
+        'top': 45,
+        'left': -32,
+        'scale': .3,
+        'rotation': 0.0,
+      },
+    },
+    'assets/plantas/Planeta.svg': {
+      'assets/cara/gadas.svg': {
+        'top': 94,
+        'left': 16,
+        'scale': .5,
+        'rotation': 0,
+      },
+      'assets/cara/curita.svg': {
+        'top': 94,
+        'left': 16,
+        'scale': .5,
+        'rotation': 0,
+      },
+      'assets/cara/payaso.svg': {
+        'top': 94,
+        'left': 16,
+        'scale': .5,
+        'rotation': 0,
+      },
+      'assets/cara/pestenegra.svg': {
+        'top': 94,
+        'left': 16,
+        'scale': .5,
+        'rotation': 0,
+      },
+      'assets/cara/tapabocasvr1.svg': {
+        'top': 94,
+        'left': 16,
+        'scale': .5,
+        'rotation': 0,
+      },
+    },
+  };
+
+  final Map<String, Map<String, Map<String, dynamic>>> cuerpoConfigs = {
+    'assets/plantas/cactus.svg': {
+      'assets/cuerpo/corbata.svg': {
+        'top': 188,
+        'left': 110,
+        'scale': 2.5,
+        'rotation': 0.0,
+      },
+      'assets/cuerpo/bufanda.svg': {
+        'top': 188,
+        'left': 110,
+        'scale': 2.5,
+        'rotation': 0.0,
+      },
+      'assets/cuerpo/canguro.svg': {
+        'top': 188,
+        'left': 110,
+        'scale': 2.5,
+        'rotation': 0.0,
+      },
+      'assets/cuerpo/capa.svg': {
+        'top': 188,
+        'left': 110,
+        'scale': 2.5,
+        'rotation': 0.0,
+      },
+      'assets/cuerpo/alas.svg': {
+        'top': 188,
+        'left': 110,
+        'scale': 2.5,
+        'rotation': 0.0,
+      },
+    },
+    'assets/plantas/Girasol.svg': {
+      'assets/cuerpo/corbata.svg': {
+        'top': 188,
+        'left': 110,
+        'scale': 2.5,
+        'rotation': 0,
+      },
+      'assets/cuerpo/bufanda.svg': {
+        'top': 188,
+        'left': 110,
+        'scale': 2.5,
+        'rotation': 0,
+      },
+      'assets/cuerpo/canguro.svg': {
+        'top': 188,
+        'left': 110,
+        'scale': 2.5,
+        'rotation': 0,
+      },
+      'assets/cuerpo/capa.svg': {
+        'top': 188,
+        'left': 110,
+        'scale': 2.5,
+        'rotation': 0,
+      },
+      'assets/cuerpo/alas.svg': {
+        'top': 188,
+        'left': 110,
+        'scale': 2.5,
+        'rotation': 0,
+      },
+    },
+    'assets/plantas/sprout.svg': {
+      'assets/cuerpo/corbata.svg': {
+        'top': 300,
+        'left': 146,
+        'scale': 2,
+        'rotation': 0,
+      },
+      'assets/cuerpo/bufanda.svg': {
+        'top': 288,
+        'left': 142,
+        'scale': 2,
+        'rotation': 0,
+      },
+      'assets/cuerpo/canguro.svg': {
+        'top': 288,
+        'left': 142,
+        'scale': 2,
+        'rotation': 0,
+      },
+      'assets/cuerpo/capa.svg': {
+        'top': 288,
+        'left': 142,
+        'scale': 2,
+        'rotation': 0,
+      },
+      'assets/cuerpo/alas.svg': {
+        'top': 288,
+        'left': 142,
+        'scale': 2,
+        'rotation': 0,
+      },
+    },
+    'assets/plantas/carnivora.svg': {
+      'assets/cuerpo/corbata.svg': {
+        'top': 104,
+        'left': 144.0,
+        'scale': 3,
+        'rotation': 0,
+      },
+      'assets/cuerpo/bufanda.svg': {
+        'top': 104,
+        'left': 144.0,
+        'scale': 3,
+        'rotation': 0,
+      },
+      'assets/cuerpo/canguro.svg': {
+        'top': 104,
+        'left': 144.0,
+        'scale': 3,
+        'rotation': 0,
+      },
+      'assets/cuerpo/capa.svg': {
+        'top': 104,
+        'left': 144.0,
+        'scale': 3,
+        'rotation': 0,
+      },
+      'assets/cuerpo/alas.svg': {
+        'top': 104,
+        'left': 144.0,
+        'scale': 3,
+        'rotation': 0,
+      },
+    },
+    'assets/plantas/lotus.svg': {
+      'assets/cuerpo/corbata.svg': {
+        'top': 204,
+        'left': 142,
+        'scale': 3.5,
+        'rotation': 0,
+      },
+      'assets/cuerpo/bufanda.svg': {
+        'top': 204,
+        'left': 142,
+        'scale': 3.5,
+        'rotation': 0,
+      },
+      'assets/cuerpo/canguro.svg': {
+        'top': 204,
+        'left': 142,
+        'scale': 3.5,
+        'rotation': 0,
+      },
+      'assets/cuerpo/capa.svg': {
+        'top': 204,
+        'left': 142,
+        'scale': 3.5,
+        'rotation': 0,
+      },
+      'assets/cuerpo/alas.svg': {
+        'top': 204,
+        'left': 142,
+        'scale': 3.5,
+        'rotation': 0,
+      },
+    },
+    'assets/plantas/Planeta.svg': {
+      'assets/cuerpo/corbata.svg': {
+        'top': -30.0,
+        'left': 294.0,
+        'scale': 2.0,
+        'rotation': 0.6,
+      },
+      'assets/cuerpo/bufanda.svg': {
+        'top': -30.0,
+        'left': 294.0,
+        'scale': 2.0,
+        'rotation': 0.6,
+      },
+      'assets/cuerpo/canguro.svg': {
+        'top': -30.0,
+        'left': 294.0,
+        'scale': 2.0,
+        'rotation': 0.6,
+      },
+      'assets/cuerpo/capa.svg': {
+        'top': -30.0,
+        'left': 294.0,
+        'scale': 2.0,
+        'rotation': 0.6,
+      },
+      'assets/cuerpo/alas.svg': {
+        'top': -30.0,
+        'left': 294.0,
+        'scale': 2.0,
+        'rotation': 0.6,
+      },
+    },
+  };
+
+  // Inside _ArmarioScreenState
+  // Inside _ArmarioScreenState
+  Widget _buildAccessoryWidget({
+    required String accessoryPath,
+    required double responsiveTopPx, // Directly use this
+    required double responsiveLeftPx, // Directly use this
+    required double responsiveScale, // Directly use this
+    required double rotationValue, // Directly use this
+    required String typeKey,
+  }) {
+    // THE EXTRACTION LOGIC USING 'config' SHOULD BE REMOVED FROM HERE
+    // final double top = (config['top'] as num?)?.toDouble() ?? 0.0; // REMOVE
+    // final double left = (config['left'] as num?)?.toDouble() ?? 0.0; // REMOVE
+    // final double scale = (config['scale'] as num?)?.toDouble() ?? 1.0; // REMOVE
+    // final double rotation = (config['rotation'] as num?)?.toDouble() ?? 0.0; // REMOVE
+
+    return Positioned(
+      key: ValueKey(
+        // Using a more robust key combining accessory and config details
+        "${typeKey}_${accessoryPath.hashCode}_${responsiveTopPx.toStringAsFixed(2)}_${responsiveLeftPx.toStringAsFixed(2)}",
+      ),
+      top: responsiveTopPx, // Use the passed responsive value
+      left: responsiveLeftPx, // Use the passed responsive value
+      child: Transform.rotate(
+        angle: rotationValue, // Use the passed rotation value
+        child: Transform.scale(
+          scale: responsiveScale, // Use the passed responsive scale
+          child: SvgPicture.asset(
+            accessoryPath,
+            // Another key for the SvgPicture itself
+            key: ValueKey("${typeKey}_svg_${accessoryPath.hashCode}"),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -212,6 +759,20 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
         final screenHeight = constraints.maxHeight;
         double relWidth(double w) => screenWidth * (w / 440);
         double relHeight(double h) => screenHeight * (h / 956);
+        final double actualPlantDisplayHeight = relHeight(
+          designPlantDisplayHeight,
+        );
+        final double actualPlantDisplayWidth = relWidth(
+          designPlantDisplayWidth,
+        );
+
+        // Calculate scaling factors
+        final double heightScaleFactor =
+            actualPlantDisplayHeight / designPlantDisplayHeight;
+        final double widthScaleFactor =
+            actualPlantDisplayWidth / designPlantDisplayWidth;
+        // You can choose one factor for scale, e.g., heightScaleFactor, or average, or keep scale unadjusted
+        final double accessoryScaleFactor = heightScaleFactor;
 
         return Scaffold(
           backgroundColor: const Color.fromRGBO(
@@ -272,75 +833,252 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                 children: [
                                   SvgPicture.asset(
                                     plantaEquipada,
-                                    key: ValueKey(plantaEquipada),
+                                    key: ValueKey(
+                                      "plant_$plantaEquipada",
+                                    ), // More specific key
                                     height: relHeight(400),
                                   ),
-                                  if (sombreroEquipado != null &&
-                                      sombreroConfigs[plantaEquipada] != null)
-                                    ...sombreroConfigs[plantaEquipada]!.map((
-                                      config,
-                                    ) {
-                                      return Positioned(
-                                        top: config['top'],
-                                        left: config['left'],
-                                        child: Transform.rotate(
-                                          angle: config['rotation'],
-                                          child: Transform.scale(
-                                            scale: config['scale'],
-                                            child: SvgPicture.asset(
-                                              sombreroEquipado!,
-                                              key: ValueKey(
-                                                "sombrero-$sombreroEquipado",
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                  if (caraEquipada != null &&
-                                      caraConfigs[plantaEquipada] != null)
-                                    ...caraConfigs[plantaEquipada]!.map((
-                                      config,
-                                    ) {
-                                      return Positioned(
-                                        top: config['top'],
-                                        left: config['left'],
-                                        child: Transform.rotate(
-                                          angle: config['rotation'],
-                                          child: Transform.scale(
-                                            scale: config['scale'],
-                                            child: SvgPicture.asset(
-                                              caraEquipada!,
-                                              key: ValueKey(
-                                                "cara-$caraEquipada",
-                                              ),
-                                            ), // PNG
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                  if (cuerpoEquipado != null &&
-                                      cuerpoConfigs[plantaEquipada] != null)
-                                    ...cuerpoConfigs[plantaEquipada]!.map((
-                                      config,
-                                    ) {
-                                      return Positioned(
-                                        top: config['top'],
-                                        left: config['left'],
-                                        child: Transform.rotate(
-                                          angle: config['rotation'],
-                                          child: Transform.scale(
-                                            scale: config['scale'],
-                                            child: SvgPicture.asset(
-                                              cuerpoEquipado!,
-                                              key: ValueKey(
-                                                "cuerpo-$cuerpoEquipado",
-                                              ),
-                                            ), // PNG
-                                          ),
-                                        ),
-                                      );
-                                    }),
+                                  if (sombreroEquipado != null)
+                                    // Check if it's a multi-slot plant for sombreros (like Bambu)
+                                    if (multiSlotSombreroConfigs.containsKey(
+                                      plantaEquipada,
+                                    ))
+                                      ...(multiSlotSombreroConfigs[plantaEquipada] ??
+                                              [])
+                                          .map((slotConfig) {
+                                            final double originalTop =
+                                                (slotConfig['top'] as num?)
+                                                    ?.toDouble() ??
+                                                0.0;
+                                            final double originalLeft =
+                                                (slotConfig['left'] as num?)
+                                                    ?.toDouble() ??
+                                                0.0;
+                                            final double originalScale =
+                                                (slotConfig['scale'] as num?)
+                                                    ?.toDouble() ??
+                                                1.0;
+                                            final double originalRotation =
+                                                (slotConfig['rotation'] as num?)
+                                                    ?.toDouble() ??
+                                                0.0;
+
+                                            return _buildAccessoryWidget(
+                                              accessoryPath: sombreroEquipado!,
+                                              responsiveTopPx:
+                                                  originalTop *
+                                                  heightScaleFactor,
+                                              responsiveLeftPx:
+                                                  originalLeft *
+                                                  widthScaleFactor,
+                                              responsiveScale:
+                                                  originalScale *
+                                                  accessoryScaleFactor, // Or just originalScale
+                                              rotationValue: originalRotation,
+                                              typeKey:
+                                                  'sombrero_multi_${slotConfig.hashCode}',
+                                            );
+                                          })
+                                          .toList()
+                                    // Else, it's a single-slot plant or accessory-specific config
+                                    else if (sombreroConfigs.containsKey(
+                                          plantaEquipada,
+                                        ) &&
+                                        sombreroConfigs[plantaEquipada]!
+                                            .containsKey(sombreroEquipado!))
+                                      () {
+                                        // Use a self-invoking function to scope variables
+                                        final Map<String, dynamic> itemConfig =
+                                            sombreroConfigs[plantaEquipada]![sombreroEquipado!]!;
+                                        final double originalTop =
+                                            (itemConfig['top'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+                                        final double originalLeft =
+                                            (itemConfig['left'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+                                        final double originalScale =
+                                            (itemConfig['scale'] as num?)
+                                                ?.toDouble() ??
+                                            1.0;
+                                        final double originalRotation =
+                                            (itemConfig['rotation'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+
+                                        return _buildAccessoryWidget(
+                                          accessoryPath: sombreroEquipado!,
+                                          responsiveTopPx:
+                                              originalTop * heightScaleFactor,
+                                          responsiveLeftPx:
+                                              originalLeft * widthScaleFactor,
+                                          responsiveScale:
+                                              originalScale *
+                                              accessoryScaleFactor, // Or just originalScale
+                                          rotationValue: originalRotation,
+                                          typeKey: 'sombrero_single',
+                                        );
+                                      }(), // Immediately invoke the function
+                                  // Cuerpo
+                                  if (caraEquipada != null)
+                                    if (multiSlotCaraConfigs.containsKey(
+                                      plantaEquipada,
+                                    ))
+                                      ...(multiSlotCaraConfigs[plantaEquipada] ??
+                                              [])
+                                          .map((slotConfig) {
+                                            final double originalTop =
+                                                (slotConfig['top'] as num?)
+                                                    ?.toDouble() ??
+                                                0.0;
+                                            final double originalLeft =
+                                                (slotConfig['left'] as num?)
+                                                    ?.toDouble() ??
+                                                0.0;
+                                            final double originalScale =
+                                                (slotConfig['scale'] as num?)
+                                                    ?.toDouble() ??
+                                                1.0;
+                                            final double originalRotation =
+                                                (slotConfig['rotation'] as num?)
+                                                    ?.toDouble() ??
+                                                0.0;
+
+                                            return _buildAccessoryWidget(
+                                              accessoryPath: caraEquipada!,
+                                              responsiveTopPx:
+                                                  originalTop *
+                                                  heightScaleFactor,
+                                              responsiveLeftPx:
+                                                  originalLeft *
+                                                  widthScaleFactor,
+                                              responsiveScale:
+                                                  originalScale *
+                                                  accessoryScaleFactor, // Or just originalScale
+                                              rotationValue: originalRotation,
+                                              typeKey:
+                                                  'cara_multi_${slotConfig.hashCode}',
+                                            );
+                                          })
+                                          .toList()
+                                    else if (caraConfigs.containsKey(
+                                          plantaEquipada,
+                                        ) &&
+                                        caraConfigs[plantaEquipada]!
+                                            .containsKey(caraEquipada!))
+                                      () {
+                                        final Map<String, dynamic> itemConfig =
+                                            caraConfigs[plantaEquipada]![caraEquipada!]!;
+                                        final double originalTop =
+                                            (itemConfig['top'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+                                        final double originalLeft =
+                                            (itemConfig['left'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+                                        final double originalScale =
+                                            (itemConfig['scale'] as num?)
+                                                ?.toDouble() ??
+                                            1.0;
+                                        final double originalRotation =
+                                            (itemConfig['rotation'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+
+                                        return _buildAccessoryWidget(
+                                          accessoryPath: caraEquipada!,
+                                          responsiveTopPx:
+                                              originalTop * heightScaleFactor,
+                                          responsiveLeftPx:
+                                              originalLeft * widthScaleFactor,
+                                          responsiveScale:
+                                              originalScale *
+                                              accessoryScaleFactor, // Or just originalScale
+                                          rotationValue: originalRotation,
+                                          typeKey: 'cara_single',
+                                        );
+                                      }(),
+                                  if (cuerpoEquipado != null)
+                                    if (multiSlotCuerpoConfigs.containsKey(
+                                      plantaEquipada,
+                                    ))
+                                      ...(multiSlotCuerpoConfigs[plantaEquipada] ??
+                                              [])
+                                          .map((slotConfig) {
+                                            final double originalTop =
+                                                (slotConfig['top'] as num?)
+                                                    ?.toDouble() ??
+                                                0.0;
+                                            final double originalLeft =
+                                                (slotConfig['left'] as num?)
+                                                    ?.toDouble() ??
+                                                0.0;
+                                            final double originalScale =
+                                                (slotConfig['scale'] as num?)
+                                                    ?.toDouble() ??
+                                                1.0;
+                                            final double originalRotation =
+                                                (slotConfig['rotation'] as num?)
+                                                    ?.toDouble() ??
+                                                0.0;
+
+                                            return _buildAccessoryWidget(
+                                              accessoryPath: cuerpoEquipado!,
+                                              responsiveTopPx:
+                                                  originalTop *
+                                                  heightScaleFactor,
+                                              responsiveLeftPx:
+                                                  originalLeft *
+                                                  widthScaleFactor,
+                                              responsiveScale:
+                                                  originalScale *
+                                                  accessoryScaleFactor, // Or just originalScale
+                                              rotationValue: originalRotation,
+                                              typeKey:
+                                                  'cuerpo_multi_${slotConfig.hashCode}',
+                                            );
+                                          })
+                                          .toList()
+                                    else if (cuerpoConfigs.containsKey(
+                                          plantaEquipada,
+                                        ) &&
+                                        cuerpoConfigs[plantaEquipada]!
+                                            .containsKey(cuerpoEquipado!))
+                                      () {
+                                        final Map<String, dynamic> itemConfig =
+                                            cuerpoConfigs[plantaEquipada]![cuerpoEquipado!]!;
+                                        final double originalTop =
+                                            (itemConfig['top'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+                                        final double originalLeft =
+                                            (itemConfig['left'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+                                        final double originalScale =
+                                            (itemConfig['scale'] as num?)
+                                                ?.toDouble() ??
+                                            1.0;
+                                        final double originalRotation =
+                                            (itemConfig['rotation'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+
+                                        return _buildAccessoryWidget(
+                                          accessoryPath: cuerpoEquipado!,
+                                          responsiveTopPx:
+                                              originalTop * heightScaleFactor,
+                                          responsiveLeftPx:
+                                              originalLeft * widthScaleFactor,
+                                          responsiveScale:
+                                              originalScale *
+                                              accessoryScaleFactor, // Or just originalScale
+                                          rotationValue: originalRotation,
+                                          typeKey: 'cuerpo_single',
+                                        );
+                                      }(),
                                 ],
                               ),
                             ),
@@ -706,10 +1444,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                   child: SideButtons(
                     showArmario: false,
                     onTiendaTap: () {
-                      debugPrint("Tienda tapped!");
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Tienda presionada")),
-                      );
+                      Navigator.pushNamed(context, '/tienda');
                     },
                   ),
                 ),
