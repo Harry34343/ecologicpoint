@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:a/widgets/shopitem.dart';
+import 'package:a/widgets/shopitem.dart'; // Assuming your ShopItem class is here
 import 'package:a/widgets/button.dart' as button;
-// Import your ShopItem model if you created one
-// import 'models/shop_item.dart';
+import 'package:a/widgets/item_detail_popup.dart';
+import 'dart:ui' as ui;
 
 // --- Re-using your NoGlowScrollBehavior ---
 class NoGlowScrollBehavior extends ScrollBehavior {
@@ -19,6 +19,9 @@ class NoGlowScrollBehavior extends ScrollBehavior {
   }
 }
 
+// (Keep your shelvesData and ShopItem class definition as they are)
+// ... your shelvesData ...
+// ... your ShopItem class ...
 final List<List<ShopItem>> shelvesData = [
   // Shelf 1 (Plants)
   [
@@ -31,128 +34,136 @@ final List<List<ShopItem>> shelvesData = [
     ),
     ShopItem(
       id: 'plant2',
-      name: 'Carnivorous',
+      name: 'Planta Carnívora',
       imageAsset: 'assets/plantas/carnivora.svg',
       price: 250,
       category: 'Plants',
     ),
     ShopItem(
       id: 'plant3',
-      name: 'Bamboo',
+      name: 'Bambú',
       imageAsset: 'assets/plantas/bambu.svg',
       price: 300,
-      category: 'Plants',
-    ),
-    ShopItem(
-      id: 'plant4',
-      name: 'Sunflower',
-      imageAsset: 'assets/plantas/Girasol.svg',
-      price: 200,
-      category: 'Plants',
-    ),
-    ShopItem(
-      id: 'plant5',
-      name: 'lotusflower',
-      imageAsset: 'assets/plantas/lotus.svg',
-      price: 250,
-      category: 'Plants',
-    ),
-    ShopItem(
-      id: 'plant6',
-      name: 'sprout',
-      imageAsset: 'assets/plantas/sprout.svg',
-      price: 0,
-      category: 'Plants',
-    ),
-    ShopItem(
-      id: 'Plant7',
-      name: 'Earth',
-      imageAsset: 'assets/planras/Planeta.svg',
-      price: 400,
       category: 'Plants',
     ),
   ],
   // Shelf 2 (Face/Head)
   [
     ShopItem(
-      id: 'head1',
-      name: 'Planet Head',
-      imageAsset: 'assets/items/planet_head.svg',
-      price: 300,
-      category: 'Head',
+      id: 'plant4',
+      name: 'Girasol',
+      imageAsset: 'assets/plantas/Girasol.svg',
+      price: 200,
+      category: 'Plants',
     ),
     ShopItem(
-      id: 'face1',
-      name: 'Plague Mask',
-      imageAsset: 'assets/items/plague_mask.svg',
-      price: 100,
-      category: 'Face',
+      id: 'plant5',
+      name: 'Flor de Loto',
+      imageAsset: 'assets/plantas/lotus.svg',
+      price: 250,
+      category: 'Plants',
     ),
     ShopItem(
-      id: 'face2',
-      name: 'Face Mask',
-      imageAsset: 'assets/items/face_mask.svg',
-      price: 75,
-      category: 'Face',
+      id: 'plant6',
+      name: 'Planta Brote',
+      imageAsset: 'assets/plantas/sprout.svg',
+      price: 0,
+      category: 'Plants',
     ),
   ],
   // Shelf 3 (Face/Body)
   [
     ShopItem(
-      id: 'face3',
-      name: 'Clown Face',
-      imageAsset: 'assets/items/clown_face.svg',
+      id: 'Plant7',
+      name: 'Planeta Tierra',
+      imageAsset: 'assets/plantas/Planeta.svg',
+      price: 400,
+      category: 'Plants',
+    ),
+    ShopItem(
+      id: 'face1',
+      name: 'Curita',
+      imageAsset: 'assets/cara/curita.svg',
+      price: 300,
+      category: 'Head',
+    ),
+    ShopItem(
+      id: 'face2',
+      name: 'Peste Negra',
+      imageAsset: 'assets/cara/pestenegra.svg',
       price: 100,
       category: 'Face',
-    ),
-    ShopItem(
-      id: 'body1',
-      name: 'Ghost Cape',
-      imageAsset: 'assets/items/ghost_cape.svg',
-      price: 50,
-      category: 'Body',
-    ),
-    ShopItem(
-      id: 'body2',
-      name: 'Red Scarf',
-      imageAsset: 'assets/items/red_scarf.svg',
-      price: 50,
-      category: 'Body',
     ),
   ],
   // Shelf 4 (Body)
   [
     ShopItem(
-      id: 'body3',
-      name: 'Angel Wings',
-      imageAsset: 'assets/items/angel_wings.svg',
+      id: 'face3',
+      name: 'Tapabocas',
+      imageAsset: 'assets/cara/tapabocasvr1.svg',
+      price: 75,
+      category: 'Face',
+    ),
+    ShopItem(
+      id: 'face4',
+      name: 'Payaso',
+      imageAsset: 'assets/cara/payaso.svg',
+      price: 100,
+      category: 'Face',
+    ),
+    ShopItem(
+      id: 'face5',
+      name: 'Gafas de Sol',
+      imageAsset: 'assets/cara/gadas.svg',
       price: 150,
+      category: 'Face',
+    ),
+  ],
+  [
+    ShopItem(
+      id: 'body1',
+      name: 'Bufanda',
+      imageAsset: 'assets/cuerpo/bufanda.svg',
+      price: 50,
       category: 'Body',
     ),
     ShopItem(
-      id: 'body4',
-      name: 'Fanny Pack',
-      imageAsset: 'assets/items/fanny_pack.svg',
+      id: 'body2',
+      name: 'Capa',
+      imageAsset: 'assets/cuerpo/capa.svg',
+      price: 50,
+      category: 'Body',
+    ),
+    ShopItem(
+      id: 'body3',
+      name: 'Canguro',
+      imageAsset: 'assets/cuerpo/canguro.svg',
       price: 75,
       category: 'Body',
     ),
   ],
+  [
+    ShopItem(
+      id: 'body4',
+      name: 'Alas',
+      imageAsset: 'assets/cuerpo/alas.svg',
+      price: 150,
+      category: 'Body',
+    ),
+    ShopItem(
+      id: 'body5',
+      name: 'Corbata',
+      imageAsset: 'assets/cuerpo/corbata.svg',
+      price: 100,
+      category: 'Body',
+    ),
+  ],
 ];
-// --- Dummy Data (or import from your data file) ---
-// (Paste the shelvesData list here if not importing)
-// For example:
-// final List<List<Map<String, dynamic>>> shelvesData = [ ... item maps ... ];
-// Or if using the ShopItem class:
-// final List<List<ShopItem>> shelvesData = [ ... ShopItem instances ... ];
-// Make sure your dummy data item structure matches how you use it below.
-// For simplicity in this example, I'll assume item is a Map.
-// If using ShopItem class, access fields like item.imageAsset, item.price
 
 class BoutiqueScreen extends StatelessWidget {
   const BoutiqueScreen({super.key});
 
-  // Placeholder for actual user currency
-  final int userCurrency = 1500;
+  final int userCurrency = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -162,170 +173,264 @@ class BoutiqueScreen extends StatelessWidget {
     double relHeight(double h) =>
         MediaQuery.of(context).size.height * (h / 956);
 
-    // Define some colors from the image
-    const Color backgroundColor =
-        Colors.transparent; // Light brown backgroundShelf shadow/edge
     const Color priceChipColor = Color(0xFFE6D0A4);
     const Color textBrownColor = Color(0xFF6A4B3A);
-    const Color greenAccent = Color(0xFF6B8E23); // For leaf icon and price
+    const Color greenAccent = Color(0xFF6B8E23);
+
+    // Height of the fixed header (awning part)
+    final double fixedHeaderHeight = screenHeight * 0.15;
+    // Get top padding for SafeArea, which will be applied to the fixed header.
+    // The scrollable content will then need to be padded by this amount + header height.
+    final double topSafeAreaPadding = MediaQuery.of(context).padding.top;
+    final double totalTopOffsetForScrollableContent =
+        fixedHeaderHeight + topSafeAreaPadding;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Color(
+        0xFFE9C982,
+      ), // Base color if tiendabk2.svg has transparency
+      // We don't use AppBar here, manually managing the top area.
       body: Stack(
+        // MASTER STACK: Layers everything
         children: [
-          // 1. Background SVG (if you have one that covers the whole screen)
-          // If your background SVG is simpler, you might not need Positioned.fill
-          if (true) // Set to true if you have a full-screen background SVG
-            Positioned.fill(
-              child: SvgPicture.asset(
-                'assets/tiendabk.svg', // Replace with your actual background
-                fit: BoxFit.cover,
-              ),
-            ),
+          // --- LAYER 1: SCROLLABLE BACKGROUND (tiendabk2.svg) & SCROLLABLE CONTENT (Title, Shelves) ---
+          ScrollConfiguration(
+            behavior: const NoGlowScrollBehavior(),
+            child: SingleChildScrollView(
+              // This padding ensures the scrollable content STARTS below the fixed header area.
+              padding: EdgeInsets.only(top: totalTopOffsetForScrollableContent),
+              child: Stack(
+                // Inner stack for layering tiendabk2.svg behind content
+                children: [
+                  // 1a. Main SCROLLABLE Background SVG (tiendabk2.svg)
+                  // This needs to appear as if it starts from the very top of the screen.
+                  // So, we use Positioned.fill and give it a negative top offset
+                  // equal to the padding we added to the SingleChildScrollView.
+                  Positioned.fill(
+                    top:
+                        -totalTopOffsetForScrollableContent, // Offset SVG upwards
+                    child: SvgPicture.asset(
+                      'assets/tiendabk2.svg',
+                      fit:
+                          BoxFit
+                              .cover, // Ensure it covers the entire scrollable area
+                      // (which can be taller than the screen)
+                    ),
+                  ),
 
-          // 2. Main Content Column
-          SafeArea(
-            bottom: false, // Usually, SafeArea is good for top content
-            child: Column(
-              children: [
-                // 2.1 Custom Header Area
-                SizedBox(
-                  height: screenHeight * 0.15, // Adjust as needed
-                  child: Stack(
+                  // 1b. Actual SCROLLABLE content (Title + Shelves)
+                  // This Column is the content that scrolls.
+                  // It's already effectively padded by the SingleChildScrollView's padding.
+                  Column(
                     children: [
-                      // Header Awning Background
-                      Positioned.fill(
-                        child: SvgPicture.asset(
-                          'assets/partedearribatienda.svg', // YOUR AWNING SVG
-                          fit:
-                              BoxFit
-                                  .fill, // Or BoxFit.fitWidth and adjust height
-                        ),
-                      ),
-                      // Header Content (Back button and Currency)
-                      Align(
-                        alignment:
-                            Alignment
-                                .center, // Vertically center within the awning space
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            top:
-                                screenHeight *
-                                0.04, // Push content down a bit from very top
-                            left: 20,
-                            right: 20,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Back Button
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                child: button.CustomIconButton(
-                                  isActivated: true,
-                                  icon: Icons.arrow_back,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ),
-                              // Currency Display
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: relWidth(12),
-                                  vertical: relHeight(4),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.monetization_on,
-                                      color: Color(0xFF355E3B),
-                                      size: relWidth(20),
-                                    ),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      userCurrency.toString(),
-                                      style: GoogleFonts.poppins(
-                                        fontSize: relWidth(16),
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF355E3B),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                      // "Boutique Botánica" Title
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 44.0),
+                        child: Text(
+                          'Boutique Botánica',
+                          style: GoogleFonts.agbalumo(
+                            fontSize: 32,
+                            color: Color.fromRGBO(122, 101, 69, 1),
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(1.0, 1.0),
+                                blurRadius: 1.0,
+                                color: Colors.black.withOpacity(0.2),
                               ),
                             ],
                           ),
                         ),
                       ),
+
+                      // Shelves ListView
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 8,
+                        ),
+                        itemCount: shelvesData.length,
+                        itemBuilder: (context, shelfIndex) {
+                          final List<ShopItem> currentShelfItems =
+                              shelvesData[shelfIndex];
+                          return _ShelfWidget(
+                            items: currentShelfItems,
+                            shelfColor: Colors.transparent,
+                            shelfAccentDark: Colors.transparent,
+                            priceChipColor: priceChipColor,
+                            textBrownColor: textBrownColor,
+                            greenAccent: greenAccent,
+                            onItemTap: (ShopItem itemData) {
+                              print(
+                                'Tapped on: ${itemData.name} for ${itemData.price}',
+                              );
+                              // Usamos el helper _showAppDialog que está ahora en ItemDetailPopup,
+                              // pero podríamos moverlo a un archivo de utilidades si se usa en más sitios.
+                              // Aquí directamente creamos el ItemDetailPopup.
+                              showGeneralDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                barrierLabel:
+                                    MaterialLocalizations.of(
+                                      context,
+                                    ).modalBarrierDismissLabel,
+                                barrierColor: Colors.black.withOpacity(0.2),
+                                transitionDuration: const Duration(
+                                  milliseconds: 300,
+                                ),
+                                pageBuilder: (
+                                  BuildContext buildContext,
+                                  Animation<double> animation,
+                                  Animation<double> secondaryAnimation,
+                                ) {
+                                  return Stack(
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      BackdropFilter(
+                                        filter: ui.ImageFilter.blur(
+                                          sigmaX: 3.5,
+                                          sigmaY: 3.5,
+                                        ),
+                                        child: Container(
+                                          color: Colors.transparent,
+                                        ),
+                                      ),
+                                      ItemDetailPopup(
+                                        item: itemData,
+                                        userCurrency:
+                                            userCurrency, // <<< PASA LA MONEDA AQUÍ
+                                      ),
+                                    ],
+                                  );
+                                },
+                                transitionBuilder: (
+                                  context,
+                                  animation,
+                                  secondaryAnimation,
+                                  child,
+                                ) {
+                                  final scaleTween = Tween<double>(
+                                    begin: 0.85,
+                                    end: 1.0,
+                                  );
+                                  final curveForScale = CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.elasticOut,
+                                    reverseCurve: Curves.easeInExpo,
+                                  );
+                                  final finalScaleAnimation = scaleTween
+                                      .animate(curveForScale);
+                                  return FadeTransition(
+                                    opacity: CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.easeOutCubic,
+                                    ),
+                                    child: ScaleTransition(
+                                      scale: finalScaleAnimation,
+                                      child: child,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      // Padding at the bottom of scrollable content
+                      SizedBox(
+                        height: MediaQuery.of(context).padding.bottom + 20,
+                      ),
                     ],
                   ),
-                ),
-                // 2.2 "Boutique Botánica" Title
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text(
-                    'Boutique Botánica',
-                    style: GoogleFonts.agbalumo(
-                      // 'Chewy' or 'Fredoka One' are also good playful options
-                      fontSize: 32,
-                      color: Color.fromRGBO(122, 101, 69, 1),
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          offset: Offset(1.0, 1.0),
-                          blurRadius: 1.0,
-                          color: Colors.black.withOpacity(0.2),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                ],
+              ),
+            ),
+          ),
 
-                // 2.3 Shelves
-                Expanded(
-                  child: ScrollConfiguration(
-                    behavior: const NoGlowScrollBehavior(),
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
+          // --- LAYER 2: FIXED TOP HEADER (Awning and Buttons) ---
+          // This is positioned at the top of the master Stack, thus appearing above Layer 1.
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              // Apply SafeArea to the fixed header for status bar insets
+              bottom:
+                  false, // Only top SafeArea is relevant for this fixed element
+              child: SizedBox(
+                height: fixedHeaderHeight,
+                child: Stack(
+                  children: [
+                    // Header Awning Background (partedearribatienda.svg)
+                    Positioned.fill(
+                      child: SvgPicture.asset(
+                        'assets/partedearribatienda.svg',
+                        fit: BoxFit.fill,
                       ),
-                      itemCount: shelvesData.length,
-                      itemBuilder: (context, shelfIndex) {
-                        final List<dynamic> currentShelfItems =
-                            shelvesData[shelfIndex]; // Use ShopItem if using the class
-
-                        return _ShelfWidget(
-                          items: currentShelfItems,
-                          shelfColor: Colors.transparent,
-                          shelfAccentDark: Colors.transparent,
-                          priceChipColor: priceChipColor,
-                          textBrownColor: textBrownColor,
-                          greenAccent: greenAccent,
-                          onItemTap: (itemData) {
-                            // Replace dynamic with ShopItem or Map
-                            // Handle item tap - e.g., show purchase confirmation
-                            print(
-                              'Tapped on: ${itemData['name']} for ${itemData['price']}',
-                            );
-                            // Example: ScaffoldMessenger.of(context).showSnackBar(
-                            //   SnackBar(content: Text('Buy ${itemData.name}?')),
-                            // );
-                          },
-                        );
-                      },
                     ),
-                  ),
+                    // Header Content (Back button and Currency)
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          // No explicit top padding here, SafeArea handles the status bar space.
+                          // The content within the awning is centered.
+                          left: 20,
+                          right: 20,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(247, 246, 235, 1),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              child: button.CustomIconButton(
+                                isActivated: true,
+                                icon: Icons.arrow_back,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: relWidth(12),
+                                vertical: relHeight(4),
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(247, 246, 235, 1),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.monetization_on,
+                                    color: Color(0xFF355E3B),
+                                    size: relWidth(20),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    userCurrency.toString(),
+                                    style: GoogleFonts.poppins(
+                                      fontSize: relWidth(16),
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFF355E3B),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ],
@@ -336,14 +441,13 @@ class BoutiqueScreen extends StatelessWidget {
 
 // --- Custom Shelf Widget ---
 class _ShelfWidget extends StatelessWidget {
-  final List<dynamic>
-  items; // Replace with List<ShopItem> or List<Map<String, dynamic>>
+  final List<ShopItem> items;
   final Color shelfColor;
   final Color shelfAccentDark;
   final Color priceChipColor;
   final Color textBrownColor;
   final Color greenAccent;
-  final Function(dynamic) onItemTap; // Replace dynamic with ShopItem or Map
+  final Function(ShopItem) onItemTap;
 
   const _ShelfWidget({
     required this.items,
@@ -358,35 +462,40 @@ class _ShelfWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    // Calculate item width based on 3 items per shelf, considering padding
+    // Adjust availableWidth for item calculation based on outer paddings and shelf paddings
+    final double outerHorizontalPadding = 40 * 2; // ListView.builder padding
+    final double shelfInternalHorizontalPadding =
+        10 * 2; // _ShelfWidget padding
+    // final double totalHorizontalPadding = outerHorizontalPadding + shelfInternalHorizontalPadding; // This was for old logic
+    final double availableWidthForShelfContent =
+        screenWidth - outerHorizontalPadding - shelfInternalHorizontalPadding;
+    // Assuming 3 items and approx 10px spacing between them (2 gaps)
+    final double spacingBetweenItems = 10 * 2;
     final double itemContainerWidth =
-        (screenWidth - 40 - (items.length - 1) * 10 - 20) / 3;
+        (availableWidthForShelfContent - spacingBetweenItems) / 3;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 25),
-      padding: const EdgeInsets.only(
-        top: 15,
-        bottom: 10,
-        left: 10,
-        right: 10,
-      ), // Padding inside the shelf
+      // Padding is now inside the _ShelfWidget
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       decoration: BoxDecoration(
-        color: shelfColor,
+        // Was 0.3, making it fully transparent
         borderRadius: BorderRadius.circular(12),
         border: Border(
-          top: BorderSide(color: shelfAccentDark.withOpacity(0.5), width: 3),
-          left: BorderSide(color: shelfAccentDark.withOpacity(0.3), width: 2),
-          right: BorderSide(color: shelfAccentDark.withOpacity(0.3), width: 2),
-          bottom: BorderSide(color: shelfAccentDark.withOpacity(0.7), width: 5),
+          // Keeping borders transparent as per your original code
+          top: BorderSide(color: shelfAccentDark.withOpacity(0.0), width: 3),
+          left: BorderSide(color: shelfAccentDark.withOpacity(0.0), width: 2),
+          right: BorderSide(color: shelfAccentDark.withOpacity(0.0), width: 2),
+          bottom: BorderSide(color: shelfAccentDark.withOpacity(0.0), width: 5),
         ),
       ),
       child: Row(
         mainAxisAlignment:
-            MainAxisAlignment.spaceAround, // Distribute items on the shelf
+            MainAxisAlignment
+                .spaceBetween, // Use spaceBetween for more control with exact widths
         crossAxisAlignment: CrossAxisAlignment.start,
         children:
             items.map((itemData) {
-              // Replace dynamic with ShopItem or Map
               return GestureDetector(
                 onTap: () => onItemTap(itemData),
                 child: SizedBox(
@@ -397,20 +506,28 @@ class _ShelfWidget extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Item Image
                       Container(
                         height: 80, // Fixed height for images
                         width: double.infinity,
                         padding: const EdgeInsets.all(5),
-                        child: SvgPicture.asset(
-                          itemData['imageAsset'], // Use itemData.imageAsset if using ShopItem class
-                          fit: BoxFit.contain,
+                        child: Transform.scale(
+                          scale:
+                              1.15, // <<--- INCREASE THIS VALUE (e.g., 1.1 for 10% bigger, 1.2 for 20%)
+                          alignment:
+                              Alignment
+                                  .center, // Scale from the center of the SVG
+                          child: SvgPicture.asset(
+                            itemData.imageAsset,
+                            fit:
+                                BoxFit
+                                    .contain, // Fit.contain will respect the original 80-padding space
+                            // before the Transform.scale is applied.
+                          ),
                         ),
                       ),
                       const SizedBox(height: 8),
-                      // Price Chip
                       _PriceChip(
-                        price: itemData['price'], // Use itemData.price
+                        price: itemData.price,
                         chipColor: priceChipColor,
                         textColor: textBrownColor,
                         leafColor: greenAccent,
@@ -444,7 +561,7 @@ class _PriceChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: chipColor,
+        color: Color.fromRGBO(247, 246, 235, 1),
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
@@ -457,12 +574,11 @@ class _PriceChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.eco_rounded, color: leafColor, size: 16), // Leaf icon
+          Icon(Icons.eco_rounded, color: leafColor, size: 16),
           const SizedBox(width: 4),
           Text(
             price.toString(),
-            style: GoogleFonts.getFont(
-              'Nunito', // A clean font for prices
+            style: GoogleFonts.poppins(
               color: textColor,
               fontWeight: FontWeight.bold,
               fontSize: 14,
@@ -473,3 +589,6 @@ class _PriceChip extends StatelessWidget {
     );
   }
 }
+
+// Ensure you have your ShopItem class defined
+// class ShopItem { ... }

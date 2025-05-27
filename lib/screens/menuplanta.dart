@@ -116,7 +116,7 @@ class _Plant1State extends State<Plant1> {
                     // Botón atrás
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Color.fromRGBO(247, 246, 235, 1),
                         borderRadius: BorderRadius.circular(24),
                       ),
                       child: button.CustomIconButton(
@@ -143,13 +143,13 @@ class _Plant1State extends State<Plant1> {
                         vertical: relHeight(4),
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Color.fromRGBO(247, 246, 235, 1),
                         borderRadius: BorderRadius.circular(24),
                       ),
                       child: Row(
                         children: [
                           Icon(
-                            Icons.monetization_on,
+                            Icons.eco_rounded,
                             color: Color(0xFF355E3B),
                             size: relWidth(20),
                           ),
