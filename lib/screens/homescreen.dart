@@ -237,48 +237,76 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context, double contentWidth) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _actionButton(icon: Icons.store_mall_directory_outlined, label: 'Tienda', onTap: () {}),
-        _actionButton(icon: Icons.checkroom_outlined, label: 'Armario', onTap: () {}),
-        _actionButton(icon: Icons.tips_and_updates_outlined, label: 'Tips', onTap: () {}),
-      ],
-    );
-  }
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      _actionButton( // Todos los parámetros deben ser nombrados
+        context: context,
+        icon: Icons.store_mall_directory_outlined,
+        label: 'Tienda',
+        routeName: '/planta', // O '/store' si creas esa ruta
+      ),
+      _actionButton( // Todos los parámetros deben ser nombrados
+        context: context,
+        icon: Icons.checkroom_outlined,
+        label: 'Armario',
+        routeName: '/armario',
+      ),
+      _actionButton( // Todos los parámetros deben ser nombrados
+        context: context,
+        icon: Icons.tips_and_updates_outlined,
+        label: 'Tips',
+        routeName: null, // O tu ruta '/tips' si la creas
+      ),
+    ],
+  );
+}
 
-  Widget _actionButton({required IconData icon, required String label, required VoidCallback onTap}) {
-    return Expanded( // Para que ocupen el espacio equitativamente
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 5), // Pequeño espacio entre ellos
-          padding: const EdgeInsets.all(12),
-          decoration: ShapeDecoration(
-            color: const Color(0xFFF7F6EA),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            shadows: [
-              BoxShadow(
-                color: const Color(0x4C9EB3A9),
-                blurRadius: 12,
-                offset: const Offset(0, 0),
-                spreadRadius: 0,
-              )
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, color: const Color(0xFFEE8E00), size: 24), // Color naranja de los iconos
-              const SizedBox(height: 8),
-              Text(label, style: _poppins(FontWeight.w600, 14, const Color(0xFF1F1F1F))),
-            ],
-          ),
+  Widget _actionButton({
+  required BuildContext context,
+  required IconData icon,
+  required String label,
+  String? routeName, // routeName es opcional, por eso String?
+}) {
+  return Expanded(
+    child: InkWell(
+      onTap: () {
+        if (routeName != null && routeName.isNotEmpty) { // Verifica también que no esté vacío
+          Navigator.pushNamed(context, routeName);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Sección "${label}" no disponible aún.')),
+          );
+        }
+      },
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.all(12),
+        decoration: ShapeDecoration(
+          color: const Color(0xFFF7F6EA),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shadows: [
+            BoxShadow(
+              color: const Color(0x4C9EB3A9),
+              blurRadius: 12,
+              offset: const Offset(0, 0),
+              spreadRadius: 0,
+            )
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: const Color(0xFFEE8E00), size: 24),
+            const SizedBox(height: 8),
+            Text(label, style: _poppins(FontWeight.w600, 14, const Color(0xFF1F1F1F))),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildMapPreview(BuildContext context, double contentWidth) {
     return Container(
