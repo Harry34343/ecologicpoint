@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:a/widgets/shopitem.dart'; // Tu modelo ShopItem
+import 'package:a/widgets/shopitem.dart'; // Tu modelo ShopItem con isPurchased
 import 'dart:ui' as ui; // Para ImageFilter
-import 'package:a/widgets/statusPopup.dart'; // El popup de estado que creamos
+import 'package:a/widgets/statusPopup.dart'; // El popup de estado
 
-// Re-usa o adapta tu _PriceChip widget si lo necesitas para el popup
+// _PopupPriceChip (sin cambios, puedes mantenerlo como está)
 class _PopupPriceChip extends StatelessWidget {
   final int price;
   final Color chipColor;
@@ -14,6 +14,7 @@ class _PopupPriceChip extends StatelessWidget {
   final Color leafColor;
 
   const _PopupPriceChip({
+    super.key, // Añadido Key
     required this.price,
     required this.chipColor,
     required this.textColor,
@@ -49,29 +50,44 @@ class _PopupPriceChip extends StatelessWidget {
 
 class ItemDetailPopup extends StatelessWidget {
   final ShopItem item;
-  final int userCurrency; // Necesario para la lógica de compra
+  final int userCurrency;
+  final Function(ShopItem) onPurchaseConfirmed; // <--- NUEVO CALLBACK
 
-  // Define colores similares a tu imagen original
   final Color popupBackgroundColor = const Color.fromRGBO(247, 246, 235, 1);
-  final Color buttonColor = const Color.fromRGBO(53, 94, 59, 1);
+  final Color buttonColor = const Color.fromRGBO(
+    53,
+    94,
+    59,
+    1,
+  ); // Verde para comprar
+  final Color disabledButtonColor =
+      Colors.grey.shade400; // Gris para deshabilitado
+  final Color purchasedButtonColor =
+      Colors.blueGrey.shade300; // Otro color para "Comprado"
   final Color textBrownColor = const Color.fromRGBO(31, 31, 31, 1);
   final Color priceChipColorPopup = const Color.fromRGBO(229, 233, 228, 1);
   final Color greenAccentPopup = const Color.fromRGBO(53, 94, 59, 1);
 
-  const ItemDetailPopup({
+  ItemDetailPopup({
     super.key,
     required this.item,
-    required this.userCurrency, // Asegúrate de pasarlo desde BoutiqueScreen
+    required this.userCurrency,
+    required this.onPurchaseConfirmed, // <--- NUEVO
   });
 
   Widget _buildItemPreview(ShopItem item) {
-    // ... (tu lógica de _buildItemPreview con el cactus y el ítem superpuesto) ...
-    // Pega aquí tu versión funcional de _buildItemPreview
-    String baseCharacterAsset = 'assets/plantas/cactus.svg';
+    // String baseCharacterAsset = 'a'; // Esto parece un placeholder o error.
+    // Debería ser una ruta válida a un SVG, ej: 'assets/personajes/base_character.svg'
+    // Por ahora lo dejo, pero revísalo.
+    String baseCharacterAsset =
+        'assets/personajes/tu_personaje_base.svg'; // CAMBIA ESTO por tu asset real
+    // Si no tienes un personaje base para previsualizar, puedes comentar esta parte
+    // y solo mostrar el SvgPicture.asset(item.imageAsset, ...)
     double itemVisualHeight = 80;
     Offset itemOffset = Offset.zero;
+
+    // Lógica de posicionamiento (igual que la tenías)
     if (item.id == 'body1') {
-      // Red Scarf
       itemVisualHeight = 100;
       itemOffset = const Offset(0, 25);
     } else if (item.category == 'Face' || item.category == 'Head') {
@@ -81,16 +97,20 @@ class ItemDetailPopup extends StatelessWidget {
       itemVisualHeight = 70;
       itemOffset = const Offset(0, 10);
     }
+
     return SizedBox(
       height: 220,
       width: 220,
       child: Stack(
         alignment: Alignment.center,
         children: [
+          // Descomenta y ajusta si tienes un personaje base para la previsualización
+          /*
           SvgPicture.asset(
-            baseCharacterAsset,
+            baseCharacterAsset, // ASEGÚRATE QUE ESTE ARCHIVO EXISTE
             height: 200,
             fit: BoxFit.contain,
+            placeholderBuilder: (context) => Icon(Icons.person, size: 150), // Placeholder si falla
           ),
           Transform.translate(
             offset: itemOffset,
@@ -100,13 +120,21 @@ class ItemDetailPopup extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
+          */
+          // Si no tienes personaje base, solo muestra el ítem:
+          SvgPicture.asset(
+            item.imageAsset,
+            height:
+                itemVisualHeight > 100
+                    ? itemVisualHeight
+                    : 120, // Ajusta tamaño mínimo
+            fit: BoxFit.contain,
+          ),
         ],
       ),
     );
   }
 
-  // Helper para mostrar los popups de estado (confirmación, éxito, error)
-  // Este es el mismo helper que definimos antes.
   Future<T?> _showStatusDialog<T>(BuildContext context, Widget dialogContent) {
     return showGeneralDialog<T>(
       context: context,
@@ -146,62 +174,102 @@ class ItemDetailPopup extends StatelessWidget {
     );
   }
 
-  Future<void> _processPurchase(BuildContext mainScreenContext) async {
-    // Este método se llama DESPUÉS de que el usuario confirma en el StatusPopup de confirmación.
-    // mainScreenContext es el contexto de la BoutiqueScreen, necesario para mostrar
-    // los popups de éxito/error después de que ItemDetailPopup se cierre.
-
-    bool purchaseSuccessful = userCurrency >= item.price;
-
-    // Asumimos que ItemDetailPopup ya fue cerrado por la acción del StatusPopup de confirmación.
-
-    if (purchaseSuccessful) {
-      // TODO: Lógica real para actualizar la moneda y el inventario del usuario
-      // Esto debería hacerse a través de un State Management.
-      print(
-        "Compra exitosa para ${item.name}! Moneda antes: $userCurrency, Precio: ${item.price}",
-      );
-
-      _showStatusDialog(
-        mainScreenContext, // Usa el contexto de la pantalla principal
-        StatusPopup(
-          type: StatusPopupType.success,
-          title: "¡Compra realizada!",
-          message: "Tu artículo se ha añadido con éxito. ¡Disfrútalo!",
-          actions: [
-            StatusPopupButton(
-              text: "Aceptar",
-              isPrimary: true,
-              onPressed: () => Navigator.of(mainScreenContext).pop(),
-            ),
-          ],
-        ),
-      );
-    } else {
-      _showStatusDialog(
-        mainScreenContext, // Usa el contexto de la pantalla principal
-        StatusPopup(
-          type: StatusPopupType.error,
-          title: "¡Ups! EcoPoints Insuficientes",
-          message:
-              "Necesitas más puntos para hacer esta compra. ¡Completa retos y vuelve pronto!",
-          actions: [
-            StatusPopupButton(
-              text: "Aceptar",
-              isPrimary: true,
-              onPressed: () => Navigator.of(mainScreenContext).pop(),
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Guardamos el contexto de BoutiqueScreen para usarlo después de cerrar este popup
-    final BuildContext boutiqueScreenContext = context;
+    final bool alreadyPurchased = item.isPurchased;
+    final bool canAfford = userCurrency >= item.price;
+    final bool isFree = item.price == 0;
 
+    String buttonText;
+    Color currentButtonColor;
+    VoidCallback? purchaseAction;
+
+    if (alreadyPurchased) {
+      buttonText = 'Ya lo tienes';
+      currentButtonColor = purchasedButtonColor;
+      purchaseAction = null; // Deshabilitado
+    } else if (isFree) {
+      buttonText = 'Obtener Gratis';
+      currentButtonColor = buttonColor; // Verde para "Obtener Gratis"
+      purchaseAction = () async {
+        // Para ítems gratis, podemos llamar directamente a onPurchaseConfirmed
+        // o también mostrar confirmación si se prefiere.
+        // Por simplicidad, llamamos directamente:
+        onPurchaseConfirmed(item);
+        // BoutiqueScreen._handlePurchase se encargará de cerrar este popup
+      };
+    } else if (canAfford) {
+      buttonText = 'Comprar (${item.price})';
+      currentButtonColor = buttonColor; // Verde
+      purchaseAction = () async {
+        bool? confirmed = await _showStatusDialog<bool>(
+          context, // Contexto del ItemDetailPopup
+          StatusPopup(
+            type: StatusPopupType.confirmation,
+            title: "¿Confirmar Compra?",
+            message:
+                "Vas a comprar ${item.name} por ${item.price} Ecopoints.", // Mensaje más específico
+            itemPrice: item.price, // Ya lo tienes
+            actions: [
+              StatusPopupButton(
+                text: "Cancelar",
+                onPressed:
+                    () => Navigator.of(
+                      context,
+                    ).pop(false), // Cierra StatusPopup, retorna false
+              ),
+              StatusPopupButton(
+                text: "Comprar",
+                isPrimary: true,
+                onPressed: () {
+                  Navigator.of(
+                    context,
+                  ).pop(true); // Cierra StatusPopup, retorna true
+                },
+              ),
+            ],
+          ),
+        );
+
+        if (confirmed == true) {
+          // El usuario confirmó. Llamamos al callback.
+          // BoutiqueScreen._handlePurchase se encargará de la lógica de compra,
+          // actualizar estado, y CERRAR ESTE ItemDetailPopup.
+          onPurchaseConfirmed(item);
+        }
+      };
+    } else {
+      // No está comprado, no es gratis, y no puede pagarlo
+      buttonText =
+          'Comprar (${item.price})'; // Podrías mantener el texto "Comprar" o cambiarlo
+      currentButtonColor =
+          buttonColor; // Mantener el color verde para que parezca activo
+      // o usar 'disabledButtonColor' si quieres que se vea diferente
+      // pero siga siendo presionable.
+      purchaseAction = () async {
+        // Muestra el popup de error de Ecopoints insuficientes
+        _showStatusDialog(
+          context, // Usa el contexto del ItemDetailPopup
+          StatusPopup(
+            type: StatusPopupType.error,
+            title: "¡Ups! EcoPoints Insuficientes",
+            message:
+                "Necesitas ${item.price - userCurrency} Ecopoints más para hacer esta compra. ¡Completa retos y vuelve pronto!",
+            actions: [
+              StatusPopupButton(
+                text: "Aceptar",
+                isPrimary: true,
+                onPressed:
+                    () =>
+                        Navigator.of(
+                          context,
+                        ).pop(), // Cierra el StatusPopup de error
+              ),
+            ],
+          ),
+        );
+      };
+    }
     return Material(
       color: Colors.transparent,
       child: Center(
@@ -222,12 +290,9 @@ class ItemDetailPopup extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Top row: Item Name & Price en la izquierda, Botón X en la derecha
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start, // Alinea X con la parte superior del nombre
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Column(
@@ -243,97 +308,76 @@ class ItemDetailPopup extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 6),
-                        _PopupPriceChip(
-                          // El precio del ítem como antes
-                          price: item.price,
-                          chipColor: priceChipColorPopup,
-                          textColor: textBrownColor,
-                          leafColor: greenAccentPopup,
-                        ),
+                        if (item.price >
+                            0) // Solo muestra el precio si no es gratis
+                          _PopupPriceChip(
+                            price: item.price,
+                            chipColor: priceChipColorPopup,
+                            textColor: textBrownColor,
+                            leafColor: greenAccentPopup,
+                          )
+                        else if (!alreadyPurchased) // Si es gratis y no comprado
+                          Text(
+                            "¡Gratis!",
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: greenAccentPopup,
+                            ),
+                          ),
                       ],
                     ),
                   ),
                   IconButton(
-                    // El botón X para cerrar este ItemDetailPopup
                     padding: EdgeInsets.zero,
-                    constraints:
-                        const BoxConstraints(), // Para quitar padding extra del IconButton
+                    constraints: const BoxConstraints(),
                     icon: Icon(
                       Icons.close,
                       color: textBrownColor.withOpacity(0.7),
                       size: 26,
                     ),
                     onPressed: () {
-                      Navigator.of(
-                        context,
-                      ).pop(); // Cierra ESTE ItemDetailPopup
+                      Navigator.of(context).pop();
                     },
                   ),
                 ],
               ),
               const SizedBox(height: 20),
 
-              _buildItemPreview(item), // Previsualización del cactus
+              _buildItemPreview(item),
               const SizedBox(height: 25),
+
+              // Mostrar los Ecopoints del usuario si el ítem no está comprado y no es gratis
+              if (!alreadyPurchased && !isFree && item.price > 0)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Text(
+                    'Tus Ecopoints: $userCurrency',
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: textBrownColor.withOpacity(0.8),
+                    ),
+                  ),
+                ),
               SizedBox(
-                width: double.infinity, // Botón ocupa todo el ancho disponible
+                width: double.infinity,
                 child: ElevatedButton(
-                  // Botón "Comprar"
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: buttonColor,
+                    backgroundColor: currentButtonColor,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    elevation: 2,
+                    elevation: purchaseAction != null ? 2 : 0,
                   ),
-                  onPressed: () async {
-                    // 1. Muestra el popup de CONFIRMACIÓN
-                    bool? confirmed = await _showStatusDialog<bool>(
-                      context, // Usa el contexto actual del ItemDetailPopup para mostrar el de confirmación
-                      StatusPopup(
-                        type: StatusPopupType.confirmation,
-                        title: "¿Confirmar Compra?",
-                        message:
-                            "", // El mensaje se genera dentro de StatusPopup
-                        itemPrice: item.price,
-                        actions: [
-                          StatusPopupButton(
-                            text: "Cancelar",
-                            onPressed: () => Navigator.of(context).pop(false),
-                          ),
-                          StatusPopupButton(
-                            text: "Comprar",
-                            isPrimary: true,
-                            onPressed: () {
-                              // Cierra el popup de confirmación y retorna true
-                              Navigator.of(context).pop(true);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-
-                    if (confirmed == true) {
-                      // El usuario confirmó.
-                      // Ahora, cierra ESTE ItemDetailPopup
-                      // y luego llama a _processPurchase con el contexto de BoutiqueScreen.
-                      // Esto asegura que los popups de éxito/error se muestren sobre la pantalla principal.
-                      Navigator.of(
-                        boutiqueScreenContext,
-                      ).pop(); // Cierra ItemDetailPopup
-                      _processPurchase(
-                        boutiqueScreenContext,
-                      ); // Procesa la compra y muestra éxito/error
-                    }
-                    // Si es false o null, no hacemos nada, el popup de confirmación se cerró.
-                  },
+                  onPressed:
+                      purchaseAction, // Aquí se usa la acción definida arriba
                   child: Text(
-                    'Comprar',
+                    buttonText,
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(247, 246, 235, 1),
+                      color: Colors.white,
                     ),
                   ),
                 ),

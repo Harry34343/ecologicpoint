@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:a/widgets/button.dart'
     as button; // Assuming this path is correct
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NoGlowScrollBehavior extends ScrollBehavior {
   const NoGlowScrollBehavior();
@@ -32,10 +33,161 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
   String? sombreroEquipado;
   String? caraEquipada;
   String? cuerpoEquipado;
+  bool _isLoading = true;
   // DESIGN CONSTANTS (can be defined at the top of your state class or build method)
   final double designPlantDisplayHeight = 400.0;
   // Adjust this if your plant assets are not typically square when at 400px height
-  final double designPlantDisplayWidth = 400.0;
+  final double designPlantDisplayWidth = 430.0;
+  @override
+  void initState() {
+    super.initState();
+    _loadAndFilterOwnedItems();
+  }
+
+  Future<void> _loadAndFilterOwnedItems() async {
+    setState(() {
+      _isLoading = true;
+    }); // Iniciar carga
+
+    final prefs = await SharedPreferences.getInstance();
+    List<String> purchasedItemIds = prefs.getStringList('purchasedItems') ?? [];
+    print("Armario - IDs comprados cargados: $purchasedItemIds");
+
+    String loadedPlantaEquipada =
+        prefs.getString('equipped_planta') ??
+        'assets/plantas/cactus.svg'; // Default si no hay nada
+    String? loadedSombreroEquipado = prefs.getString('equipped_sombrero');
+    String? loadedCaraEquipada = prefs.getString('equipped_cara');
+    String? loadedCuerpoEquipado = prefs.getString('equipped_cuerpo');
+    print(
+      "ARMARIO: Items equipados cargados - Planta: $loadedPlantaEquipada, Sombrero: $loadedSombreroEquipado, Cara: $loadedCaraEquipada, Cuerpo: $loadedCuerpoEquipado",
+    );
+
+    Map<String, List<Map<String, dynamic>>> tempOwnedItems = {
+      'Reciente': [], // 'Reciente' se actualizará después
+    };
+    String?
+    firstOwnedPlantDisplay; // Para equipar la primera planta poseída por defecto
+
+    _baseItemsPorCategoria.forEach((category, baseItemsList) {
+      if (category == 'Reciente') return; // Saltar 'Reciente' por ahora
+
+      List<Map<String, dynamic>> ownedInCategory = [];
+      for (var baseItemMap in baseItemsList) {
+        final String? itemId =
+            baseItemMap['id']
+                as String?; // Asegúrate que 'id' existe y es String
+        if (itemId != null && purchasedItemIds.contains(itemId)) {
+          // Determinar si este ítem estaba 'selected' (equipado)
+          bool isCurrentlySelected = false;
+          if (category == 'Planta' &&
+              baseItemMap['display'] == loadedPlantaEquipada) {
+            isCurrentlySelected = true;
+            if (firstOwnedPlantDisplay == null) {
+              // Asegurar que la planta equipada es la primera opción si es la única
+              firstOwnedPlantDisplay = baseItemMap['display'] as String?;
+            }
+          } else if (category == 'Sombrero' &&
+              baseItemMap['img'] == loadedSombreroEquipado) {
+            isCurrentlySelected = true;
+          } else if (category == 'Cara' &&
+              baseItemMap['img'] == loadedCaraEquipada) {
+            isCurrentlySelected = true;
+          } else if (category == 'Cuerpo' &&
+              baseItemMap['img'] == loadedCuerpoEquipado) {
+            isCurrentlySelected = true;
+          }
+          ownedInCategory.add({
+            ...baseItemMap,
+            'selected':
+                isCurrentlySelected, // <--- Usar el estado cargado o calculado
+          });
+        }
+      }
+      tempOwnedItems[category] = ownedInCategory;
+    });
+    plantaEquipada = loadedPlantaEquipada; // Usar el valor cargado
+    sombreroEquipado = loadedSombreroEquipado;
+    caraEquipada = loadedCaraEquipada;
+    cuerpoEquipado = loadedCuerpoEquipado;
+    // Establecer la planta equipada por defecto a la primera planta poseída
+    // o mantener la actual si ya está poseída.
+    bool currentPlantaEquipadaIsOwned = false;
+    if (tempOwnedItems['Planta'] != null) {
+      for (var plant in tempOwnedItems['Planta']!) {
+        if (plant['display'] == plantaEquipada) {
+          currentPlantaEquipadaIsOwned = true;
+          plant['selected'] =
+              true; // Marcarla como seleccionada en la lista de poseídos
+          break;
+        }
+      }
+    }
+
+    if (!currentPlantaEquipadaIsOwned && firstOwnedPlantDisplay != null) {
+      plantaEquipada = firstOwnedPlantDisplay!;
+      // Marcarla como seleccionada en la lista de poseídos
+      if (tempOwnedItems['Planta'] != null) {
+        for (var plant in tempOwnedItems['Planta']!) {
+          if (plant['display'] == plantaEquipada) {
+            plant['selected'] = true;
+            break;
+          }
+        }
+      }
+    } else if (!currentPlantaEquipadaIsOwned &&
+        (tempOwnedItems['Planta'] == null ||
+            tempOwnedItems['Planta']!.isEmpty)) {
+      // No hay plantas poseídas, ¿qué hacer? Podrías tener una planta base "default" no comprable
+      // o mostrar un estado vacío. Por ahora, se quedaría con el valor hardcodeado inicial.
+      // O podrías establecer plantaEquipada a un asset de placeholder.
+      // plantaEquipada = 'assets/plantas/placeholder_vacio.svg';
+      print("Advertencia: No hay plantas poseídas para equipar por defecto.");
+    }
+    ['Sombrero', 'Cara', 'Cuerpo'].forEach((accCategory) {
+      String? equippedAccAsset;
+      if (accCategory == 'Sombrero')
+        equippedAccAsset = sombreroEquipado;
+      else if (accCategory == 'Cara')
+        equippedAccAsset = caraEquipada;
+      else if (accCategory == 'Cuerpo')
+        equippedAccAsset = cuerpoEquipado;
+
+      if (equippedAccAsset != null && tempOwnedItems[accCategory] != null) {
+        bool foundEquippedAndOwned = false;
+        for (var item in tempOwnedItems[accCategory]!) {
+          if (item['img'] == equippedAccAsset) {
+            item['selected'] = true;
+            foundEquippedAndOwned = true;
+          } else {
+            item['selected'] = false;
+          }
+        }
+        if (!foundEquippedAndOwned) {
+          // El accesorio equipado guardado ya no se posee
+          if (accCategory == 'Sombrero')
+            sombreroEquipado = null;
+          else if (accCategory == 'Cara')
+            caraEquipada = null;
+          else if (accCategory == 'Cuerpo')
+            cuerpoEquipado = null;
+        }
+      } else if (equippedAccAsset != null) {
+        // Estaba equipado pero la categoría ahora está vacía (todos los items de esa categoría fueron "vendidos" hipotéticamente)
+        if (accCategory == 'Sombrero')
+          sombreroEquipado = null;
+        else if (accCategory == 'Cara')
+          caraEquipada = null;
+        else if (accCategory == 'Cuerpo')
+          cuerpoEquipado = null;
+      }
+    });
+    setState(() {
+      itemsPorCategoria = tempOwnedItems; // Actualiza el mapa que usa la UI
+      _isLoading = false; // Finalizar carga
+    });
+    actualizarRecientes(); // Actualiza la categoría 'Reciente' con los seleccionados/equipados
+  }
 
   void actualizarRecientes() {
     final recientes = <Map<String, dynamic>>[];
@@ -55,8 +207,41 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     });
 
     setState(() {
-      itemsPorCategoria['Reciente'] = recientes;
+      // Asegúrate de que `itemsPorCategoria` se está modificando correctamente.
+      // Si `itemsPorCategoria` es el mapa que usa la UI, esta es la forma.
+      Map<String, List<Map<String, dynamic>>> updatedItems = Map.from(
+        itemsPorCategoria,
+      );
+      updatedItems['Reciente'] = recientes;
+      itemsPorCategoria = updatedItems;
     });
+  }
+
+  Future<void> _saveEquippedItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      'equipped_planta',
+      plantaEquipada,
+    ); // plantaEquipada ya es un String
+
+    if (sombreroEquipado != null) {
+      await prefs.setString('equipped_sombrero', sombreroEquipado!);
+    } else {
+      await prefs.remove('equipped_sombrero');
+    }
+
+    if (caraEquipada != null) {
+      await prefs.setString('equipped_cara', caraEquipada!);
+    } else {
+      await prefs.remove('equipped_cara');
+    }
+
+    if (cuerpoEquipado != null) {
+      await prefs.setString('equipped_cuerpo', cuerpoEquipado!);
+    } else {
+      await prefs.remove('equipped_cuerpo');
+    }
+    print("ARMARIO: Estado equipado guardado en SharedPreferences.");
   }
 
   final List<String> categorias = [
@@ -67,40 +252,47 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'Cuerpo',
   ];
 
-  final Map<String, List<Map<String, dynamic>>> itemsPorCategoria = {
+  final Map<String, List<Map<String, dynamic>>> _baseItemsPorCategoria = {
     'Reciente': [],
     'Planta': [
       {
+        'id': 'plant1',
         'img': 'assets/plantas/plantauno.svg',
         'selected': false,
         'display': 'assets/plantas/cactus.svg',
       },
       {
+        'id': 'plant4',
         'img': 'assets/plantas/plantados.svg',
         'selected': false,
         'display': 'assets/plantas/Girasol.svg',
       },
       {
+        'id': 'plant6',
         'img': 'assets/plantas/plantatres.svg',
         'selected': false,
         'display': 'assets/plantas/sprout.svg',
       },
       {
+        'id': 'plant2',
         'img': 'assets/plantas/plantacuatro.svg',
         'selected': false,
         'display': 'assets/plantas/carnivora.svg',
       },
       {
+        'id': 'plant3',
         'img': 'assets/plantas/plantacinco.svg',
         'selected': false,
         'display': 'assets/plantas/bambu.svg',
       },
       {
+        'id': 'plant5',
         'img': 'assets/plantas/plantaseis.svg',
         'selected': false,
         'display': 'assets/plantas/lotus.svg',
       },
       {
+        'id': 'Plant7',
         'img': 'assets/plantas/plantasiete.svg',
         'selected': false,
         'display': 'assets/plantas/Planeta.svg',
@@ -108,26 +300,75 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
       // Add more items if needed for testing layout
     ],
     'Sombrero': [
-      {'img': 'assets/sombreros/cono.svg', 'selected': false},
-      {'img': 'assets/sombreros/beanie.svg', 'selected': false},
-      {'img': 'assets/sombreros/cowboy.svg', 'selected': false},
-      {'img': 'assets/sombreros/halo.svg', 'selected': false},
-      {'img': 'assets/sombreros/monho.svg', 'selected': false},
+      {'id': 'Hat1', 'img': 'assets/sombreros/cono.svg', 'selected': false},
+      {'id': 'Hat2', 'img': 'assets/sombreros/beanie.svg', 'selected': false},
+      {'id': 'Hat3', 'img': 'assets/sombreros/cowboy.svg', 'selected': false},
+      {'id': 'Hat4', 'img': 'assets/sombreros/halo.svg', 'selected': false},
+      {'id': 'Hat5', 'img': 'assets/sombreros/monho.svg', 'selected': false},
     ],
     'Cara': [
-      {'img': 'assets/cara/gadas.svg', 'selected': false},
-      {'img': 'assets/cara/curita.svg', 'selected': false},
-      {'img': 'assets/cara/payaso.svg', 'selected': false},
-      {'img': 'assets/cara/pestenegra.svg', 'selected': false},
-      {'img': 'assets/cara/tapabocasvr1.svg', 'selected': false},
+      // ASIGNA IDs a estos que coincidan con los IDs de tus ShopItems de cara
+      {
+        'id': 'face5',
+        'img': 'assets/cara/gadas.svg',
+        'selected': false,
+      }, // Gafas de Sol
+      {
+        'id': 'face1',
+        'img': 'assets/cara/curita.svg',
+        'selected': false,
+      }, // Curita
+      {
+        'id': 'face4',
+        'img': 'assets/cara/payaso.svg',
+        'selected': false,
+      }, // Payaso
+      {
+        'id': 'face2',
+        'img': 'assets/cara/pestenegra.svg',
+        'selected': false,
+      }, // Peste Negra
+      {
+        'id': 'face3',
+        'img': 'assets/cara/tapabocasvr1.svg',
+        'selected': false,
+      }, // Tapabocas
     ],
     'Cuerpo': [
-      {'img': 'assets/cuerpo/alas.svg', 'selected': false},
-      {'img': 'assets/cuerpo/bufanda.svg', 'selected': false},
-      {'img': 'assets/cuerpo/canguro.svg', 'selected': false},
-      {'img': 'assets/cuerpo/capa.svg', 'selected': false},
-      {'img': 'assets/cuerpo/corbata.svg', 'selected': false},
+      // ASIGNA IDs a estos que coincidan con los IDs de tus ShopItems de cuerpo
+      {
+        'id': 'body4',
+        'img': 'assets/cuerpo/alas.svg',
+        'selected': false,
+      }, // Alas
+      {
+        'id': 'body1',
+        'img': 'assets/cuerpo/bufanda.svg',
+        'selected': false,
+      }, // Bufanda
+      {
+        'id': 'body3',
+        'img': 'assets/cuerpo/canguro.svg',
+        'selected': false,
+      }, // Canguro
+      {
+        'id': 'body2',
+        'img': 'assets/cuerpo/capa.svg',
+        'selected': false,
+      }, // Capa
+      {
+        'id': 'body5',
+        'img': 'assets/cuerpo/corbata.svg',
+        'selected': false,
+      }, // Corbata
     ],
+  };
+  Map<String, List<Map<String, dynamic>>> itemsPorCategoria = {
+    'Reciente': [],
+    'Planta': [],
+    'Sombrero': [],
+    'Cara': [],
+    'Cuerpo': [],
   };
 
   final Map<String, List<Map<String, dynamic>>> multiSlotSombreroConfigs = {
@@ -751,7 +992,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
   @override
   Widget build(BuildContext context) {
     final categoriaActual = categorias[categoriaSeleccionada];
-    final items = itemsPorCategoria[categoriaActual]!;
+    final items = itemsPorCategoria[categoriaActual] ?? [];
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -1215,6 +1456,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                         plantaEquipada =
                                                             tappedItemDisplayPath;
                                                         actualizarRecientes();
+                                                        _saveEquippedItems();
                                                       }
                                                     } else if (categoriaActual ==
                                                             'Sombrero' ||
@@ -1286,6 +1528,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                         }
                                                       }
                                                       actualizarRecientes();
+                                                      _saveEquippedItems();
                                                     } else if (categoriaActual ==
                                                         'Reciente') {
                                                       // Handles "Reciente" tab
@@ -1348,6 +1591,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                             }
                                                           }
                                                           actualizarRecientes();
+                                                          _saveEquippedItems();
                                                         }
                                                       }
                                                     }
@@ -1444,7 +1688,9 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                   child: SideButtons(
                     showArmario: false,
                     onTiendaTap: () {
-                      Navigator.pushNamed(context, '/tienda');
+                      Navigator.pushNamed(context, '/tienda').then((value) {
+                        _loadAndFilterOwnedItems();
+                      });
                     },
                   ),
                 ),

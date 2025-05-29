@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_generative_ai: ^0.4.7
   google_maps_flutter: ^2.12.2
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:

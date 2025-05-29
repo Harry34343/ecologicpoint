@@ -4,7 +4,8 @@ class ShopItem {
   final String name; // e.g., "Lotus Flower", "Plague Doctor Mask"
   final String imageAsset; // e.g., 'assets/items/lotus.svg'
   final int price;
-  final String category; // Could be "Plants", "Face", "Body", "Head"
+  final String category;
+  bool isPurchased; // Could be "Plants", "Face", "Body", "Head"
 
   ShopItem({
     required this.id,
@@ -12,5 +13,6 @@ class ShopItem {
     required this.imageAsset,
     required this.price,
     required this.category,
+    this.isPurchased = false,
   });
 }

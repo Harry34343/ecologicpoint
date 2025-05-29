@@ -23,7 +23,7 @@ class FilledButton extends StatelessWidget {
                 ? const Color(0xFF355E3B)
                 : const Color.fromRGBO(158, 179, 169, 1),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
       ),
       child: Text(
         text,
@@ -65,7 +65,7 @@ class CustomOutlinedButton extends StatelessWidget {
           width: 2,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
       ),
       child: Text(
         text,
