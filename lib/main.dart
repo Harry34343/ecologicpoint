@@ -1,7 +1,6 @@
 import 'package:a/screens/createaccaountscreen.dart';
+import 'package:a/screens/mapa(testNOoficial).dart';
 import 'package:a/screens/menuplanta.dart';
-// Ensure that Plant1 is defined and exported from menuplanta.dart
-// import 'package:a/screens/menuscreen.dart'; // Comentado si no se usa, parece que WelcomePage es tu pantalla de bienvenida
 import 'package:a/screens/welcomescreen.dart';
 import 'package:a/screens/tipsscreen.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +10,10 @@ import 'package:a/screens/armarioscreen.dart';
 import 'package:a/screens/homescreen.dart';
 import 'package:a/screens/challengesscreen.dart';
 import 'package:provider/provider.dart';
-// Esta importación asume que el archivo está en lib/providers/challenges_filter_provider.dart
 import 'package:a/providers/challenges_filter_provider.dart';
 import 'package:a/screens/profilescreen.dart'; // Ajusta según tu estructura
+import 'package:a/screens/mapa(testNOoficial).dart';
+import 'package:a/screens/tiendascreen.dart';
 
 void main() {
   // debugPaintSizeEnabled = false; // Es mejor quitar esto para builds normales o ponerlo condicionalmente
@@ -72,6 +72,7 @@ class EcologicPoint extends StatelessWidget {
         '/tips': (context) => const TipsScreen(),
         '/challenges': (context) => const ChallengesScreen(),
         '/profile': (context) => const ProfileScreen(),
+        '/tienda': (context) =>  const BoutiqueScreen(),
       },
     );
   }
