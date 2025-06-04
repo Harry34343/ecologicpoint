@@ -2,19 +2,104 @@
 import 'profilescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:a/widgets/navegationbarhome.dart' as navBar;
 // No es estrictamente necesario importar TipsScreen y ChallengesScreen aquí
 // si solo navegas por nombre de ruta, pero no hace daño tenerlas
 // import 'tipsscreen.dart';
 // import 'challengesscreen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  // CHANGED to StatefulWidget
   const HomeScreen({super.key});
 
-  static TextStyle _poppins(
-    FontWeight fontWeight,
-    double fontSize,
-    Color color,
-  ) {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState(); // CHANGED
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // NEW State class
+  int _selectedIndex = 0; // Home is index 0
+  bool _isFabPressed = false;
+  Widget _buildFloatingActionButton() {
+    double relWidth(double w) => MediaQuery.of(context).size.width * (w / 440);
+    double relHeight(double h) =>
+        MediaQuery.of(context).size.height * (h / 956);
+
+    bool isPlantSelected =
+        _selectedIndex ==
+        2; // Assuming FAB always points to index 2 (Plant screen)
+
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _isFabPressed = true),
+      onTapUp: (_) {
+        setState(() {
+          _isFabPressed = false;
+          if (_selectedIndex != 2) {
+            // Only navigate if not already on the FAB's target screen
+            _selectedIndex = 2; // Visually select the FAB's screen
+            Navigator.pushReplacementNamed(
+              context,
+              '/planta',
+            ); // Or your FAB's target route
+          }
+        });
+      },
+      onTapCancel: () => setState(() => _isFabPressed = false),
+      child: Transform.scale(
+        scale: _isFabPressed ? 0.95 : 1.0,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          width: relWidth(64),
+          height: relHeight(64),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color:
+                isPlantSelected
+                    ? const Color.fromRGBO(53, 94, 59, 1) // Active FAB color
+                    : const Color.fromRGBO(
+                      168,
+                      198,
+                      134,
+                      1,
+                    ), // Inactive FAB color
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Center(
+            child: SvgPicture.asset(
+              // Use the FAB icon from your Plant1 page, or your app's main FAB icon
+              'assets/phplantduotone.svg', // <<--- YOUR ACTUAL FAB ICON
+              width: relWidth(24),
+              height: relHeight(24),
+              colorFilter: ColorFilter.mode(
+                isPlantSelected
+                    ? const Color.fromRGBO(
+                      247,
+                      246,
+                      235,
+                      1,
+                    ) // Icon color when FAB is active
+                    : const Color.fromRGBO(
+                      53,
+                      94,
+                      59,
+                      1,
+                    ), // Icon color when FAB is inactive
+                BlendMode.srcIn,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  TextStyle _poppins(FontWeight fontWeight, double fontSize, Color color) {
     return TextStyle(
       fontFamily: 'Poppins',
       fontWeight: fontWeight,
@@ -42,7 +127,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 32),
                   _buildMapPreview(context),
                   const SizedBox(height: 32),
-                  _buildSectionTitle(context, "Mis retos", '/challenges'),
+                  _buildSectionTitle(context, "Mis retos", '/retos'),
                   const SizedBox(height: 12),
                   _buildChallengeItem(
                     iconAsset:
@@ -109,19 +194,28 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          /* Acción del FAB */
+      floatingActionButton: _buildFloatingActionButton(),
+      bottomNavigationBar: navBar.CustomBottomNavBar(
+        currentIndex: _selectedIndex,
+        onItemSelected: (int index) {
+          if (_selectedIndex != index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+            if (index == 0)
+              Navigator.pushReplacementNamed(context, '/home');
+            else if (index == 1)
+              Navigator.pushReplacementNamed(context, '/mapa');
+            else if (index == 2) {
+              if (ModalRoute.of(context)?.settings.name != '/planta') {
+                Navigator.pushReplacementNamed(context, '/planta');
+              }
+            } else if (index == 3)
+              Navigator.pushReplacementNamed(context, '/retos');
+            else if (index == 4)
+              Navigator.pushReplacementNamed(context, '/perfil');
+          }
         },
-        backgroundColor: const Color(0xFFA8C686),
-        elevation: 4.0,
-        shape: const CircleBorder(),
-        child: SvgPicture.asset(
-          'assets/logo.svg', // TU LOGO PRINCIPAL PARA EL FAB
-          width: 28,
-          height: 28, // Ajusta el tamaño si es necesario
-          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-        ),
       ),
     );
   }

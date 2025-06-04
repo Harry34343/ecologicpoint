@@ -373,27 +373,33 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
 
   final Map<String, List<Map<String, dynamic>>> multiSlotSombreroConfigs = {
     'assets/plantas/bambu.svg': [
-      // Bambu has two slots for the selected sombrero
-      {'top': -20, 'left': 64.0, 'scale': 2.0, 'rotation': 0.6}, // Slot 1
-      {'top': 48.0, 'left': 104.0, 'scale': 2.0, 'rotation': 0.0}, // Slot 2
+      {'top': -20, 'left': 84.0 + 90, 'scale': 2.0, 'rotation': 0.6},
+      {'top': 48.0, 'left': 124.0 + 90, 'scale': 2.0, 'rotation': 0.0},
     ],
-    // Add other plants here if they also have multiple slots for a single type of hat
   };
   final Map<String, List<Map<String, dynamic>>> multiSlotCaraConfigs = {
     'assets/plantas/bambu.svg': [
-      // Bambu has two slots for the selected cara
-      {'top': 80, 'left': -104.0, 'scale': .1, 'rotation': 0},
-      {'top': 168.0, 'left': -54.0, 'scale': .1, 'rotation': 0.0}, // Slot 2
+      {'top': 80, 'left': -94.0 + 96, 'scale': .1, 'rotation': 0},
+      {'top': 168.0, 'left': -44.0 + 96, 'scale': .1, 'rotation': 0.0},
     ],
-    // Add other plants here if they also have multiple slots for a single type of cara
   };
   final Map<String, List<Map<String, dynamic>>> multiSlotCuerpoConfigs = {
     'assets/plantas/bambu.svg': [
-      // Bambu has two slots for the selected cuerpo
-      {'top': 188, 'left': 64.0, 'scale': 2.0, 'rotation': 0.0},
-      {'top': 288, 'left': 118.0, 'scale': 2.0, 'rotation': 0.0},
+      {
+        'top': 188,
+        'left': 84.0 + 96,
+        'scale': 2.0,
+        'rotation': 0.0,
+        'isBehind': false,
+      },
+      {
+        'top': 288,
+        'left': 138.0 + 96,
+        'scale': 2.0,
+        'rotation': 0.0,
+        'isBehind': false,
+      },
     ],
-    // Add other plants here if they also have multiple slots for a single type of cuerpo
   };
 
   final Map<String, Map<String, Map<String, dynamic>>> sombreroConfigs = {
@@ -401,30 +407,30 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
       // Plant: Cactus
       'assets/sombreros/cono.svg': {
         // Accessory: Cono
-        'top': -.0, 'left': 94.0, 'scale': 3.5, 'rotation': 0.0,
+        'top': -.0, 'left': 188.0, 'scale': 3.5, 'rotation': 0.0,
       },
       'assets/sombreros/beanie.svg': {
         // Accessory: Beanie
         'top': -10.0,
-        'left': 90.0,
+        'left': 182.0,
         'scale': 3.2,
         'rotation': -0.32, // Example different values
       },
       'assets/sombreros/cowboy.svg': {
         'top': 8.0,
-        'left': 76.0,
+        'left': 152.0,
         'scale': 2.8,
         'rotation': 0.1,
       },
       'assets/sombreros/halo.svg': {
         'top': -25.0,
-        'left': 80.0,
+        'left': 160.0,
         'scale': 2,
         'rotation': 0.0,
       },
       'assets/sombreros/monho.svg': {
         'top': 8.0,
-        'left': 120.0,
+        'left': 210.0,
         'scale': 2,
         'rotation': 0.3,
       },
@@ -432,32 +438,32 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/Girasol.svg': {
       'assets/sombreros/cono.svg': {
         'top': -4.0,
-        'left': 128.0,
+        'left': 218.0,
         'scale': 4.0,
         'rotation': 0.3,
       },
       'assets/sombreros/beanie.svg': {
         // Accessory: Beanie
         'top': -10.0,
-        'left': 90.0,
+        'left': 188.0,
         'scale': 3.2,
         'rotation': -0.32, // Example different values
       },
       'assets/sombreros/cowboy.svg': {
         'top': 24.0,
-        'left': 96.0,
+        'left': 192.0,
         'scale': 3.0,
         'rotation': 0.3,
       },
       'assets/sombreros/halo.svg': {
         'top': -10.0,
-        'left': 96.0,
+        'left': 192.0,
         'scale': 2.0,
         'rotation': 0.3,
       },
       'assets/sombreros/monho.svg': {
         'top': 20.0,
-        'left': 112.0,
+        'left': 210.0,
         'scale': 3.0,
         'rotation': 0.15,
       },
@@ -465,32 +471,32 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/sprout.svg': {
       'assets/sombreros/cono.svg': {
         'top': -24.0,
-        'left': 48.0,
+        'left': 138.0,
         'scale': 2.5,
         'rotation': -0.1,
       },
       'assets/sombreros/beanie.svg': {
         // Accessory: Beanie
         'top': -24.0,
-        'left': 48.0,
+        'left': 138.0,
         'scale': 2.5,
         'rotation': -0.1, // Example different values
       },
       'assets/sombreros/cowboy.svg': {
         'top': -24.0,
-        'left': 48.0,
+        'left': 138.0,
         'scale': 2.5,
         'rotation': -0.1,
       },
       'assets/sombreros/halo.svg': {
         'top': -24.0,
-        'left': 48.0,
+        'left': 138.0,
         'scale': 2.5,
         'rotation': -0.1,
       },
       'assets/sombreros/monho.svg': {
         'top': -24.0,
-        'left': 48.0,
+        'left': 138.0,
         'scale': 2.5,
         'rotation': -0.1,
       },
@@ -499,32 +505,32 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/carnivora.svg': {
       'assets/sombreros/cono.svg': {
         'top': -4.0,
-        'left': 124.0,
+        'left': 214.0,
         'scale': 2.0,
         'rotation': 0.6,
       },
       'assets/sombreros/beanie.svg': {
         // Accessory: Beanie
         'top': -4.0,
-        'left': 124.0,
+        'left': 214.0,
         'scale': 2.0,
         'rotation': 0.6, // Example different values
       },
       'assets/sombreros/cowboy.svg': {
         'top': 12.0,
-        'left': 118.0,
+        'left': 208.0,
         'scale': 2.0,
         'rotation': 1,
       },
       'assets/sombreros/halo.svg': {
         'top': -4.0,
-        'left': 124.0,
+        'left': 214.0,
         'scale': 2.0,
         'rotation': 0.6,
       },
       'assets/sombreros/monho.svg': {
         'top': 24.0,
-        'left': 130.0,
+        'left': 220.0,
         'scale': 2.0,
         'rotation': 0.6,
       },
@@ -532,32 +538,32 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/lotus.svg': {
       'assets/sombreros/cono.svg': {
         'top': -20.0,
-        'left': 176.0,
+        'left': 266.0,
         'scale': 4.0,
         'rotation': 0.3,
       },
       'assets/sombreros/beanie.svg': {
         // Accessory: Beanie
         'top': -20.0,
-        'left': 176.0,
+        'left': 266.0,
         'scale': 4.0,
         'rotation': 0.3, // Example different values
       },
       'assets/sombreros/cowboy.svg': {
         'top': -12.0,
-        'left': 180.0,
+        'left': 270.0,
         'scale': 3.0,
         'rotation': 0.6,
       },
       'assets/sombreros/halo.svg': {
         'top': -20.0,
-        'left': 176.0,
+        'left': 276.0,
         'scale': 2.0,
         'rotation': 0.3,
       },
       'assets/sombreros/monho.svg': {
         'top': 24.0,
-        'left': 186.0,
+        'left': 276.0,
         'scale': 2.0,
         'rotation': 0.3,
       },
@@ -601,31 +607,31 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/cactus.svg': {
       'assets/cara/gadas.svg': {
         'top': 50,
-        'left': -60.0,
+        'left': -60.0 + 90,
         'scale': .3,
         'rotation': 0.0,
       },
       'assets/cara/curita.svg': {
         'top': 25,
-        'left': 44.0,
+        'left': 44.0 + 90,
         'scale': .3,
         'rotation': 0.6,
       },
       'assets/cara/payaso.svg': {
         'top': -50,
-        'left': -60.0,
+        'left': -60.0 + 90,
         'scale': .3,
         'rotation': 0.0,
       },
       'assets/cara/pestenegra.svg': {
         'top': 32,
-        'left': 20.0,
+        'left': 20.0 + 90,
         'scale': .6,
         'rotation': 0.0,
       },
       'assets/cara/tapabocasvr1.svg': {
         'top': 28,
-        'left': -120.0,
+        'left': -120.0 + 90,
         'scale': .3,
         'rotation': 0.0,
       },
@@ -633,31 +639,31 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/Girasol.svg': {
       'assets/cara/gadas.svg': {
         'top': 45,
-        'left': -60,
+        'left': -60 + 90,
         'scale': .2,
         'rotation': 0,
       },
       'assets/cara/curita.svg': {
         'top': 25,
-        'left': 44.0,
+        'left': 44.0 + 90,
         'scale': .3,
         'rotation': 0.6,
       },
       'assets/cara/payaso.svg': {
         'top': -50,
-        'left': -60.0,
+        'left': -60.0 + 90,
         'scale': .3,
         'rotation': 0.0,
       },
       'assets/cara/pestenegra.svg': {
         'top': 32,
-        'left': 20.0,
+        'left': 20.0 + 90,
         'scale': .6,
         'rotation': 0.0,
       },
       'assets/cara/tapabocasvr1.svg': {
         'top': 0,
-        'left': -126.0,
+        'left': -126.0 + 90,
         'scale': .2,
         'rotation': 0.0,
       },
@@ -665,31 +671,31 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/sprout.svg': {
       'assets/cara/gadas.svg': {
         'top': 196,
-        'left': -24.0,
+        'left': -24.0 + 60,
         'scale': .1,
         'rotation': 0,
       },
       'assets/cara/curita.svg': {
         'top': 175,
-        'left': 72.0,
+        'left': 72.0 + 60,
         'scale': .15,
         'rotation': 1.5,
       },
       'assets/cara/payaso.svg': {
         'top': 100,
-        'left': -26.0,
+        'left': -26.0 + 60,
         'scale': .1,
         'rotation': 0,
       },
       'assets/cara/pestenegra.svg': {
         'top': 188,
-        'left': 20.0,
+        'left': 20.0 + 60,
         'scale': .2,
         'rotation': 0,
       },
       'assets/cara/tapabocasvr1.svg': {
-        'top': 138,
-        'left': -94.0,
+        'top': 136,
+        'left': -94.0 + 60,
         'scale': .08,
         'rotation': 0,
       },
@@ -697,31 +703,31 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/carnivora.svg': {
       'assets/cara/gadas.svg': {
         'top': -36,
-        'left': -80,
+        'left': -80 + 90,
         'scale': .3,
         'rotation': 0.4,
       },
       'assets/cara/curita.svg': {
         'top': -44,
-        'left': -12,
+        'left': -12 + 90,
         'scale': .3,
         'rotation': 0.1,
       },
       'assets/cara/payaso.svg': {
         'top': -84,
-        'left': -114,
+        'left': -114 + 90,
         'scale': .5,
         'rotation': 0,
       },
       'assets/cara/pestenegra.svg': {
         'top': -20,
-        'left': -16,
+        'left': -16 + 90,
         'scale': 1,
         'rotation': 0,
       },
       'assets/cara/tapabocasvr1.svg': {
         'top': -56,
-        'left': -172,
+        'left': -172 + 90,
         'scale': 0.4,
         'rotation': 0,
       },
@@ -729,31 +735,31 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/lotus.svg': {
       'assets/cara/gadas.svg': {
         'top': 45,
-        'left': -32,
+        'left': -32 + 70,
         'scale': .3,
         'rotation': 0.0,
       },
       'assets/cara/curita.svg': {
         'top': 16,
-        'left': 54,
+        'left': 54 + 78,
         'scale': .3,
         'rotation': .6,
       },
       'assets/cara/payaso.svg': {
         'top': -68,
-        'left': -32,
+        'left': -32 + 70,
         'scale': .3,
         'rotation': 0.0,
       },
       'assets/cara/pestenegra.svg': {
         'top': 24,
-        'left': 34,
+        'left': 34 + 70,
         'scale': .6,
         'rotation': 0.0,
       },
       'assets/cara/tapabocasvr1.svg': {
-        'top': -4,
-        'left': -96,
+        'top': 0,
+        'left': -96 + 50,
         'scale': .2,
         'rotation': 0.0,
       },
@@ -761,31 +767,31 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/Planeta.svg': {
       'assets/cara/gadas.svg': {
         'top': 94,
-        'left': 16,
+        'left': 16 + 10,
         'scale': .5,
         'rotation': 0,
       },
       'assets/cara/curita.svg': {
         'top': 94,
-        'left': 136,
+        'left': 136 + 10,
         'scale': .5,
         'rotation': -0.6,
       },
       'assets/cara/payaso.svg': {
         'top': 64,
-        'left': 16,
+        'left': 16 + 0,
         'scale': 1,
         'rotation': 0,
       },
       'assets/cara/pestenegra.svg': {
         'top': 124,
-        'left': 124,
+        'left': 124 + 10,
         'scale': 1,
         'rotation': 0,
       },
       'assets/cara/tapabocasvr1.svg': {
         'top': 124,
-        'left': -44,
+        'left': -44 + 0,
         'scale': .5,
         'rotation': 0,
       },
@@ -796,193 +802,223 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     'assets/plantas/cactus.svg': {
       'assets/cuerpo/corbata.svg': {
         'top': 188,
-        'left': 110,
+        'left': 110 + 90,
         'scale': 2.5,
         'rotation': 0.0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 188,
-        'left': 82,
+        'left': 82 + 90,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 270,
-        'left': 92,
+        'left': 92 + 90,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 212,
-        'left': 64,
+        'left': 64 + 90,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 156,
-        'left': 32,
+        'left': 32 + 90,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': true,
       },
     },
     'assets/plantas/Girasol.svg': {
       'assets/cuerpo/corbata.svg': {
         'top': 196,
-        'left': 110,
+        'left': 110 + 90,
         'scale': 2.5,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 196,
-        'left': 82,
+        'left': 82 + 90,
         'scale': 1.7,
         'rotation': 0.0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 192,
-        'left': 92,
+        'left': 92 + 90,
         'scale': 2,
         'rotation': 0.0,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 212,
-        'left': 64,
+        'left': 64 + 90,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 156,
-        'left': 32,
+        'left': 32 + 90,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': true,
       },
     },
     'assets/plantas/sprout.svg': {
       'assets/cuerpo/corbata.svg': {
         'top': 300,
-        'left': 146,
+        'left': 146 + 90,
         'scale': 2,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 284,
-        'left': 116,
+        'left': 116 + 90,
         'scale': 1,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 284,
-        'left': 124,
+        'left': 124 + 90,
         'scale': 1,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 196,
-        'left': 86,
+        'left': 86 + 90,
         'scale': 1,
         'rotation': 0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 196,
-        'left': 54,
+        'left': 54 + 90,
         'scale': 1,
         'rotation': 0,
+        'isBehind': true,
       },
     },
     'assets/plantas/carnivora.svg': {
       'assets/cuerpo/corbata.svg': {
         'top': 104,
-        'left': 144.0,
+        'left': 144.0 + 90,
         'scale': 3,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 162,
-        'left': 124.0,
+        'left': 124.0 + 90,
         'scale': 1.8,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 232,
-        'left': 64,
+        'left': 64 + 90,
         'scale': 2.8,
         'rotation': 1,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 162,
-        'left': 124.0,
+        'left': 124.0 + 90,
         'scale': 1.8,
         'rotation': 0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 162,
-        'left': 32.0,
+        'left': 32.0 + 90,
         'scale': 1.8,
         'rotation': 0,
+        'isBehind': true,
       },
     },
     'assets/plantas/lotus.svg': {
       'assets/cuerpo/corbata.svg': {
         'top': 204,
-        'left': 142,
+        'left': 142 + 90,
         'scale': 3.5,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 240,
-        'left': 112,
+        'left': 112 + 90,
         'scale': 2.5,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 232,
-        'left': 120,
+        'left': 120 + 90,
         'scale': 3.5,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 150,
-        'left': 100,
+        'left': 100 + 90,
         'scale': 2.5,
         'rotation': 0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 150,
-        'left': 54,
+        'left': 54 + 90,
         'scale': 2.5,
         'rotation': 0,
+        'isBehind': true,
       },
     },
     'assets/plantas/Planeta.svg': {
       'assets/cuerpo/corbata.svg': {
         'top': 360.0,
-        'left': 194.0,
+        'left': 194.0 + 90,
         'scale': 5.0,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 360.0,
-        'left': 168.0,
+        'left': 168.0 + 90,
         'scale': 2.5,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 360.0,
-        'left': 172.0,
+        'left': 172.0 + 90,
         'scale': 5.0,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 124.0,
-        'left': 96.0,
+        'left': 96.0 + 90,
         'scale': 3,
         'rotation': 0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 124.0,
-        'left': 96.0,
+        'left': 96.0 + 90,
         'scale': 3,
         'rotation': 0,
+        'isBehind': true,
       },
     },
   };
@@ -1042,55 +1078,52 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
           designPlantDisplayWidth,
         );
 
-        // Calculate scaling factors
         final double heightScaleFactor =
             actualPlantDisplayHeight / designPlantDisplayHeight;
         final double widthScaleFactor =
             actualPlantDisplayWidth / designPlantDisplayWidth;
-        // You can choose one factor for scale, e.g., heightScaleFactor, or average, or keep scale unadjusted
         final double accessoryScaleFactor = heightScaleFactor;
 
+        // --- NEW: Determine if current body item should be behind ---
+        Map<String, dynamic>? currentSingleSlotCuerpoConfig;
+        bool isCuerpoBehind = false;
+
+        if (cuerpoEquipado != null &&
+            !multiSlotCuerpoConfigs.containsKey(
+              plantaEquipada,
+            ) && // Only for single-slot
+            cuerpoConfigs.containsKey(plantaEquipada) &&
+            cuerpoConfigs[plantaEquipada]!.containsKey(cuerpoEquipado!)) {
+          currentSingleSlotCuerpoConfig =
+              cuerpoConfigs[plantaEquipada]![cuerpoEquipado!]!;
+          isCuerpoBehind =
+              (currentSingleSlotCuerpoConfig['isBehind'] as bool?) ?? false;
+        }
+        // --- END NEW ---
+
         return Scaffold(
-          backgroundColor: const Color.fromRGBO(
-            247,
-            246,
-            235,
-            1,
-          ), // This will be visible if background doesn't cover all or for bottom part
+          backgroundColor: const Color.fromRGBO(247, 246, 235, 1),
           body: Container(
             clipBehavior: Clip.none,
-            color: Colors.transparent, // Color del fondo deseado
+            color: Colors.transparent,
             child: Stack(
               children: [
-                // FONDO que cubre HASTA el 70%
                 Positioned(
-                  top:
-                      0, // Changed from 10 to 0 if you want it flush from the top
+                  top: 0,
                   left: 0,
                   right: 0,
-                  height: screenHeight * 0.70, // Explicitly 70%
+                  height: screenHeight * 0.70,
                   child: SvgPicture.asset(
                     'assets/armariobk.svg',
-                    fit: BoxFit.cover, // <<< THIS IS THE KEY CHANGE!
-                    // width: screenWidth, // Not strictly needed as Positioned with left/right handles width
-                    // and BoxFit.cover will respect the Positioned widget's bounds.
-                    // height: screenHeight * 0.7, // Also not strictly needed for SvgPicture itself if Positioned defines height
+                    fit: BoxFit.cover,
                   ),
                 ),
-
-                // Header Section (Your existing code)
                 Positioned.fill(
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: relHeight(24 + 64 + 10),
-                      ), // Approximate height of header + top padding
-                      // Mitad superior: planta/personaje centrado
-                      // This Expanded will try to take space *within the Column*.
-                      // The Column itself is layered on top of the background.
+                      SizedBox(height: relHeight(24 + 64 + 10)),
                       Expanded(
-                        flex:
-                            3, // Adjust flex to control how much space this takes relative to items
+                        flex: 3,
                         child: Center(
                           child: AnimatedSwitcher(
                             duration: Duration(milliseconds: 300),
@@ -1100,28 +1133,80 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                 child: child,
                               );
                             },
+                            // The AnimatedSwitcher's child is now correctly structured:
                             child: SizedBox(
-                              key: ValueKey(plantaEquipada),
-                              height: relHeight(400),
+                              key: ValueKey(
+                                plantaEquipada +
+                                    (cuerpoEquipado ?? "") +
+                                    (sombreroEquipado ?? "") +
+                                    (caraEquipada ?? ""),
+                              ), // More robust key for AnimatedSwitcher
+                              height: actualPlantDisplayHeight,
+                              width: actualPlantDisplayWidth,
                               child: Stack(
+                                // This is where layering happens
                                 clipBehavior: Clip.none,
                                 alignment: Alignment.center,
                                 children: [
+                                  // --- 1. RENDER "BEHIND" CUERPO ITEMS ---
+                                  if (cuerpoEquipado != null &&
+                                      isCuerpoBehind &&
+                                      currentSingleSlotCuerpoConfig != null)
+                                    () {
+                                      // Using self-invoking function for clarity
+                                      final Map<String, dynamic> itemConfig =
+                                          currentSingleSlotCuerpoConfig!;
+                                      final double originalTop =
+                                          (itemConfig['top'] as num?)
+                                              ?.toDouble() ??
+                                          0.0;
+                                      final double originalLeft =
+                                          (itemConfig['left'] as num?)
+                                              ?.toDouble() ??
+                                          0.0;
+                                      final double originalScale =
+                                          (itemConfig['scale'] as num?)
+                                              ?.toDouble() ??
+                                          1.0;
+                                      final double originalRotation =
+                                          (itemConfig['rotation'] as num?)
+                                              ?.toDouble() ??
+                                          0.0;
+
+                                      return _buildAccessoryWidget(
+                                        accessoryPath: cuerpoEquipado!,
+                                        responsiveTopPx:
+                                            originalTop * heightScaleFactor,
+                                        responsiveLeftPx:
+                                            originalLeft * widthScaleFactor,
+                                        responsiveScale:
+                                            originalScale *
+                                            accessoryScaleFactor,
+                                        rotationValue: originalRotation,
+                                        typeKey: 'cuerpo_single_behind',
+                                      );
+                                    }(),
+
+                                  // --- 2. RENDER PLANT ---
                                   SvgPicture.asset(
                                     plantaEquipada,
                                     key: ValueKey(
-                                      "plant_$plantaEquipada",
-                                    ), // More specific key
-                                    height: relHeight(400),
+                                      "plant_display_$plantaEquipada",
+                                    ),
+                                    height: relHeight(
+                                      400,
+                                    ), // Consider using actualPlantDisplayHeight
                                   ),
+
+                                  // --- 3. RENDER SOMBRERO (always in front of plant) ---
                                   if (sombreroEquipado != null)
-                                    // Check if it's a multi-slot plant for sombreros (like Bambu)
                                     if (multiSlotSombreroConfigs.containsKey(
                                       plantaEquipada,
                                     ))
                                       ...(multiSlotSombreroConfigs[plantaEquipada] ??
                                               [])
                                           .map((slotConfig) {
+                                            // ... (your existing multi-slot sombrero logic)
                                             final double originalTop =
                                                 (slotConfig['top'] as num?)
                                                     ?.toDouble() ??
@@ -1138,7 +1223,6 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                 (slotConfig['rotation'] as num?)
                                                     ?.toDouble() ??
                                                 0.0;
-
                                             return _buildAccessoryWidget(
                                               accessoryPath: sombreroEquipado!,
                                               responsiveTopPx:
@@ -1149,21 +1233,20 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                   widthScaleFactor,
                                               responsiveScale:
                                                   originalScale *
-                                                  accessoryScaleFactor, // Or just originalScale
+                                                  accessoryScaleFactor,
                                               rotationValue: originalRotation,
                                               typeKey:
                                                   'sombrero_multi_${slotConfig.hashCode}',
                                             );
                                           })
                                           .toList()
-                                    // Else, it's a single-slot plant or accessory-specific config
                                     else if (sombreroConfigs.containsKey(
                                           plantaEquipada,
                                         ) &&
                                         sombreroConfigs[plantaEquipada]!
                                             .containsKey(sombreroEquipado!))
                                       () {
-                                        // Use a self-invoking function to scope variables
+                                        // ... (your existing single-slot sombrero logic)
                                         final Map<String, dynamic> itemConfig =
                                             sombreroConfigs[plantaEquipada]![sombreroEquipado!]!;
                                         final double originalTop =
@@ -1182,7 +1265,6 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                             (itemConfig['rotation'] as num?)
                                                 ?.toDouble() ??
                                             0.0;
-
                                         return _buildAccessoryWidget(
                                           accessoryPath: sombreroEquipado!,
                                           responsiveTopPx:
@@ -1191,12 +1273,13 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                               originalLeft * widthScaleFactor,
                                           responsiveScale:
                                               originalScale *
-                                              accessoryScaleFactor, // Or just originalScale
+                                              accessoryScaleFactor,
                                           rotationValue: originalRotation,
                                           typeKey: 'sombrero_single',
                                         );
-                                      }(), // Immediately invoke the function
-                                  // Cuerpo
+                                      }(),
+
+                                  // --- 4. RENDER CARA (always in front of plant) ---
                                   if (caraEquipada != null)
                                     if (multiSlotCaraConfigs.containsKey(
                                       plantaEquipada,
@@ -1204,6 +1287,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                       ...(multiSlotCaraConfigs[plantaEquipada] ??
                                               [])
                                           .map((slotConfig) {
+                                            // ... (your existing multi-slot cara logic)
                                             final double originalTop =
                                                 (slotConfig['top'] as num?)
                                                     ?.toDouble() ??
@@ -1220,7 +1304,6 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                 (slotConfig['rotation'] as num?)
                                                     ?.toDouble() ??
                                                 0.0;
-
                                             return _buildAccessoryWidget(
                                               accessoryPath: caraEquipada!,
                                               responsiveTopPx:
@@ -1231,7 +1314,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                   widthScaleFactor,
                                               responsiveScale:
                                                   originalScale *
-                                                  accessoryScaleFactor, // Or just originalScale
+                                                  accessoryScaleFactor,
                                               rotationValue: originalRotation,
                                               typeKey:
                                                   'cara_multi_${slotConfig.hashCode}',
@@ -1244,6 +1327,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                         caraConfigs[plantaEquipada]!
                                             .containsKey(caraEquipada!))
                                       () {
+                                        // ... (your existing single-slot cara logic)
                                         final Map<String, dynamic> itemConfig =
                                             caraConfigs[plantaEquipada]![caraEquipada!]!;
                                         final double originalTop =
@@ -1262,7 +1346,6 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                             (itemConfig['rotation'] as num?)
                                                 ?.toDouble() ??
                                             0.0;
-
                                         return _buildAccessoryWidget(
                                           accessoryPath: caraEquipada!,
                                           responsiveTopPx:
@@ -1271,59 +1354,63 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                               originalLeft * widthScaleFactor,
                                           responsiveScale:
                                               originalScale *
-                                              accessoryScaleFactor, // Or just originalScale
+                                              accessoryScaleFactor,
                                           rotationValue: originalRotation,
                                           typeKey: 'cara_single',
                                         );
                                       }(),
-                                  if (cuerpoEquipado != null)
+
+                                  // --- 5. RENDER "FRONT" or MULTI-SLOT CUERPO ITEMS ---
+                                  if (cuerpoEquipado != null &&
+                                      !isCuerpoBehind) // Render if NOT behind (i.e., front or multi-slot)
                                     if (multiSlotCuerpoConfigs.containsKey(
                                       plantaEquipada,
                                     ))
-                                      ...(multiSlotCuerpoConfigs[plantaEquipada] ??
-                                              [])
-                                          .map((slotConfig) {
-                                            final double originalTop =
-                                                (slotConfig['top'] as num?)
-                                                    ?.toDouble() ??
-                                                0.0;
-                                            final double originalLeft =
-                                                (slotConfig['left'] as num?)
-                                                    ?.toDouble() ??
-                                                0.0;
-                                            final double originalScale =
-                                                (slotConfig['scale'] as num?)
-                                                    ?.toDouble() ??
-                                                1.0;
-                                            final double originalRotation =
-                                                (slotConfig['rotation'] as num?)
-                                                    ?.toDouble() ??
-                                                0.0;
-
-                                            return _buildAccessoryWidget(
-                                              accessoryPath: cuerpoEquipado!,
-                                              responsiveTopPx:
-                                                  originalTop *
-                                                  heightScaleFactor,
-                                              responsiveLeftPx:
-                                                  originalLeft *
-                                                  widthScaleFactor,
-                                              responsiveScale:
-                                                  originalScale *
-                                                  accessoryScaleFactor, // Or just originalScale
-                                              rotationValue: originalRotation,
-                                              typeKey:
-                                                  'cuerpo_multi_${slotConfig.hashCode}',
-                                            );
-                                          })
-                                          .toList()
+                                      ...(multiSlotCuerpoConfigs[plantaEquipada] ?? []).map((
+                                        slotConfig,
+                                      ) {
+                                        // Multi-slot cuerpo items. Assumed to be in front.
+                                        // If a multi-slot body item could be behind, each slotConfig would need 'isBehind'.
+                                        final double originalTop =
+                                            (slotConfig['top'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+                                        final double originalLeft =
+                                            (slotConfig['left'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+                                        final double originalScale =
+                                            (slotConfig['scale'] as num?)
+                                                ?.toDouble() ??
+                                            1.0;
+                                        final double originalRotation =
+                                            (slotConfig['rotation'] as num?)
+                                                ?.toDouble() ??
+                                            0.0;
+                                        // bool isSlotBehind = (slotConfig['isBehind'] as bool?) ?? false; // Future: if needed
+                                        return _buildAccessoryWidget(
+                                          accessoryPath: cuerpoEquipado!,
+                                          responsiveTopPx:
+                                              originalTop * heightScaleFactor,
+                                          responsiveLeftPx:
+                                              originalLeft * widthScaleFactor,
+                                          responsiveScale:
+                                              originalScale *
+                                              accessoryScaleFactor,
+                                          rotationValue: originalRotation,
+                                          typeKey:
+                                              'cuerpo_multi_front_${slotConfig.hashCode}',
+                                        );
+                                      }).toList()
                                     else if (cuerpoConfigs.containsKey(
                                           plantaEquipada,
                                         ) &&
                                         cuerpoConfigs[plantaEquipada]!
                                             .containsKey(cuerpoEquipado!))
                                       () {
+                                        // Single-slot cuerpo items that are configured to be in front (or default to front)
                                         final Map<String, dynamic> itemConfig =
+                                            currentSingleSlotCuerpoConfig ??
                                             cuerpoConfigs[plantaEquipada]![cuerpoEquipado!]!;
                                         final double originalTop =
                                             (itemConfig['top'] as num?)
@@ -1341,7 +1428,6 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                             (itemConfig['rotation'] as num?)
                                                 ?.toDouble() ??
                                             0.0;
-
                                         return _buildAccessoryWidget(
                                           accessoryPath: cuerpoEquipado!,
                                           responsiveTopPx:
@@ -1350,9 +1436,9 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                               originalLeft * widthScaleFactor,
                                           responsiveScale:
                                               originalScale *
-                                              accessoryScaleFactor, // Or just originalScale
+                                              accessoryScaleFactor,
                                           rotationValue: originalRotation,
-                                          typeKey: 'cuerpo_single',
+                                          typeKey: 'cuerpo_single_front',
                                         );
                                       }(),
                                 ],
@@ -1361,12 +1447,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                           ),
                         ),
                       ),
-
-                      // This content will be at the bottom of the Column.
-                      // If the plant and space above take up ~70% of the screen height,
-                      // these items will appear in the bottom ~30%.
-                      // If the content in this Column is scrollable, items might appear
-                      // on top of the Scaffold's background if they scroll past the 70% SVG background.
+                      // ... (rest of your Column for buttons and items grid - no changes needed here for layering)
                       Expanded(
                         flex: 2,
                         child: Column(
@@ -1456,34 +1537,31 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                         children:
                                             items.asMap().entries.map((entry) {
                                               final i = entry.key;
-                                              final item =
-                                                  entry
-                                                      .value; // This 'item' is from itemsPorCategoria[categoriaActual]
+                                              final item = entry.value;
                                               return ItemEquipado(
                                                 imagen: item['img'],
                                                 seleccionado: item['selected'],
-                                                Categoria: categoriaActual,
+                                                // Categoria: categoriaActual, // Corrected to lowercase 'c'
+                                                categoria: categoriaActual,
                                                 onTap: () {
                                                   setState(() {
+                                                    // ... (Your existing onTap logic for ItemEquipado)
+                                                    // This part was fine, just make sure 'isBehind' doesn't affect selection logic.
+                                                    // Selection logic should purely be about what's equipped, not its render order.
                                                     final String tappedItemImg =
                                                         item['img'];
-                                                    // For plants, the 'display' field is the unique identifier for what's equipped.
-                                                    // For accessories, 'img' is the identifier.
                                                     final String?
                                                     tappedItemDisplayPath =
-                                                        item['display']; // Might be null for accessories
+                                                        item['display'];
 
                                                     if (categoriaActual ==
                                                         'Planta') {
-                                                      // Always select a plant. No "deselection" to an empty state.
-                                                      // Only update if it's a new plant.
                                                       if (plantaEquipada !=
                                                               tappedItemDisplayPath &&
                                                           tappedItemDisplayPath !=
                                                               null) {
                                                         for (var p
                                                             in itemsPorCategoria['Planta']!) {
-                                                          // Update 'selected' status for all plants
                                                           p['selected'] =
                                                               (p['display'] ==
                                                                   tappedItemDisplayPath);
@@ -1499,7 +1577,6 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                             'Cara' ||
                                                         categoriaActual ==
                                                             'Cuerpo') {
-                                                      // Handles Sombrero, Cara, Cuerpo tabs directly
                                                       String?
                                                       currentEquippedAccessory;
                                                       switch (categoriaActual) {
@@ -1519,7 +1596,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
 
                                                       if (currentEquippedAccessory ==
                                                           tappedItemImg) {
-                                                        // Tapped the SAME already equipped accessory: Unequip it
+                                                        // Unequip
                                                         switch (categoriaActual) {
                                                           case 'Sombrero':
                                                             sombreroEquipado =
@@ -1533,20 +1610,16 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                                 null;
                                                             break;
                                                         }
-                                                        // Update 'selected' status in the source list for this category
                                                         item['selected'] =
                                                             false;
                                                       } else {
-                                                        // Tapped a NEW or DIFFERENT accessory: Equip it
-                                                        // Deselect previously selected item in this category's source list
+                                                        // Equip new
                                                         for (var otherItem
                                                             in itemsPorCategoria[categoriaActual]!) {
                                                           otherItem['selected'] =
                                                               false;
                                                         }
-                                                        // Select and equip the new one
-                                                        item['selected'] =
-                                                            true; // Update 'selected' in source list
+                                                        item['selected'] = true;
                                                         switch (categoriaActual) {
                                                           case 'Sombrero':
                                                             sombreroEquipado =
@@ -1566,26 +1639,21 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                       _saveEquippedItems();
                                                     } else if (categoriaActual ==
                                                         'Reciente') {
-                                                      // Handles "Reciente" tab
-                                                      // The 'item' here is from the 'Reciente' list and has 'originalCategory'
                                                       final String
                                                       originalCategory =
                                                           item['originalCategory'];
-                                                      // Determine the correct identifier (display for plants, img for accessories)
                                                       final String
                                                       itemIdentifierInReciente =
                                                           (originalCategory ==
                                                                   'Planta')
-                                                              ? item['display'] // Use 'display' if it's a plant
-                                                              : item['img']; // Use 'img' if it's an accessory
+                                                              ? item['display']
+                                                              : item['img'];
 
                                                       if (originalCategory ==
                                                           'Planta') {
-                                                        // Tapping a plant in "Reciente" should do nothing.
-                                                        // It's already the selected plant. Plant changes are handled in the 'Planta' tab.
-                                                        return; // Exit early, no state change
+                                                        return; // Tapping plant in reciente does nothing here
                                                       } else {
-                                                        // It's an accessory from Reciente. Tapping it means UNEQUIP.
+                                                        // Accessory in Reciente: Unequip
                                                         bool unequipped = false;
                                                         if (originalCategory ==
                                                                 'Sombrero' &&
@@ -1609,16 +1677,15 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                                         }
 
                                                         if (unequipped) {
-                                                          // Find the original item in its source category list and set 'selected' to false
                                                           if (itemsPorCategoria
                                                               .containsKey(
                                                                 originalCategory,
                                                               )) {
                                                             for (var originalItem
                                                                 in itemsPorCategoria[originalCategory]!) {
-                                                              // Match based on 'img' for accessories, as itemIdentifierInReciente will be item['img']
                                                               if (originalItem['img'] ==
                                                                   itemIdentifierInReciente) {
+                                                                // Match by img for accessories
                                                                 originalItem['selected'] =
                                                                     false;
                                                                 break;
@@ -1646,6 +1713,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                     ],
                   ),
                 ),
+                // ... (rest of your header and side buttons - no changes needed here)
                 Positioned(
                   top: relHeight(24),
                   left: 0,
@@ -1700,7 +1768,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                                 ),
                                 SizedBox(width: relWidth(4)),
                                 Text(
-                                  '1500',
+                                  '1500', // This should probably be dynamic
                                   style: GoogleFonts.poppins(
                                     fontSize: relWidth(16),
                                     fontWeight: FontWeight.w700,
@@ -1716,10 +1784,8 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
                   ),
                 ),
                 Positioned(
-                  bottom: relHeight(
-                    350,
-                  ), // Justo encima de categorías (ajusta según necesidad)
-                  right: relWidth(4), // Pegado al borde derecho
+                  bottom: relHeight(350),
+                  right: relWidth(4),
                   child: SideButtons(
                     showArmario: false,
                     onTiendaTap: () {
@@ -1737,7 +1803,7 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
     );
   }
 
-  /// Returns either an [IconData] or a String asset path for SVG.
+  // ... _iconoCategoria remains the same
   Widget _iconoCategoria(String categoria, Color color, double size) {
     switch (categoria) {
       case 'Reciente':
@@ -1774,47 +1840,58 @@ class _ArmarioScreenState extends State<ArmarioScreen> {
         return Icon(Icons.help_outline, size: size, color: color);
     }
   }
-}
-
-// ... (rest of your ArmarioScreen code remains the same) ...
+} // End of _ArmarioScreenState
 
 class ItemEquipado extends StatelessWidget {
   final String imagen;
   final bool seleccionado;
   final VoidCallback onTap;
-  final String Categoria;
+  // final String Categoria; // Corrected to lowercase 'c'
+  final String categoria;
 
   const ItemEquipado({
     super.key,
     required this.imagen,
     required this.seleccionado,
     required this.onTap,
-    required this.Categoria,
+    // required this.Categoria, // Corrected
+    required this.categoria,
   });
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final itemSize = screenWidth * 0.25;
+    // A more robust way to calculate itemSize to fit, for example, 3 items per row with spacing
+    final double totalSpacing = 12.0 * (3 - 1); // spacing * (itemsPerRow - 1)
+    final double availableWidth =
+        screenWidth -
+        (16 * 2) -
+        totalSpacing; // screenWidth - padding - totalSpacing
+    final itemSize =
+        availableWidth /
+        3.2; // Divide by itemsPerRow (adjust 3.2 for desired size)
 
-    final double scale =
-        (Categoria == 'Sombrero' ||
-                Categoria == 'Cara' ||
-                Categoria == 'Cuerpo')
-            ? 0.2
+    final double
+    scaleFactor = // Renamed 'scale' to 'scaleFactor' to avoid confusion
+        (categoria == 'Sombrero' ||
+                categoria == 'Cara' ||
+                categoria == 'Cuerpo')
+            ? 0.2 // This seems very small, check if it's intended
             : 0.8;
 
     final Widget imageWidget =
         imagen.toLowerCase().endsWith('.svg')
             ? SvgPicture.asset(
               imagen,
-              width: itemSize * 0.8,
-              height: itemSize * 0.8,
+              width: itemSize * 0.8, // Use a portion of itemSize
+              height: itemSize * 0.8, // Use a portion of itemSize
+              fit: BoxFit.contain, // Added fit
             )
             : Image.asset(
+              // For non-SVG, using scaleFactor as before
               imagen,
-              width: 80 * scale,
-              height: 80 * scale,
+              width: 80 * scaleFactor,
+              height: 80 * scaleFactor,
               fit: BoxFit.contain,
             );
 
@@ -1837,12 +1914,16 @@ class ItemEquipado extends StatelessWidget {
           children: [
             Align(
               alignment:
-                  (Categoria == 'Sombrero' ||
-                          Categoria == 'Cara' ||
-                          Categoria == 'Cuerpo')
+                  (categoria == 'Sombrero' || // Used corrected 'categoria'
+                          categoria == 'Cara' ||
+                          categoria == 'Cuerpo')
                       ? Alignment.center
                       : Alignment.bottomCenter,
-              child: imageWidget,
+              child: Padding(
+                // Added padding for better visual appearance of the image inside the box
+                padding: const EdgeInsets.all(4.0),
+                child: imageWidget,
+              ),
             ),
             if (seleccionado)
               const Positioned(

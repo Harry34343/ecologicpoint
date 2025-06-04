@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:a/widgets/button.dart' as button;
-import 'package:a/widgets/navegationbarhome.dart' as navBar;
-import 'package:a/widgets/tiendayarmario.dart';
+import 'package:a/widgets/button.dart' as button; // Your existing import
+import 'package:a/widgets/navegationbarhome.dart'
+    as navBar; // Your existing import
+import 'package:a/widgets/tiendayarmario.dart'; // Your existing import
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Plant1 extends StatefulWidget {
@@ -24,48 +25,61 @@ class _Plant1State extends State<Plant1> {
   bool _isLoadingEquippedItems = true;
   final double designPlantDisplayHeight = 400.0;
   final double designPlantDisplayWidth = 430.0;
-  final double globalAccessoryDesignOffsetX =
-      96; // Ejemplo: 10.0 para mover 10 unidades a la derecha
+  final double globalAccessoryDesignOffsetX = 96;
   final double globalAccessoryDesignOffsetY = 0.0;
+
+  // --- NEW: State for plant name and controller ---
+  String _plantName = "Chuzitos"; // Default name
+  late TextEditingController _nameEditingController;
+  // --- END NEW ---
+
+  // Your existing config maps (sombreroConfigs, caraConfigs, etc.) remain here
+  // ... (multiSlotSombreroConfigs, multiSlotCaraConfigs, multiSlotCuerpoConfigs)
+  // ... (sombreroConfigs, caraConfigs, cuerpoConfigs)
 
   final Map<String, List<Map<String, dynamic>>> multiSlotSombreroConfigs = {
     'assets/plantas/bambu.svg': [
-      // Bambu has two slots for the selected sombrero
-      {'top': -20, 'left': 64.0, 'scale': 2.0, 'rotation': 0.6}, // Slot 1
-      {'top': 48.0, 'left': 104.0, 'scale': 2.0, 'rotation': 0.0}, // Slot 2
+      {'top': -20, 'left': 84.0, 'scale': 2.0, 'rotation': 0.6},
+      {'top': 48.0, 'left': 124.0, 'scale': 2.0, 'rotation': 0.0},
     ],
-    // Add other plants here if they also have multiple slots for a single type of hat
   };
   final Map<String, List<Map<String, dynamic>>> multiSlotCaraConfigs = {
     'assets/plantas/bambu.svg': [
-      // Bambu has two slots for the selected cara
-      {'top': 80, 'left': -104.0, 'scale': .1, 'rotation': 0},
-      {'top': 168.0, 'left': -54.0, 'scale': .1, 'rotation': 0.0}, // Slot 2
+      {'top': 80, 'left': -94.0, 'scale': .1, 'rotation': 0},
+      {'top': 168.0, 'left': -44.0, 'scale': .1, 'rotation': 0.0},
     ],
-    // Add other plants here if they also have multiple slots for a single type of cara
   };
   final Map<String, List<Map<String, dynamic>>> multiSlotCuerpoConfigs = {
     'assets/plantas/bambu.svg': [
-      // Bambu has two slots for the selected cuerpo
-      {'top': 188, 'left': 64.0, 'scale': 2.0, 'rotation': 0.0},
-      {'top': 288, 'left': 118.0, 'scale': 2.0, 'rotation': 0.0},
+      {
+        'top': 188,
+        'left': 84.0,
+        'scale': 2.0,
+        'rotation': 0.0,
+        'isBehind': false,
+      },
+      {
+        'top': 288,
+        'left': 138.0,
+        'scale': 2.0,
+        'rotation': 0.0,
+        'isBehind': false,
+      },
     ],
-    // Add other plants here if they also have multiple slots for a single type of cuerpo
   };
-
   final Map<String, Map<String, Map<String, dynamic>>> sombreroConfigs = {
     'assets/plantas/cactus.svg': {
-      // Plant: Cactus
       'assets/sombreros/cono.svg': {
-        // Accessory: Cono
-        'top': -.0, 'left': 94.0, 'scale': 3.5, 'rotation': 0.0,
+        'top': -.0,
+        'left': 94.0,
+        'scale': 3.5,
+        'rotation': 0.0,
       },
       'assets/sombreros/beanie.svg': {
-        // Accessory: Beanie
         'top': -10.0,
         'left': 90.0,
         'scale': 3.2,
-        'rotation': -0.32, // Example different values
+        'rotation': -0.32,
       },
       'assets/sombreros/cowboy.svg': {
         'top': 8.0,
@@ -94,11 +108,10 @@ class _Plant1State extends State<Plant1> {
         'rotation': 0.3,
       },
       'assets/sombreros/beanie.svg': {
-        // Accessory: Beanie
         'top': -10.0,
         'left': 90.0,
         'scale': 3.2,
-        'rotation': -0.32, // Example different values
+        'rotation': -0.32,
       },
       'assets/sombreros/cowboy.svg': {
         'top': 24.0,
@@ -127,11 +140,10 @@ class _Plant1State extends State<Plant1> {
         'rotation': -0.1,
       },
       'assets/sombreros/beanie.svg': {
-        // Accessory: Beanie
         'top': -24.0,
         'left': 48.0,
         'scale': 2.5,
-        'rotation': -0.1, // Example different values
+        'rotation': -0.1,
       },
       'assets/sombreros/cowboy.svg': {
         'top': -24.0,
@@ -152,7 +164,6 @@ class _Plant1State extends State<Plant1> {
         'rotation': -0.1,
       },
     },
-
     'assets/plantas/carnivora.svg': {
       'assets/sombreros/cono.svg': {
         'top': -4.0,
@@ -161,11 +172,10 @@ class _Plant1State extends State<Plant1> {
         'rotation': 0.6,
       },
       'assets/sombreros/beanie.svg': {
-        // Accessory: Beanie
         'top': -4.0,
         'left': 124.0,
         'scale': 2.0,
-        'rotation': 0.6, // Example different values
+        'rotation': 0.6,
       },
       'assets/sombreros/cowboy.svg': {
         'top': 12.0,
@@ -194,11 +204,10 @@ class _Plant1State extends State<Plant1> {
         'rotation': 0.3,
       },
       'assets/sombreros/beanie.svg': {
-        // Accessory: Beanie
         'top': -20.0,
         'left': 176.0,
         'scale': 4.0,
-        'rotation': 0.3, // Example different values
+        'rotation': 0.3,
       },
       'assets/sombreros/cowboy.svg': {
         'top': -12.0,
@@ -222,38 +231,36 @@ class _Plant1State extends State<Plant1> {
     'assets/plantas/Planeta.svg': {
       'assets/sombreros/cono.svg': {
         'top': -30.0,
-        'left': 294.0,
+        'left': 254.0,
         'scale': 6.0,
         'rotation': 0.6,
       },
       'assets/sombreros/beanie.svg': {
-        // Accessory: Beanie
         'top': -30.0,
-        'left': 294.0,
+        'left': 254.0,
         'scale': 5.0,
-        'rotation': 0.3, // Example different values
+        'rotation': 0.3,
       },
       'assets/sombreros/cowboy.svg': {
         'top': 10.0,
-        'left': 294.0,
+        'left': 254.0,
         'scale': 3.0,
         'rotation': 1,
       },
       'assets/sombreros/halo.svg': {
         'top': -30.0,
-        'left': 294.0,
+        'left': 254.0,
         'scale': 3.0,
         'rotation': 0.6,
       },
       'assets/sombreros/monho.svg': {
-        'top': 10.0,
-        'left': 294.0,
+        'top': 54.0,
+        'left': 254.0,
         'scale': 3.0,
         'rotation': 0.6,
       },
     },
   };
-
   final Map<String, Map<String, Map<String, dynamic>>> caraConfigs = {
     'assets/plantas/cactus.svg': {
       'assets/cara/gadas.svg': {
@@ -322,31 +329,31 @@ class _Plant1State extends State<Plant1> {
     'assets/plantas/sprout.svg': {
       'assets/cara/gadas.svg': {
         'top': 196,
-        'left': -24.0,
+        'left': -48.0,
         'scale': .1,
         'rotation': 0,
       },
       'assets/cara/curita.svg': {
         'top': 175,
-        'left': 72.0,
+        'left': 38.0,
         'scale': .15,
         'rotation': 1.5,
       },
       'assets/cara/payaso.svg': {
         'top': 100,
-        'left': -26.0,
+        'left': -60.0,
         'scale': .1,
         'rotation': 0,
       },
       'assets/cara/pestenegra.svg': {
         'top': 188,
-        'left': 20.0,
+        'left': -18.0,
         'scale': .2,
         'rotation': 0,
       },
       'assets/cara/tapabocasvr1.svg': {
         'top': 138,
-        'left': -94.0,
+        'left': -130.0,
         'scale': .08,
         'rotation': 0,
       },
@@ -360,25 +367,25 @@ class _Plant1State extends State<Plant1> {
       },
       'assets/cara/curita.svg': {
         'top': -44,
-        'left': -12,
+        'left': -20,
         'scale': .3,
         'rotation': 0.1,
       },
       'assets/cara/payaso.svg': {
         'top': -84,
-        'left': -114,
+        'left': -122,
         'scale': .5,
         'rotation': 0,
       },
       'assets/cara/pestenegra.svg': {
         'top': -20,
-        'left': -16,
+        'left': -24,
         'scale': 1,
         'rotation': 0,
       },
       'assets/cara/tapabocasvr1.svg': {
         'top': -56,
-        'left': -172,
+        'left': -180,
         'scale': 0.4,
         'rotation': 0,
       },
@@ -386,31 +393,31 @@ class _Plant1State extends State<Plant1> {
     'assets/plantas/lotus.svg': {
       'assets/cara/gadas.svg': {
         'top': 45,
-        'left': -32,
+        'left': -52,
         'scale': .3,
         'rotation': 0.0,
       },
       'assets/cara/curita.svg': {
         'top': 16,
-        'left': 54,
+        'left': 34,
         'scale': .3,
         'rotation': .6,
       },
       'assets/cara/payaso.svg': {
         'top': -68,
-        'left': -32,
+        'left': -52,
         'scale': .3,
         'rotation': 0.0,
       },
       'assets/cara/pestenegra.svg': {
         'top': 24,
-        'left': 34,
+        'left': 14,
         'scale': .6,
         'rotation': 0.0,
       },
       'assets/cara/tapabocasvr1.svg': {
         'top': -4,
-        'left': -96,
+        'left': -116,
         'scale': .2,
         'rotation': 0.0,
       },
@@ -418,37 +425,36 @@ class _Plant1State extends State<Plant1> {
     'assets/plantas/Planeta.svg': {
       'assets/cara/gadas.svg': {
         'top': 94,
-        'left': 16,
+        'left': -56,
         'scale': .5,
         'rotation': 0,
       },
       'assets/cara/curita.svg': {
         'top': 94,
-        'left': 136,
+        'left': 76,
         'scale': .5,
         'rotation': -0.6,
       },
       'assets/cara/payaso.svg': {
         'top': 64,
-        'left': 16,
+        'left': -56,
         'scale': 1,
         'rotation': 0,
       },
       'assets/cara/pestenegra.svg': {
         'top': 124,
-        'left': 124,
+        'left': 64,
         'scale': 1,
         'rotation': 0,
       },
       'assets/cara/tapabocasvr1.svg': {
         'top': 124,
-        'left': -44,
+        'left': -104,
         'scale': .5,
         'rotation': 0,
       },
     },
   };
-
   final Map<String, Map<String, Map<String, dynamic>>> cuerpoConfigs = {
     'assets/plantas/cactus.svg': {
       'assets/cuerpo/corbata.svg': {
@@ -456,30 +462,35 @@ class _Plant1State extends State<Plant1> {
         'left': 110,
         'scale': 2.5,
         'rotation': 0.0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 188,
         'left': 82,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 270,
         'left': 92,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 212,
         'left': 64,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 156,
         'left': 32,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': true,
       },
     },
     'assets/plantas/Girasol.svg': {
@@ -488,62 +499,72 @@ class _Plant1State extends State<Plant1> {
         'left': 110,
         'scale': 2.5,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 196,
         'left': 82,
         'scale': 1.7,
         'rotation': 0.0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 192,
         'left': 92,
         'scale': 2,
         'rotation': 0.0,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 212,
         'left': 64,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 156,
         'left': 32,
         'scale': 1.8,
         'rotation': 0.0,
+        'isBehind': true,
       },
     },
     'assets/plantas/sprout.svg': {
       'assets/cuerpo/corbata.svg': {
         'top': 300,
-        'left': 146,
+        'left': 116,
         'scale': 2,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 284,
-        'left': 116,
+        'left': 96,
         'scale': 1,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 284,
-        'left': 124,
+        'left': 104,
         'scale': 1,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 196,
-        'left': 86,
+        'left': 66,
         'scale': 1,
         'rotation': 0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 196,
-        'left': 54,
+        'left': 34,
         'scale': 1,
         'rotation': 0,
+        'isBehind': true,
       },
     },
     'assets/plantas/carnivora.svg': {
@@ -552,102 +573,151 @@ class _Plant1State extends State<Plant1> {
         'left': 144.0,
         'scale': 3,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 162,
         'left': 124.0,
         'scale': 1.8,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 232,
         'left': 64,
         'scale': 2.8,
         'rotation': 1,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 162,
         'left': 124.0,
         'scale': 1.8,
         'rotation': 0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 162,
         'left': 32.0,
         'scale': 1.8,
         'rotation': 0,
+        'isBehind': true,
       },
     },
     'assets/plantas/lotus.svg': {
       'assets/cuerpo/corbata.svg': {
         'top': 204,
-        'left': 142,
+        'left': 112,
         'scale': 3.5,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 240,
-        'left': 112,
+        'left': 92,
         'scale': 2.5,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 232,
-        'left': 120,
+        'left': 90,
         'scale': 3.5,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 150,
-        'left': 100,
+        'left': 70,
         'scale': 2.5,
         'rotation': 0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 150,
-        'left': 54,
+        'left': 24,
         'scale': 2.5,
         'rotation': 0,
+        'isBehind': true,
       },
     },
     'assets/plantas/Planeta.svg': {
       'assets/cuerpo/corbata.svg': {
         'top': 360.0,
-        'left': 194.0,
+        'left': 114.0,
         'scale': 5.0,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/bufanda.svg': {
         'top': 360.0,
-        'left': 168.0,
+        'left': 88.0,
         'scale': 2.5,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/canguro.svg': {
         'top': 360.0,
-        'left': 172.0,
+        'left': 92.0,
         'scale': 5.0,
         'rotation': 0,
+        'isBehind': false,
       },
       'assets/cuerpo/capa.svg': {
         'top': 124.0,
-        'left': 96.0,
+        'left': 16.0,
         'scale': 3,
         'rotation': 0,
+        'isBehind': true,
       },
       'assets/cuerpo/alas.svg': {
         'top': 124.0,
-        'left': 96.0,
+        'left': 16.0,
         'scale': 3,
         'rotation': 0,
+        'isBehind': true,
       },
     },
   };
+
   @override
   void initState() {
     super.initState();
+    // --- NEW: Initialize TextEditingController ---
+    _nameEditingController = TextEditingController();
+    // --- END NEW ---
     _loadEquippedItems();
+    _loadPlantName(); // Load plant name
   }
+
+  @override
+  void dispose() {
+    // --- NEW: Dispose TextEditingController ---
+    _nameEditingController.dispose();
+    // --- END NEW ---
+    super.dispose();
+  }
+
+  // --- NEW: Method to load plant name ---
+  Future<void> _loadPlantName() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _plantName =
+          prefs.getString('plant_name') ?? "Chuzitos"; // Default if not found
+      _nameEditingController.text = _plantName; // Set initial text for editing
+    });
+  }
+  // --- END NEW ---
+
+  // --- NEW: Method to save plant name ---
+  Future<void> _savePlantName(String newName) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('plant_name', newName);
+    setState(() {
+      _plantName = newName;
+    });
+  }
+  // --- END NEW ---
 
   Future<void> _loadEquippedItems() async {
     setState(() {
@@ -656,8 +726,7 @@ class _Plant1State extends State<Plant1> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _plantaEquipadaAsset =
-          prefs.getString('equipped_planta') ??
-          'assets/plantas/cactus.svg'; // Un default si no hay nada
+          prefs.getString('equipped_planta') ?? 'assets/plantas/cactus.svg';
       _sombreroEquipadoAsset = prefs.getString('equipped_sombrero');
       _caraEquipadaAsset = prefs.getString('equipped_cara');
       _cuerpoEquipadoAsset = prefs.getString('equipped_cuerpo');
@@ -670,37 +739,29 @@ class _Plant1State extends State<Plant1> {
 
   Widget _buildAccessoryWidget({
     required String accessoryPath,
-    required double responsiveTopPx, // Directly use this
-    required double responsiveLeftPx, // Directly use this
-    required double responsiveScale, // Directly use this
-    required double rotationValue, // Directly use this
-    required double
-    globalOffsetX, // Offset X global para todos los accesorios, ya escalado
+    required double responsiveTopPx,
+    required double responsiveLeftPx,
+    required double responsiveScale,
+    required double rotationValue,
+    required double globalOffsetX,
     required double globalOffsetY,
     required String typeKey,
   }) {
     final double finalTopPx = responsiveTopPx + globalOffsetY;
     final double finalLeftPx = responsiveLeftPx + globalOffsetX;
-    // THE EXTRACTION LOGIC USING 'config' SHOULD BE REMOVED FROM HERE
-    // final double top = (config['top'] as num?)?.toDouble() ?? 0.0; // REMOVE
-    // final double left = (config['left'] as num?)?.toDouble() ?? 0.0; // REMOVE
-    // final double scale = (config['scale'] as num?)?.toDouble() ?? 1.0; // REMOVE
-    // final double rotation = (config['rotation'] as num?)?.toDouble() ?? 0.0; // REMOVE
 
     return Positioned(
       key: ValueKey(
-        // Using a more robust key combining accessory and config details
         "${typeKey}_${accessoryPath.hashCode}_${responsiveTopPx.toStringAsFixed(2)}_${responsiveLeftPx.toStringAsFixed(2)}",
       ),
-      top: finalTopPx, // Use the passed responsive value
-      left: finalLeftPx, // Use the passed responsive value
+      top: finalTopPx,
+      left: finalLeftPx,
       child: Transform.rotate(
-        angle: rotationValue, // Use the passed rotation value
+        angle: rotationValue,
         child: Transform.scale(
-          scale: responsiveScale, // Use the passed responsive scale
+          scale: responsiveScale,
           child: SvgPicture.asset(
             accessoryPath,
-            // Another key for the SvgPicture itself
             key: ValueKey("${typeKey}_svg_${accessoryPath.hashCode}"),
           ),
         ),
@@ -712,8 +773,6 @@ class _Plant1State extends State<Plant1> {
     double relWidth(double w) => MediaQuery.of(context).size.width * (w / 440);
     double relHeight(double h) =>
         MediaQuery.of(context).size.height * (h / 956);
-
-    // The FAB represents index 2 (Plant screen)
     bool isPlantSelected = _selectedIndex == 2;
 
     return GestureDetector(
@@ -721,24 +780,17 @@ class _Plant1State extends State<Plant1> {
       onTapUp: (_) {
         setState(() {
           _isFabPressed = false;
-          // If tapping the FAB and we are NOT already on the plant screen (index 2)
-          // then update _selectedIndex and navigate.
           if (_selectedIndex != 2) {
-            _selectedIndex = 2; // Update the state for Plant1
-
-            // Perform navigation to the plant screen if not already there
-            // This check is important to prevent re-pushing the same route
+            _selectedIndex = 2;
             if (ModalRoute.of(context)?.settings.name != '/planta') {
               Navigator.pushReplacementNamed(context, '/planta');
             }
           }
-          // If _selectedIndex is already 2, tapping the FAB might do nothing,
-          // or you could add a refresh action or some other specific FAB behavior here.
         });
       },
       onTapCancel: () => setState(() => _isFabPressed = false),
       child: Transform.scale(
-        scale: _isFabPressed ? 0.95 : 1.0, // Slightly adjusted scale
+        scale: _isFabPressed ? 0.95 : 1.0,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
           width: relWidth(64),
@@ -759,19 +811,234 @@ class _Plant1State extends State<Plant1> {
           ),
           child: Center(
             child: SvgPicture.asset(
-              'phplantduotone.svg',
+              'assets/phplantduotone.svg', // Ensure this asset path is correct
               width: relWidth(24),
               height: relHeight(24),
-              color:
-                  isPlantSelected
-                      ? const Color.fromRGBO(247, 246, 235, 1)
-                      : const Color.fromRGBO(53, 94, 59, 1),
+              colorFilter: ColorFilter.mode(
+                // Updated from 'color'
+                isPlantSelected
+                    ? const Color.fromRGBO(247, 246, 235, 1)
+                    : const Color.fromRGBO(53, 94, 59, 1),
+                BlendMode.srcIn,
+              ),
             ),
           ),
         ),
       ),
     );
   }
+
+  // --- NEW: Method to show the edit name dialog ---
+  // Ensure this import points to your custom buttons file
+  // import 'package:a/widgets/button.dart' as button; // Already in your code
+
+  void _showEditNameDialog(BuildContext context) {
+    _nameEditingController.text = _plantName;
+    _nameEditingController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _nameEditingController.text.length),
+    );
+
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        double screenHeight =
+            MediaQuery.of(
+              dialogContext,
+            ).size.height; // Not directly used for height yet
+        double screenWidth = MediaQuery.of(dialogContext).size.width;
+
+        // Define the TOTAL width of your SVG element on screen (including leaves).
+        // This will likely be a bit wider than just the beige box.
+        // Example: If beige box is 80% of screen, maybe total SVG is 90-95%.
+        final double dialogCanvasWidth =
+            screenWidth * 1; // ADJUST THIS for total SVG width
+
+        // The height of the canvas. This needs to match the aspect ratio of your *entire* SVG
+        // (beige box + leaves). If you don't know it, you might need to:
+        // 1. Open SVG in an editor, get its viewBox dimensions (e.g., viewBox="0 0 300 350")
+        //    aspectRatio = width / height (e.g., 300 / 350)
+        //    dialogCanvasHeight = dialogCanvasWidth / aspectRatio;
+        // OR 2. Guess and check.
+        // Let's assume an example SVG aspect ratio (width/height) of 300/380 for the whole visual.
+        final double svgOverallAspectRatio =
+            440 / 365; // GUESS: width/height of your SVG including leaves
+        final double dialogCanvasHeight =
+            dialogCanvasWidth / svgOverallAspectRatio;
+
+        // --- Sizing for content WITHIN the beige box ---
+        // These are relative to the beige box area.
+        // Let's assume the beige box content area is roughly 70-75% of the dialogCanvasWidth
+        // and a certain fixed proportion for height for the content part.
+        double contentAreaDesignWidth =
+            280; // A reference design width for the beige box content
+        // The actual width available for content after accounting for leaves visually:
+        double actualContentDisplayWidth =
+            dialogCanvasWidth *
+            0.75; // GUESS: Beige box is 75% of total SVG width
+
+        double cRelWidth(double w) =>
+            actualContentDisplayWidth * (w / contentAreaDesignWidth);
+        // For cRelHeight, it's trickier without knowing the beige box's height portion.
+        // Let's use fixed padding/SizedBox heights for vertical spacing for now or scale them similarly.
+        double cRelHeight(double h, {double baseContentHeight = 180}) =>
+            (dialogCanvasHeight * 0.5) * (h / baseContentHeight);
+        double dRelWidth(double w) =>
+            MediaQuery.of(dialogContext).size.width * (w / 440);
+        double dRelHeight(double h) =>
+            MediaQuery.of(dialogContext).size.height * (h / 956);
+
+        final double dialogContainerWidth =
+            MediaQuery.of(dialogContext).size.width;
+        // You might need to adjust dialogContainerHeight if your custom buttons
+        // have different vertical padding than the previous ElevatedButton setup.
+        final double dialogContainerHeight = dRelHeight(360);
+
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          insetPadding: EdgeInsets.zero, // Allows dialog to size to its child
+          child: SizedBox(
+            // This SizedBox is the canvas for the ENTIRE SVG
+            width: dialogCanvasWidth,
+            height: dialogCanvasHeight,
+            child: Stack(
+              // This centers the Column of content within the dialogCanvasWidth/Height.
+              // The Column itself will then be constrained.
+              alignment: Alignment.center,
+              clipBehavior:
+                  Clip.none, // Important if SVG design has parts that are truly "outside"
+              children: [
+                // Layer 1: The SVG background
+                SvgPicture.asset(
+                  'assets/fondopopsinB.svg', // YOUR SVG
+                  width: dialogCanvasWidth,
+                  height: dialogCanvasHeight,
+                  // BoxFit.fill will stretch the SVG to fill the canvas.
+                  // This is often desired if the canvas dimensions are specifically for the SVG.
+                  fit: BoxFit.fill,
+                ),
+
+                // Layer 2: The content Column
+                // This Column needs to be narrower than dialogCanvasWidth if leaves are on sides.
+                // We constrain its width.
+                Container(
+                  width:
+                      actualContentDisplayWidth, // Constrain width to beige box area
+                  // Height will be determined by content (MainAxisSize.min)
+                  // Add padding if your SVG's beige box has internal padding before content starts
+                  padding: EdgeInsets.symmetric(
+                    // horizontal: cRelWidth(15), // Internal padding within the beige box if any
+                    vertical: cRelHeight(
+                      15,
+                      baseContentHeight: 200,
+                    ), // Internal top/bottom padding
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Editar nombre',
+                        style: GoogleFonts.poppins(
+                          fontSize: cRelWidth(16),
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF1F1F1F),
+                        ),
+                      ),
+                      SizedBox(height: cRelHeight(18, baseContentHeight: 200)),
+                      SizedBox(
+                        height: dialogCanvasHeight * 0.12,
+                        child: TextField(
+                          controller: _nameEditingController,
+                          autofocus: true,
+                          textAlignVertical: TextAlignVertical.center,
+                          style: GoogleFonts.poppins(
+                            fontSize: cRelWidth(14),
+                            color: const Color(0xFF1F1F1F),
+                          ),
+                          decoration: InputDecoration(
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(
+                                left: cRelWidth(10),
+                                right: cRelWidth(6),
+                              ),
+                              child: Icon(
+                                Icons.park_rounded,
+                                color: const Color(0xFF355E3B),
+                                size: cRelWidth(20),
+                              ),
+                            ),
+                            prefixIconConstraints: const BoxConstraints(
+                              minWidth: 0,
+                              minHeight: 0,
+                            ),
+                            filled: true,
+                            fillColor: const Color(0xFFEAE9E0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                cRelWidth(20),
+                              ),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: cRelWidth(10),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: cRelHeight(12, baseContentHeight: 200),
+                      ), // Reduced space
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: button.CustomOutlinedButton(
+                              text: 'Cancelar',
+                              onPressed: () {
+                                Navigator.of(dialogContext).pop();
+                              },
+                              isActivated: false,
+                            ),
+                          ),
+                          SizedBox(width: cRelWidth(10)),
+                          Expanded(
+                            child: button.FilledButton(
+                              text: 'Guardar',
+                              onPressed: () {
+                                if (_nameEditingController.text
+                                    .trim()
+                                    .isNotEmpty) {
+                                  _savePlantName(
+                                    _nameEditingController.text.trim(),
+                                  );
+                                  Navigator.of(dialogContext).pop();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "El nombre no puede estar vacío.",
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              isActivated: true,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+  // --- END NEW ---
 
   @override
   Widget build(BuildContext context) {
@@ -780,7 +1047,6 @@ class _Plant1State extends State<Plant1> {
       backgroundColor: Colors.transparent,
       body: LayoutBuilder(
         builder: (context, constraints) {
-          // Added missing definition
           final screenWidth = constraints.maxWidth;
           final screenHeight = constraints.maxHeight;
           double relWidth(double w) => screenWidth * (w / 440);
@@ -800,10 +1066,63 @@ class _Plant1State extends State<Plant1> {
               globalAccessoryDesignOffsetX * widthScaleFactor;
           final double scaledGlobalAccessoryOffsetY =
               globalAccessoryDesignOffsetY * heightScaleFactor;
+          Map<String, dynamic>? currentSingleSlotCuerpoConfig;
+          bool isSingleSlotCuerpoBehind = false;
+
+          // Define the lists outside the loop so they are accessible in the widget tree
+          List<Widget> multiSlotCuerpoBehindWidgets = [];
+          List<Widget> multiSlotCuerpoFrontWidgets = [];
+
+          if (_cuerpoEquipadoAsset != null &&
+              !multiSlotCuerpoConfigs.containsKey(_plantaEquipadaAsset) &&
+              cuerpoConfigs.containsKey(_plantaEquipadaAsset) &&
+              cuerpoConfigs[_plantaEquipadaAsset]!.containsKey(
+                _cuerpoEquipadoAsset!,
+              )) {
+            currentSingleSlotCuerpoConfig =
+                cuerpoConfigs[_plantaEquipadaAsset]![_cuerpoEquipadoAsset!]!;
+            isSingleSlotCuerpoBehind =
+                (currentSingleSlotCuerpoConfig['isBehind'] as bool?) ?? false;
+          }
+          if (_cuerpoEquipadoAsset != null &&
+              multiSlotCuerpoConfigs.containsKey(_plantaEquipadaAsset)) {
+            final List<Map<String, dynamic>> slotConfigsForPlant =
+                multiSlotCuerpoConfigs[_plantaEquipadaAsset] ?? [];
+            for (var slotConfig in slotConfigsForPlant) {
+              final double originalTop =
+                  (slotConfig['top'] as num?)?.toDouble() ?? 0.0;
+              final double originalLeft =
+                  (slotConfig['left'] as num?)?.toDouble() ?? 0.0;
+              final double originalScale =
+                  (slotConfig['scale'] as num?)?.toDouble() ?? 1.0;
+              final double originalRotation =
+                  (slotConfig['rotation'] as num?)?.toDouble() ?? 0.0;
+              final bool isThisSlotBehind =
+                  (slotConfig['isBehind'] as bool?) ?? false;
+
+              Widget accessoryWidget = _buildAccessoryWidget(
+                accessoryPath: _cuerpoEquipadoAsset!,
+                responsiveTopPx: originalTop * heightScaleFactor,
+                responsiveLeftPx: originalLeft * widthScaleFactor,
+                responsiveScale: originalScale * accessoryScaleFactor,
+                rotationValue: originalRotation,
+                globalOffsetX:
+                    scaledGlobalAccessoryOffsetX, // Apply Plant1's global offset
+                globalOffsetY:
+                    scaledGlobalAccessoryOffsetY, // Apply Plant1's global offset
+                typeKey:
+                    'cuerpo_multi_${isThisSlotBehind ? "behind" : "front"}_${slotConfig.hashCode}_plant1',
+              );
+              if (isThisSlotBehind) {
+                multiSlotCuerpoBehindWidgets.add(accessoryWidget);
+              } else {
+                multiSlotCuerpoFrontWidgets.add(accessoryWidget);
+              }
+            }
+          }
 
           return Stack(
             children: [
-              // Fondo
               Positioned.fill(
                 child: IgnorePointer(
                   child: SvgPicture.asset(
@@ -820,10 +1139,9 @@ class _Plant1State extends State<Plant1> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Botón atrás
                     Container(
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(247, 246, 235, 1),
+                        color: const Color.fromRGBO(247, 246, 235, 1),
                         borderRadius: BorderRadius.circular(24),
                       ),
                       child: button.CustomIconButton(
@@ -834,39 +1152,44 @@ class _Plant1State extends State<Plant1> {
                         },
                       ),
                     ),
-                    // Título
-                    Text(
-                      'Chuzitos',
-                      style: GoogleFonts.poppins(
-                        fontSize: relWidth(16),
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF1F1F1F),
+                    // --- MODIFIED: Plant name is now tappable ---
+                    GestureDetector(
+                      onTap: () {
+                        _showEditNameDialog(context);
+                      },
+                      child: Text(
+                        _plantName, // Use the state variable for plant name
+                        style: GoogleFonts.poppins(
+                          fontSize: relWidth(16),
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF1F1F1F),
+                        ),
                       ),
                     ),
-                    // Monedas
+                    // --- END MODIFICATION ---
                     Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: relWidth(12),
                         vertical: relHeight(4),
                       ),
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(247, 246, 235, 1),
+                        color: const Color.fromRGBO(247, 246, 235, 1),
                         borderRadius: BorderRadius.circular(24),
                       ),
                       child: Row(
                         children: [
                           Icon(
                             Icons.eco_rounded,
-                            color: Color(0xFF355E3B),
+                            color: const Color(0xFF355E3B),
                             size: relWidth(20),
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
-                            '1500',
+                            '1500', // This should probably be dynamic too
                             style: GoogleFonts.poppins(
                               fontSize: relWidth(16),
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF355E3B),
+                              color: const Color(0xFF355E3B),
                             ),
                           ),
                         ],
@@ -879,75 +1202,104 @@ class _Plant1State extends State<Plant1> {
                 const Center(child: CircularProgressIndicator())
               else
                 Positioned.fill(
-                  // O usa Align o Center, ajusta 'top', 'bottom' para posicionar verticalmente
                   child: Center(
-                    // Centra el SizedBox de la planta
                     child: SizedBox(
-                      // Define un tamaño para el área de visualización de la planta
-                      // Puedes usar relHeight/relWidth o tamaños fijos adaptados
-                      width:
-                          actualPlantDisplayWidth, // Ejemplo: 80% del ancho de diseño
-                      height:
-                          actualPlantDisplayHeight, // Ejemplo: 80% del alto de diseño
+                      width: actualPlantDisplayWidth,
+                      height: actualPlantDisplayHeight,
                       child: Stack(
                         alignment: Alignment.center,
-                        clipBehavior:
-                            Clip.none, // Permite que los accesorios se salgan un poco si es necesario
+                        clipBehavior: Clip.none,
                         children: [
-                          // Planta Base Equipada
+                          if (_cuerpoEquipadoAsset != null &&
+                              isSingleSlotCuerpoBehind &&
+                              currentSingleSlotCuerpoConfig != null)
+                            () {
+                              final Map<String, dynamic> itemConfig =
+                                  currentSingleSlotCuerpoConfig!;
+                              final double originalTop =
+                                  (itemConfig['top'] as num?)?.toDouble() ??
+                                  0.0;
+                              final double originalLeft =
+                                  (itemConfig['left'] as num?)?.toDouble() ??
+                                  0.0;
+                              final double originalScale =
+                                  (itemConfig['scale'] as num?)?.toDouble() ??
+                                  1.0;
+                              final double originalRotation =
+                                  (itemConfig['rotation'] as num?)
+                                      ?.toDouble() ??
+                                  0.0;
+                              return _buildAccessoryWidget(
+                                accessoryPath: _cuerpoEquipadoAsset!,
+                                responsiveTopPx:
+                                    originalTop * heightScaleFactor,
+                                responsiveLeftPx:
+                                    originalLeft * widthScaleFactor,
+                                responsiveScale:
+                                    originalScale * accessoryScaleFactor,
+                                rotationValue: originalRotation,
+                                globalOffsetX: scaledGlobalAccessoryOffsetX,
+                                globalOffsetY: scaledGlobalAccessoryOffsetY,
+                                typeKey: 'cuerpo_single_behind_plant1',
+                              );
+                            }(),
+
+                          // --- 2. RENDER "BEHIND" MULTI-SLOT CUERPO ITEMS ---
+                          ...multiSlotCuerpoBehindWidgets,
                           SvgPicture.asset(
                             _plantaEquipadaAsset,
                             key: ValueKey("plant_$_plantaEquipadaAsset"),
-                            // Ajusta el tamaño de la planta base como necesites para esta pantalla
-                            height:
-                                actualPlantDisplayHeight, // Ejemplo de tamaño
+                            height: actualPlantDisplayHeight,
                           ),
-
-                          // Lógica para mostrar Sombrero Equipado (similar a ArmarioScreen)
                           if (_sombreroEquipadoAsset != null)
+                            // ... (Your existing sombrero rendering logic - unchanged) ...
+                            // Ensure it uses scaledGlobalAccessoryOffsetX/Y in _buildAccessoryWidget calls
                             if (multiSlotSombreroConfigs.containsKey(
                               _plantaEquipadaAsset,
                             ))
-                              ...(multiSlotSombreroConfigs[_plantaEquipadaAsset] ?? []).map((
-                                slotConfig,
-                              ) {
-                                // ... (cálculos de responsiveTopPx, etc. igual que en ArmarioScreen)
-                                final double originalTop =
-                                    (slotConfig['top'] as num?)?.toDouble() ??
-                                    0.0;
-                                final double originalLeft =
-                                    (slotConfig['left'] as num?)?.toDouble() ??
-                                    0.0;
-                                final double originalScale =
-                                    (slotConfig['scale'] as num?)?.toDouble() ??
-                                    1.0;
-                                final double originalRotation =
-                                    (slotConfig['rotation'] as num?)
-                                        ?.toDouble() ??
-                                    0.0;
-                                return _buildAccessoryWidget(
-                                  accessoryPath: _sombreroEquipadoAsset!,
-                                  responsiveTopPx:
-                                      originalTop * heightScaleFactor,
-                                  responsiveLeftPx:
-                                      originalLeft * widthScaleFactor,
-                                  responsiveScale:
-                                      originalScale * accessoryScaleFactor,
-                                  rotationValue: originalRotation,
-                                  globalOffsetX:
-                                      scaledGlobalAccessoryOffsetX, // <--- Pasar offset X
-                                  globalOffsetY: scaledGlobalAccessoryOffsetY,
-                                  typeKey:
-                                      'sombrero_multi_${slotConfig.hashCode}_plant1',
-                                );
-                              }).toList()
+                              ...(multiSlotSombreroConfigs[_plantaEquipadaAsset] ??
+                                      [])
+                                  .map((slotConfig) {
+                                    final double originalTop =
+                                        (slotConfig['top'] as num?)
+                                            ?.toDouble() ??
+                                        0.0;
+                                    final double originalLeft =
+                                        (slotConfig['left'] as num?)
+                                            ?.toDouble() ??
+                                        0.0;
+                                    final double originalScale =
+                                        (slotConfig['scale'] as num?)
+                                            ?.toDouble() ??
+                                        1.0;
+                                    final double originalRotation =
+                                        (slotConfig['rotation'] as num?)
+                                            ?.toDouble() ??
+                                        0.0;
+                                    return _buildAccessoryWidget(
+                                      accessoryPath: _sombreroEquipadoAsset!,
+                                      responsiveTopPx:
+                                          originalTop * heightScaleFactor,
+                                      responsiveLeftPx:
+                                          originalLeft * widthScaleFactor,
+                                      responsiveScale:
+                                          originalScale * accessoryScaleFactor,
+                                      rotationValue: originalRotation,
+                                      globalOffsetX:
+                                          scaledGlobalAccessoryOffsetX,
+                                      globalOffsetY:
+                                          scaledGlobalAccessoryOffsetY,
+                                      typeKey:
+                                          'sombrero_multi_${slotConfig.hashCode}_plant1',
+                                    );
+                                  })
+                                  .toList()
                             else if (sombreroConfigs.containsKey(
                                   _plantaEquipadaAsset,
                                 ) &&
                                 sombreroConfigs[_plantaEquipadaAsset]!
                                     .containsKey(_sombreroEquipadoAsset!))
                               () {
-                                // ... (lógica para single slot igual que en ArmarioScreen)
                                 final Map<String, dynamic> itemConfig =
                                     sombreroConfigs[_plantaEquipadaAsset]![_sombreroEquipadoAsset!]!;
                                 final double originalTop =
@@ -971,17 +1323,17 @@ class _Plant1State extends State<Plant1> {
                                       originalLeft * widthScaleFactor,
                                   responsiveScale:
                                       originalScale * accessoryScaleFactor,
-                                  globalOffsetX:
-                                      scaledGlobalAccessoryOffsetX, // <--- Pasar offset X
+                                  globalOffsetX: scaledGlobalAccessoryOffsetX,
                                   globalOffsetY: scaledGlobalAccessoryOffsetY,
                                   rotationValue: originalRotation,
                                   typeKey: 'sombrero_single_plant1',
                                 );
                               }(),
 
-                          // Lógica para mostrar Cara Equipada (similar a ArmarioScreen)
+                          // --- 5. RENDER CARA ---
                           if (_caraEquipadaAsset != null)
-                            // ... (copia y adapta la lógica de multiSlot y single slot para 'cara' aquí) ...
+                            // ... (Your existing cara rendering logic - unchanged) ...
+                            // Ensure it uses scaledGlobalAccessoryOffsetX/Y in _buildAccessoryWidget calls
                             if (multiSlotCaraConfigs.containsKey(
                               _plantaEquipadaAsset,
                             ))
@@ -1014,7 +1366,7 @@ class _Plant1State extends State<Plant1> {
                                           originalScale * accessoryScaleFactor,
                                       rotationValue: originalRotation,
                                       globalOffsetX:
-                                          scaledGlobalAccessoryOffsetX, // <--- Pasar offset X
+                                          scaledGlobalAccessoryOffsetX,
                                       globalOffsetY:
                                           scaledGlobalAccessoryOffsetY,
                                       typeKey:
@@ -1053,103 +1405,60 @@ class _Plant1State extends State<Plant1> {
                                   responsiveScale:
                                       originalScale * accessoryScaleFactor,
                                   rotationValue: originalRotation,
-                                  globalOffsetX:
-                                      scaledGlobalAccessoryOffsetX, // <--- Pasar offset X
+                                  globalOffsetX: scaledGlobalAccessoryOffsetX,
                                   globalOffsetY: scaledGlobalAccessoryOffsetY,
                                   typeKey: 'cara_single_plant1',
                                 );
                               }(),
 
-                          // Lógica para mostrar Cuerpo Equipado (similar a ArmarioScreen)
-                          if (_cuerpoEquipadoAsset != null)
-                            // ... (copia y adapta la lógica de multiSlot y single slot para 'cuerpo' aquí) ...
-                            if (multiSlotCuerpoConfigs.containsKey(
-                              _plantaEquipadaAsset,
-                            ))
-                              ...(multiSlotCuerpoConfigs[_plantaEquipadaAsset] ??
-                                      [])
-                                  .map((slotConfig) {
-                                    final double originalTop =
-                                        (slotConfig['top'] as num?)
-                                            ?.toDouble() ??
-                                        0.0;
-                                    final double originalLeft =
-                                        (slotConfig['left'] as num?)
-                                            ?.toDouble() ??
-                                        0.0;
-                                    final double originalScale =
-                                        (slotConfig['scale'] as num?)
-                                            ?.toDouble() ??
-                                        1.0;
-                                    final double originalRotation =
-                                        (slotConfig['rotation'] as num?)
-                                            ?.toDouble() ??
-                                        0.0;
-                                    return _buildAccessoryWidget(
-                                      accessoryPath: _cuerpoEquipadoAsset!,
-                                      responsiveTopPx:
-                                          originalTop * heightScaleFactor,
-                                      responsiveLeftPx:
-                                          originalLeft * widthScaleFactor,
-                                      responsiveScale:
-                                          originalScale * accessoryScaleFactor,
-                                      rotationValue: originalRotation,
+                          // --- 6. RENDER "FRONT" SINGLE-SLOT CUERPO ITEMS ---
+                          if (_cuerpoEquipadoAsset != null &&
+                              !multiSlotCuerpoConfigs.containsKey(
+                                _plantaEquipadaAsset,
+                              ) && // single-slot
+                              !isSingleSlotCuerpoBehind && // and front
+                              currentSingleSlotCuerpoConfig != null)
+                            () {
+                              final Map<String, dynamic> itemConfig =
+                                  currentSingleSlotCuerpoConfig!;
+                              final double originalTop =
+                                  (itemConfig['top'] as num?)?.toDouble() ??
+                                  0.0;
+                              final double originalLeft =
+                                  (itemConfig['left'] as num?)?.toDouble() ??
+                                  0.0;
+                              final double originalScale =
+                                  (itemConfig['scale'] as num?)?.toDouble() ??
+                                  1.0;
+                              final double originalRotation =
+                                  (itemConfig['rotation'] as num?)
+                                      ?.toDouble() ??
+                                  0.0;
+                              return _buildAccessoryWidget(
+                                accessoryPath: _cuerpoEquipadoAsset!,
+                                responsiveTopPx:
+                                    originalTop * heightScaleFactor,
+                                responsiveLeftPx:
+                                    originalLeft * widthScaleFactor,
+                                responsiveScale:
+                                    originalScale * accessoryScaleFactor,
+                                rotationValue: originalRotation,
+                                globalOffsetX: scaledGlobalAccessoryOffsetX,
+                                globalOffsetY: scaledGlobalAccessoryOffsetY,
+                                typeKey: 'cuerpo_single_front_plant1',
+                              );
+                            }(),
 
-                                      globalOffsetX:
-                                          scaledGlobalAccessoryOffsetX, // <--- Pasar offset X
-                                      globalOffsetY:
-                                          scaledGlobalAccessoryOffsetY,
-                                      typeKey:
-                                          'cuerpo_multi_${slotConfig.hashCode}_plant1',
-                                    );
-                                  })
-                                  .toList()
-                            else if (cuerpoConfigs.containsKey(
-                                  _plantaEquipadaAsset,
-                                ) &&
-                                cuerpoConfigs[_plantaEquipadaAsset]!
-                                    .containsKey(_cuerpoEquipadoAsset!))
-                              () {
-                                final Map<String, dynamic> itemConfig =
-                                    cuerpoConfigs[_plantaEquipadaAsset]![_cuerpoEquipadoAsset!]!;
-                                final double originalTop =
-                                    (itemConfig['top'] as num?)?.toDouble() ??
-                                    0.0;
-                                final double originalLeft =
-                                    (itemConfig['left'] as num?)?.toDouble() ??
-                                    0.0;
-                                final double originalScale =
-                                    (itemConfig['scale'] as num?)?.toDouble() ??
-                                    1.0;
-                                final double originalRotation =
-                                    (itemConfig['rotation'] as num?)
-                                        ?.toDouble() ??
-                                    0.0;
-                                return _buildAccessoryWidget(
-                                  accessoryPath: _cuerpoEquipadoAsset!,
-                                  responsiveTopPx:
-                                      originalTop * heightScaleFactor,
-                                  responsiveLeftPx:
-                                      originalLeft * widthScaleFactor,
-                                  responsiveScale:
-                                      originalScale * accessoryScaleFactor,
-                                  rotationValue: originalRotation,
-                                  globalOffsetX:
-                                      scaledGlobalAccessoryOffsetX, // <--- Pasar offset X
-                                  globalOffsetY: scaledGlobalAccessoryOffsetY,
-                                  typeKey: 'cuerpo_single_plant1',
-                                );
-                              }(),
+                          // --- 7. RENDER "FRONT" MULTI-SLOT CUERPO ITEMS ---
+                          ...multiSlotCuerpoFrontWidgets,
                         ],
                       ),
                     ),
                   ),
                 ),
               Positioned(
-                bottom: relHeight(
-                  150,
-                ), // Adjust top position as needed (e.g., below the top bar)
-                right: relWidth(16), // Adjust right padding as needed
+                bottom: relHeight(150),
+                right: relWidth(16),
                 child: SideButtons(
                   onArmarioTap: () {
                     Navigator.pushNamed(context, '/armario').then((_) {
@@ -1168,24 +1477,17 @@ class _Plant1State extends State<Plant1> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildFloatingActionButton(),
       bottomNavigationBar: navBar.CustomBottomNavBar(
-        // This returns a BottomAppBar
         currentIndex: _selectedIndex,
         onItemSelected: (int index) {
-          // This is the callback from your CustomBottomNavBar's icons (not the FAB)
           if (_selectedIndex != index) {
             setState(() {
               _selectedIndex = index;
             });
-            // Navigation logic for bottom nav items
-            if (index == 0) {
+            if (index == 0)
               Navigator.pushReplacementNamed(context, '/home');
-            } else if (index == 1)
-              Navigator.pushReplacementNamed(
-                context,
-                '/mapa',
-              ); // Corrected from welcome
+            else if (index == 1)
+              Navigator.pushReplacementNamed(context, '/mapa');
             else if (index == 2) {
-              // Plant/FAB's logical screen
               if (ModalRoute.of(context)?.settings.name != '/planta') {
                 Navigator.pushReplacementNamed(context, '/planta');
               }

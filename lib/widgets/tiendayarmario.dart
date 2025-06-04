@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// You can define these constants somewhere accessible or repeat in each button // Example reference height (less commonly used for button scaling)
+
 class SideButtons extends StatelessWidget {
   final Function()? onArmarioTap; // Callback for Armario tap
   final Function()? onTiendaTap; // Callback for Tienda tap
@@ -37,7 +39,7 @@ class SideButtons extends StatelessWidget {
             child: Container(
               width: relWidth(100),
               margin: const EdgeInsets.only(bottom: 0),
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(relHeight(12)),
               decoration: ShapeDecoration(
                 color: Colors.transparent,
                 shape: const RoundedRectangleBorder(
