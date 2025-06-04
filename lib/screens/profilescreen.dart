@@ -180,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Expanded(
                     child: _buildStatCard(
-                      'assets/bolas.svg',
+                      'assets/logoracha.svg',
                       userStreak.toString(),
                       userStreakUnit,
                       isStreak: true,

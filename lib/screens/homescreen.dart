@@ -164,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   _buildSectionTitle(context, "Mis tips", '/tips'),
                   const SizedBox(height: 12),
                   _buildTipItem(
-                    assetPath: 'assets/planeta.svg', // Globo terráqueo
+                    assetPath: 'assets/planetal.svg', // Globo terráqueo
                     isSvg: true,
                     title: '¿Sabías que…?',
                     description:
@@ -261,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               // Asumiendo 'bolas.svg' es el icono de fuego/energía
               SvgPicture.asset(
-                'assets/bolas.svg',
+                'assets/logoracha.svg',
                 width: 20,
                 height: 20,
                 colorFilter: ColorFilter.mode(

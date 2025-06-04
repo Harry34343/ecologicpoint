@@ -87,7 +87,7 @@ final List<ChallengeData> initialChallengesData = [
     totalProgress: 2,
   ),
   ChallengeData(
-    iconAssetPath: 'assets/planeta.svg',
+    iconAssetPath: 'assets/planetal.svg',
     title: 'Lunes Sin Carne Comprometido',
     description: 'No consumas carne durante 4 lunes consecutivos.',
     points: '+70',
@@ -255,7 +255,7 @@ final List<ChallengeData> initialChallengesData = [
     totalProgress: 2,
   ),
   ChallengeData(
-    iconAssetPath: 'assets/planeta.svg',
+    iconAssetPath: 'assets/planetal.svg',
     title: 'Lunes Verdes Superados',
     description: 'Cumpliste 4 Lunes Sin Carne.',
     points: '+70',
